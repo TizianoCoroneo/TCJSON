@@ -1,42 +1,24 @@
-#
-# Be sure to run `pod lib lint TCJSON.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
-  s.name             = 'TCJSON'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of TCJSON.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+s.name         = "TCJSON"
+s.version      = "0.1.0"
+s.summary      = "TCJSON is a utility that wraps Codable coding/decoding."
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+s.description  = <<-DESC
+Simple monadic wrapper for JSON Codable. You can use this to simplify boring coding and decoding from/to JSON.
+DESC
 
-  s.homepage         = 'https://github.com/TizianoStrife/TCJSON'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'TizianoStrife' => 'tizianocoroneo@me.com' }
-  s.source           = { :git => 'https://github.com/TizianoStrife/TCJSON.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+s.homepage     = "https://github.com/TizianoCoroneo/TCJSON"
 
-  s.ios.deployment_target = '8.0'
+s.license      = "MIT"
 
-  s.source_files = 'TCJSON/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'TCJSON' => ['TCJSON/Assets/*.png']
-  # }
+s.author             = { "Tiziano Coroneo" => "tizianocoroneo@me.com" }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+s.social_media_url   = "https://facebook.com/tizianocoroneo"
+
+s.source       = { :git => "https://github.com/TizianoCoroneo/TCJSON.git", :tag => "#{s.version}" }
+
+s.source_files  = "TCJSON/Classes", "TCJSON/Classes/**/*.{h,m}"
+s.exclude_files = "TCJSON/Classes/Exclude"
+
 end

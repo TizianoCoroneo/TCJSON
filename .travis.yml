@@ -9,7 +9,7 @@ before_install:
  - gem install cocoapods # Since Travis is not always on latest version
  - pod install --project-directory=Example
 script:
- - set -o pipefail && xcodebuild test -destination "platform=iOS Simulator,OS=11.2,name=iPhone 7" -workspace TCJSON.xcworkspace -scheme TCJSON-Example -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO | xcpretty
+ - set -o pipefail && xcodebuild test -destination "platform=iOS Simulator,OS=11.2,name=iPhone 7" -workspace Example/TCJSON.xcworkspace -scheme TCJSON-Example -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO | xcpretty
  - pod lib lint
 
 # xcodebuild test -enableCodeCoverage YES -workspace Example/TCJSON.xcworkspace -scheme TCJSON-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty

@@ -29,7 +29,7 @@ platform :ios do
 
   desc "Push the pod to Trunk"
   lane :deploy do
-#    ensure_git_status_clean
+    ensure_git_status_clean
     ensure_git_branch
     version = version_bump_podspec(
       path: "TCJSON.podspec")

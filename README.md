@@ -24,7 +24,7 @@ pod 'TCJSON'
 
 ## Author
 
-TizianoStrife, tizianocoroneo@me.com
+Tiziano Coroneo, tizianocoroneo@me.com
 
 ## License
 

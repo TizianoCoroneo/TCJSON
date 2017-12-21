@@ -29,8 +29,9 @@ platform :ios do
 
   desc "Push the pod to Trunk"
   lane :deploy do
-    ensure_git_status_clean
-    ensure_git_branch
+    current_branch = git_branch()
+#    ensure_git_status_clean
+#    ensure_git_branch
     version = version_bump_podspec(
       path: "TCJSON.podspec")
     git_commit(
@@ -40,14 +41,14 @@ platform :ios do
       remote_branch: 'master', 
       force: false, 
       tags: true)
-    changelog = changelog_from_git_commits
+    changelog = changelog_from_git_commits || "Release commit"
     github_release = set_github_release(
       repository_name: "TizianoCoroneo/TCJSON",
       api_token: ENV['GITHUB_TOKEN'],
       name: version,
       tag_name: version,
       description: changelog,
-      commitish: "master")
+      commitish: current_branch || "master")
     sh("git fetch --tags")
     pod_push(
       allow_warnings: false, 

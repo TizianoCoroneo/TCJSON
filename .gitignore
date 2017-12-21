@@ -22,6 +22,9 @@ DerivedData
 # Bundler
 .bundle
 
+# fastlane environment. Contains GitHub access token!
+fastlane/.env
+
 # fastlane specific
 fastlane/report.xml
 

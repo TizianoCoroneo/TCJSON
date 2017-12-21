@@ -10,6 +10,7 @@ notifications:
 before_install:
  - gem install bundler
  - bundle install
+ - bundle update fastlane
  - export GITHUB_TOKEN=$GITHUB_TOKEN
 script:
  - bundle exec fastlane test

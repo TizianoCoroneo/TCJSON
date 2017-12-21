@@ -1,0 +1,80 @@
+# Customize this file, documentation can be found here:
+# https://docs.fastlane.tools/actions/
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.68.0"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+    cocoapods(podfile: "Example/")
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    scan(workspace: "Example/TCJSON.xcworkspace", scheme: "TCJSON-Example", clean: true)
+    pod_lib_lint(allow_warnings: false, verbose: false)
+  end
+
+  desc "Push the pod to Trunk"
+  lane :deploy do
+#    ensure_git_status_clean
+    ensure_git_branch
+    version = version_bump_podspec(
+      path: "TCJSON.podspec")
+    git_commit(
+      path: ["./TCJSON.podspec"], 
+      message: "Bumped to version #{version}")
+    push_to_git_remote(
+      remote_branch: 'master', 
+      force: false, 
+      tags: true)
+    changelog = changelog_from_git_commits
+    github_release = set_github_release(
+      repository_name: "TizianoCoroneo/TCJSON",
+      api_token: ENV['GITHUB_TOKEN'],
+      name: version,
+      tag_name: version,
+      description: changelog,
+      commitish: "master")
+    sh("git fetch --tags")
+    pod_push(
+      allow_warnings: false, 
+      verbose: true)
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used. No personal data is recorded.
+# Learn more at https://docs.fastlane.tools/#metrics

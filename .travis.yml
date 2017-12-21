@@ -5,12 +5,19 @@ osx_image: xcode9.2
 language: objective-c
 # cache: cocoapods
 podfile: Example/Podfile
+notifications:
+  email: false
 before_install:
- - gem install cocoapods # Since Travis is not always on latest version
- - pod install --project-directory=Example
+ - gem install bundler
+ - bundle install
+ - export GITHUB_TOKEN=$GITHUB_TOKEN
 script:
- - set -o pipefail && xcodebuild clean test -sdk iphonesimulator11.2 -destination "platform=iOS Simulator,OS=11.2,name=iPhone 7" -workspace Example/TCJSON.xcworkspace -scheme TCJSON-Example -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
- - pod lib lint --quick
+ - bundle exec fastlane test
+after_success: 
+ - bundle exec fastlane push
+after_success:
+ - bash <(curl -s https://codecov.io/bash)
+
 
 # xcodebuild test -enableCodeCoverage YES -workspace Example/TCJSON.xcworkspace -scheme TCJSON-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
 # xcodebuild test -destination "platform=iOS Simulator,OS=11.2,name=iPhone 7" -workspace TCJSON.xcworkspace -scheme TCJSON-Example -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO | xcpretty

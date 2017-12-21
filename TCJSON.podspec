@@ -18,6 +18,8 @@ s.social_media_url   = "https://facebook.com/tizianocoroneo"
 
 s.source       = { :git => "https://github.com/TizianoCoroneo/TCJSON.git", :tag => "#{s.version}" }
 
+s.platform = :ios, "11.0"
+
 s.source_files  = "TCJSON/Classes", "TCJSON/Classes/**/*.{h,m}"
 s.exclude_files = "TCJSON/Classes/Exclude"
 

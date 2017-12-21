@@ -14,10 +14,9 @@ before_install:
  - export GITHUB_TOKEN=$GITHUB_TOKEN
 script:
  - bundle exec fastlane test
-after_success: 
- - bundle exec fastlane push
 after_success:
  - bash <(curl -s https://codecov.io/bash)
+ - bundle exec fastlane deploy
 
 
 # xcodebuild test -enableCodeCoverage YES -workspace Example/TCJSON.xcworkspace -scheme TCJSON-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty

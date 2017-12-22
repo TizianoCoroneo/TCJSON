@@ -16,4 +16,4 @@ script:
  - bundle exec fastlane test
 after_success:
  - bash <(curl -s https://codecov.io/bash)
- - bundle exec fastlane deploy
+# - bundle exec fastlane deploy

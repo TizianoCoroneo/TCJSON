@@ -88,6 +88,64 @@ class TableOfContentsSpec: QuickSpec {
                 }
             }
             
+            context("when provided with a dictionary") {
+                let dict: [String: Any] = [
+                    "string": "ccc",
+                    "int": 20,
+                    "optional": "ddd"
+                ]
+                
+                it("can initialize the model") {
+                    expect { return try TestClass(fromDictionary: dict) }
+                        .notTo(throwError())
+                }
+                
+                it("can retrieve the correct data") {
+                    let res = try! TestClass(fromDictionary: dict)
+                    
+                    let expected = TestClass.init(
+                        string: "ccc",
+                        int: 20,
+                        optional: "ddd")
+                    
+                    expect(res).to(equal(expected))
+                }
+            }
+
+            context("should throw an error") {
+                
+                let data: Data = {
+                    let string = "asjdlakdja"
+                    return string.data(using: .utf8)!
+                }()
+                
+                let string = "🤢"
+                
+                let dict: [String: Any?] = [
+                    "string": "",
+                    "int": nil,
+                    "optional": 10
+                ]
+                
+                it("when provided invalid data") {
+                    expect {
+                        return try TestClass(fromData: data)
+                        } .to(throwError())
+                }
+                
+                it("when provided invalid json string") {
+                    expect {
+                        return try TestClass(fromJSONString: string)
+                        } .to(throwError())
+                }
+                
+                it("when provided with a invalid dictionary") {
+                    expect { return try TestClass(fromDictionary: dict) }
+                        .to(throwError())
+                }
+            }
+
+            
             context("when provided with closures") {
                 var instance: TestClass! = nil
                 

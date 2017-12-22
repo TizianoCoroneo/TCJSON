@@ -24,6 +24,12 @@ public protocol TCJSONCodable: Codable {
     /// - Throws: Rethrows from the `JSONDecoder` `decode` method.
     init(fromJSONString string: String) throws
     
+    /// Initialize the model object from a JSON object (like the dictionary method but compatible also with plain values), that represents it, using `JSONDecoder` after encoding the string in utf8.
+    ///
+    /// - Parameter data: The JSON object.
+    /// - Throws: Rethrows from the JSONSerialization and from the `JSONDecoder` `decode` method.
+    init(fromJSON json: Any) throws
+    
     /// Initialize the model object from a `[String: Any]` dictionary that represents it, using `JSONDecoder` after encoding the dictionary as `Data`.
     ///
     /// - Parameter data: The JSON object's dictionary.
@@ -55,6 +61,16 @@ public extension TCJSONCodable {
         self = try json.content()
     }
     
+    /// Initialize a 'TCJSON' object from a JSON object.
+    ///
+    /// - Parameter dict: A valid JSON object.
+    /// - Throws: Rehrows from serializing the object into `Data` and from initializing from `Data`.
+    public init(fromJSON json: Any) throws {
+        let jsonData = try JSONSerialization.data(
+            withJSONObject: json, options: [])
+        try self.init(fromData: jsonData)
+    }
+    
     /// Initialize a 'TCJSON' object from a `Dictionary` that describes a JSON object, like:
     ///
     /// [ "name": "Philipp",
@@ -66,8 +82,6 @@ public extension TCJSONCodable {
     /// - Parameter dict: A valid JSON object represented as a dictionary.
     /// - Throws: Rehrows from serializing the dictionary into `Data` and from initializing from `Data`.
     public init(fromDictionary dict: [String: Any?]) throws {
-        let jsonData = try JSONSerialization.data(
-            withJSONObject: dict, options: [])
-        try self.init(fromData: jsonData)
+        try self.init(fromJSON: dict)
     }
 }

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TCJSONCodable Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/TCJSONCodable" class="dashAnchor"></a>
+    <a title="TCJSONCodable Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">TCJSON Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">TCJSON Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TCJSONCodable Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/TCJSONCodable.html">TCJSONCodable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/TCJSON.html">TCJSON</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TCJSONCodable</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TCJSONCodable</span><span class="p">:</span> <span class="kt">Codable</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>TCJSONCodable</code> extends <code>Codable</code> and provides access to the correpsoding <code><a href="../Structs/TCJSON.html">TCJSON</a></code> object and two utility initializers: <code>init(fromData:)</code> and <code>init(fromJSONString:)</code></p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON13TCJSONCodableP4jsonA2AVyxGv"></a>
+                    <a name="//apple_ref/swift/Property/json" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONCodableP4jsonA2AVyxGv">json</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The TCJSON object. Every <code>TCJSONCodable</code> gets one.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Just initialize it from the content of the model.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">json</span><span class="p">:</span> <span class="kt"><a href="../Structs/TCJSON.html">TCJSON</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON13TCJSONCodablePx10Foundation4DataV04fromD0_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(fromData:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONCodablePx10Foundation4DataV04fromD0_tKcfc">init(fromData:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize the model object from <code>Data</code> that represents it, using <code>JSONDecoder</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the <code>JSONDecoder</code> <code>decode</code> method.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Initialize a <code>TCJSON</code> object from <code>Data</code> and initialize <code>self</code> with it.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the TCJSON conversion from <code>Data</code> to <code>Content</code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">fromData</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>Data</code> object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON13TCJSONCodablePxSS14fromJSONString_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(fromJSONString:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONCodablePxSS14fromJSONString_tKcfc">init(fromJSONString:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize the model object from a <code>String</code> that represents it, using <code>JSONDecoder</code> after encoding the string in utf8.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the <code>JSONDecoder</code> <code>decode</code> method.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Initialize a <code>TCJSON</code> object from a <code>String</code> and initialize <code>self</code> with it.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the TCJSON conversion from <code>Data</code> to <code>Content</code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">fromJSONString</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The JSON formatted <code>String</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON13TCJSONCodablePxs10DictionaryVySSypSgG04fromC0_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(fromDictionary:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONCodablePxs10DictionaryVySSypSgG04fromC0_tKcfc">init(fromDictionary:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize the model object from a <code>[String: Any]</code> dictionary that represents it, using <code>JSONDecoder</code> after encoding the dictionary as <code>Data</code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the JSONSerialization and from the <code>JSONDecoder</code> <code>decode</code> method.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Initialize a &lsquo;TCJSON&rsquo; object from a <code>Dictionary</code> that describes a JSON object, like:</p>
+
+<p>[ <q>name</q>: <q>Philipp</q>,
+  <q>surname</q>: <q>Schade</q>,
+  <q>age</q>: 31,
+  <q>helicopterRide</q>: null
+]</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rehrows from serializing the dictionary into <code>Data</code> and from initializing from <code>Data</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">fromDictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?])</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The JSON object&rsquo;s dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://github.com/TizianoCoroneo/TCJSON" target="_blank" rel="external">Tiziano Coroneo</a>. All rights reserved. (Last updated: 2017-12-22)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

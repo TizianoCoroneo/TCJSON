@@ -83,11 +83,10 @@ public struct TCJSON<Content: Codable>: Codable {
     /// - Parameter f: The function gets `Data` and return a new `TCJSON` object.
     /// - Returns: The new `TCJSON` object returned by f.
     /// - Throws: Rethrows from the mapping of `f`, the conversion in `Data` of the content, and the flattening operation.
-    public func bind<X>(
+    public func flatMap<X>(
         data f: (Data) throws -> TCJSON<X>)
         throws -> TCJSON<X> {
             return try map(data: f).flatten()
-//            return try f(try data())
     }
     
     /// Do something with the JSON formatted as `Content`, and return a new `TCJSON` object.
@@ -95,11 +94,10 @@ public struct TCJSON<Content: Codable>: Codable {
     /// - Parameter f: The function gets `Content` and return a new `TCJSON` object.
     /// - Returns: The new `TCJSON` object returned by f.
     /// - Throws: Rethrows from the mapping of `f`, the conversion in `Content` of the content, and the flattening operation.
-    public func bind<X>(
+    public func flatMap<X>(
         content f: (Content) throws -> TCJSON<X>)
         throws -> TCJSON<X> {
             return try map(content: f).flatten()
-//            return try f(try content())
     }
     
     /// If the current `TCJSON` contains another `TCJSON` object (like `TCJSON<TCJSON<String>>`), get rid of the outer object and returns the internal one (like `(TCJSON<TCJSON<String>>) -> TCJSON<String>`).
@@ -112,7 +110,9 @@ public struct TCJSON<Content: Codable>: Codable {
         if let c = content as? TCJSON<X> { return c }
         if let s = self as? TCJSON<X> { return s }
         
-        throw FlatteningError(fromType: Content.self, toType: X.self)
+        throw FlatteningError(
+            fromType: Content.self,
+            toType: X.self)
     }
     
     /// Applies a function to the `Data` content of a `TCJSON` object.
@@ -148,17 +148,16 @@ public struct TCJSON<Content: Codable>: Codable {
         y: TCJSON<Y>,
         closure: (X, Y) throws -> Z)
         throws -> TCJSON<Z> {
-            return try TCJSON<Z>(closure(try x.content(), try y.content()))
+            return try TCJSON<Z>(
+                closure(
+                    try x.content(),
+                    try y.content()))
     }
     
     /// This error could occur when flattening a TCJSON which doesn't need flattening.
     struct FlatteningError<X, Y>: Error {
-        var localizedDescription: String {
-            return string
-        }
-        
         private let string: String
-        
+        var localizedDescription: String { return string }
         init(fromType from: X.Type, toType to: Y.Type) {
             self.string = "Impossible casting from \(from) to \(to)"
         }

@@ -26,7 +26,7 @@ public protocol TCJSONCodable: Codable {
 }
 
 // MARK: - Default implementations of `TCJSONCodable`
-extension TCJSONCodable {
+public extension TCJSONCodable {
     /// Just initialize it from the content of the model.
     public var json: TCJSON<Self> {
         return TCJSON<Self>(self)

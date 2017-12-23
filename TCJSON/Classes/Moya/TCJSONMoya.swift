@@ -22,7 +22,7 @@ public protocol TCJSONMoyaRequestModel {
 
 public protocol TCJSONMoya: TCJSONMoyaRequestModel, TCJSONCodable {}
 
-extension TCJSON where Content: TCJSONMoya {
+extension TCJSON where Content: TCJSONCodable {
     public typealias Completion = (_ result: Result<Response, MoyaError>) -> Void
     
     public final class Response {

@@ -10,6 +10,7 @@ import Quick
 import Nimble
 import TCJSON
 import Moya
+import Result
 
 extension AuthRequest: TCJSONMoya {
     var baseURL: URL {
@@ -56,10 +57,13 @@ class MoyaSpec: QuickSpec {
             
             context("when trying post") {
                 it("accepts a request model object") {
-                    provider.request(
+                    var response: AuthResponse! = nil
+                    _ = provider.request(
                         TCJSONService.requestObject(requestObject),
-                        completionObject: { (res) in
+                        completionObject: { (res: Result<TCJSON<AuthResponse>.Response, MoyaError>) in
+                            guard let value = res.value?.result else { return }
                             
+                            response = value
                     })
                 }
             }

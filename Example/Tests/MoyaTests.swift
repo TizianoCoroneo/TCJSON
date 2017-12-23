@@ -24,17 +24,27 @@ extension AuthRequest: TCJSONMoya {
     var sampleData: Data {
         return """
         {
-        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpZCI6IjM5Njg5MTA2YmFjYjcwZGNkZjFlY2RkMjNiNGM2ZmZmNzc4ODIzZWIiLCJqdGkiOiIzOTY4OTEwNmJhY2I3MGRjZGYxZWNkZDIzYjRjNmZmZjc3ODgyM2ViIiwiaXNzIjoiIiwiYXVkIjoiZnJsX2FwaSIsInN1YiI6IjMiLCJleHAiOjE1MTM5Nzk1ODksImlhdCI6MTUxMzk3NTk4OSwidG9rZW5fdHlwZSI6ImJlYXJlciIsInNjb3BlIjpudWxsfQ.A0Fx33M_XW5i46LyYi-JBp2_kd9yVf2KRi3f9FWMZaIKCZbpsVleNKrRi4kw78Yg6HgUreWRkcyOhSB_btw3UHbsl-l1RLvEibSPIdi1mFfRQoPIrMAieKjUVhdJ3gU1drZvAHZTKdPYvDRdPhpfgPMykHArv7fvWtwkNhad0iZ7gAlYncbesL-5fHvWyHP8LxBEdnAysIm-AhBzLDh2bvjlofAayEzFriTSOscmKJjWR125QZXggQWMtnw667DKx_iEs1-UFLaMd8HbBCOAPtFCmV3kK0yuzaRMJb8d70dmGgHW8TqZsXN_vGH6VRvJXShRa91JlYfGpX87_vFoaQ",
+        "access_token": "test",
         "expires_in": 3600,
         "token_type": "bearer",
         "scope": null,
-        "refresh_token": "e8ae5e32a2d58d35bf7bcd1f8024b902586baad5"
+        "refresh_token": "test"
         }
         """.data(using: .utf8)!
     }
     
     var headers: [String : String]? {
         return nil
+    }
+}
+
+extension AuthResponse: Equatable {
+    static func ==(_ a: AuthResponse, _ b: AuthResponse) -> Bool {
+        return a.accessToken == b.accessToken
+        && a.expiresIn == b.expiresIn
+        && a.tokenType == b.tokenType
+        && a.scope == b.scope
+        && a.refreshToken == b.refreshToken
     }
 }
 
@@ -55,23 +65,40 @@ class MoyaSpec: QuickSpec {
                     stubClosure: MoyaProvider.immediatelyStub)
             }
             
+            afterSuite {
+                provider = nil
+            }
+            
             context("when trying post") {
+                let expected = AuthResponse.init(
+                    accessToken: "test",
+                    expiresIn: 3600,
+                    tokenType: "bearer",
+                    scope: nil,
+                    refreshToken: "test")
+                
                 it("accepts a request model object") {
                     var response: AuthResponse! = nil
+                    
                     _ = provider.request(
-                        TCJSONService.requestObject(requestObject),
-                        completionObject: { (res: Result<TCJSON<AuthResponse>.Response, MoyaError>) in
-                            guard let value = res.value?.result else { return }
+                        TCJSONService.requestObject(requestObject), completionObject: {
+                            (res: ResponseObject<AuthResponse>) in
+                            
+                            guard
+                                let value = res.value?.result
+                                else { return }
                             
                             response = value
                     })
+                    
+                    expect(response).toEventually(equal(expected))
                 }
             }
-            
-            context("when trying get") {
-                it("returns a valid model object.") {
-                }
-            }
+//
+//            context("when trying get") {
+//                it("returns a valid model object.") {
+//                }
+//            }
         }
     }
 }

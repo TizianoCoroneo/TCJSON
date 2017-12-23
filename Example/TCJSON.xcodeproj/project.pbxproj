@@ -20,6 +20,7 @@
 		35BD6B211FEDD9E0001020E2 /* CategoriesRequest.json in Resources */ = {isa = PBXBuildFile; fileRef = 35BD6B151FEDD9E0001020E2 /* CategoriesRequest.json */; };
 		35BD6B221FEDD9E0001020E2 /* AuthRequest.json in Resources */ = {isa = PBXBuildFile; fileRef = 35BD6B161FEDD9E0001020E2 /* AuthRequest.json */; };
 		35BD6B231FEDD9E0001020E2 /* SendNotification.json in Resources */ = {isa = PBXBuildFile; fileRef = 35BD6B171FEDD9E0001020E2 /* SendNotification.json */; };
+		35BD6B271FEE5D1E001020E2 /* MoyaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BD6B261FEE5D1E001020E2 /* MoyaTests.swift */; };
 		607FACEC1AFB9204008FA782 /* TCJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* TCJSONTests.swift */; };
 		E0E1BD7FC98C8C68656417E9 /* Pods_TCJSON_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92ACD7529ED7D24E2B4F1418 /* Pods_TCJSON_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 		35BD6B151FEDD9E0001020E2 /* CategoriesRequest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CategoriesRequest.json; sourceTree = "<group>"; };
 		35BD6B161FEDD9E0001020E2 /* AuthRequest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AuthRequest.json; sourceTree = "<group>"; };
 		35BD6B171FEDD9E0001020E2 /* SendNotification.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SendNotification.json; sourceTree = "<group>"; };
+		35BD6B261FEE5D1E001020E2 /* MoyaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaTests.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* TCJSON_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TCJSON_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* TCJSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCJSONTests.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				35BD6B0B1FEDD9B9001020E2 /* JSON Files */,
 				607FACEB1AFB9204008FA782 /* TCJSONTests.swift */,
 				35BD6B091FEDD793001020E2 /* AlamofireTests.swift */,
+				35BD6B261FEE5D1E001020E2 /* MoyaTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -296,6 +299,7 @@
 				35BD6B191FEDD9E0001020E2 /* Categories.swift in Sources */,
 				35BD6B0A1FEDD793001020E2 /* AlamofireTests.swift in Sources */,
 				35BD6B1B1FEDD9E0001020E2 /* SendNotification.swift in Sources */,
+				35BD6B271FEE5D1E001020E2 /* MoyaTests.swift in Sources */,
 				35BD6B1C1FEDD9E0001020E2 /* CategoriesRequest.swift in Sources */,
 				35BD6B201FEDD9E0001020E2 /* AuthResponse.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* TCJSONTests.swift in Sources */,

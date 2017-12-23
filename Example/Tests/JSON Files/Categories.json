@@ -1,0 +1,14 @@
+{
+    "result": [
+        {
+            "id": "1",
+            "parentId": null,
+            "name": "Software Development"
+        },
+        {
+            "id": "3",
+            "parentId": null,
+            "name": "Administration"
+        }
+    ]
+}

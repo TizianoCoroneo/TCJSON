@@ -20,7 +20,20 @@ s.source       = { :git => "https://github.com/TizianoCoroneo/TCJSON.git", :tag 
 
 s.platform = :ios, "11.0"
 
-s.source_files  = "TCJSON/Classes", "TCJSON/Classes/**/*.{h,m}"
-s.exclude_files = "TCJSON/Classes/Exclude"
+s.subspec 'Core' do |core|
+    core.source_files = "TCJSON/Classes/Core/**"
+end
+
+s.subspec 'Alamofire' do |af|
+    af.source_files = "TCJSON/Classes/Alamofire/**"
+    af.dependency 'TCJSON/Core'
+    af.dependency 'Alamofire'
+end
+
+s.subspec 'Moya' do |moya|
+    moya.source_files = "TCJSON/Classes/Moya/**"
+    moya.dependency 'TCJSON/Core'
+    moya.dependency 'Moya'
+end
 
 end

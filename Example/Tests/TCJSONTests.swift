@@ -16,7 +16,7 @@ fileprivate struct TestClass: TCJSONCodable, Equatable {
     }
 }
 
-class TableOfContentsSpec: QuickSpec {
+class TCJSONSpec: QuickSpec {
     override func spec() {
         describe("TCJSONCodable") {
             context("when provided with content") {

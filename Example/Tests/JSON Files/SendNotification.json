@@ -1,0 +1,13 @@
+{
+    "notificationType": 1,
+    "receivers": [
+        {
+            "userId": 2,
+            "language": "NL"
+        },
+        {
+            "userId": 3,
+            "language": "NL"
+        }
+    ]
+}

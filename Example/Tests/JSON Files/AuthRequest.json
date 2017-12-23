@@ -1,0 +1,7 @@
+{
+    "email": "test@documentation.nl",
+    "password": "test",
+    "grant_type": "password",
+    "client_id": "frl_api",
+    "client_secret": "Cg3TUBkOG5VbdDhzLJ5lCxPhJgj7z0hu_frl"
+}

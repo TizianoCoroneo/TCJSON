@@ -15,6 +15,7 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">TCJSON Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/TizianoCoroneo/TCJSON"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -28,6 +29,17 @@
       <nav class="sidebar">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/DataRequest.html">DataRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/SessionManager.html">SessionManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -40,6 +52,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Structs/TCJSON.html">TCJSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TCJSONRequestEncoding.html">TCJSONRequestEncoding</a>
               </li>
             </ul>
           </li>
@@ -227,6 +242,70 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:6TCJSON13TCJSONCodablePxyp8fromJSON_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(fromJSON:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONCodablePxyp8fromJSON_tKcfc">init(fromJSON:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize the model object from a JSON object (like the dictionary method but compatible also with plain values), that represents it, using <code>JSONDecoder</code> after encoding the string in utf8.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the JSONSerialization and from the <code>JSONDecoder</code> <code>decode</code> method.
+
+</div>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Initialize a &lsquo;TCJSON&rsquo; object from a JSON object.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rehrows from serializing the object into <code>Data</code> and from initializing from <code>Data</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">fromJSON</span> <span class="nv">json</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The JSON object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:6TCJSON13TCJSONCodablePxs10DictionaryVySSypSgG04fromC0_tKcfc"></a>
                     <a name="//apple_ref/swift/Method/init(fromDictionary:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:6TCJSON13TCJSONCodablePxs10DictionaryVySSypSgG04fromC0_tKcfc">init(fromDictionary:)</a>
@@ -296,10 +375,44 @@
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON13TCJSONCodablePAAE10af_encodeds10DictionaryVySSxG_AA21TCJSONRequestEncodingVyxGtv"></a>
+                    <a name="//apple_ref/swift/Property/af_encoded" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONCodablePAAE10af_encodeds10DictionaryVySSxG_AA21TCJSONRequestEncodingVyxGtv">af_encoded</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the correct parameter dictionary for Alamofire and the corresponding encoding object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">af_encoded</span><span class="p">:</span> <span class="p">([</span><span class="kt">String</span><span class="p">:</span> <span class="k">Self</span><span class="p">],</span> <span class="kt"><a href="../Structs/TCJSONRequestEncoding.html">TCJSONRequestEncoding</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://github.com/TizianoCoroneo/TCJSON" target="_blank" rel="external">Tiziano Coroneo</a>. All rights reserved. (Last updated: 2017-12-22)</p>
+          <p>&copy; 2017 <a class="link" href="https://github.com/TizianoCoroneo/TCJSON" target="_blank" rel="external">Tiziano Coroneo</a>. All rights reserved. (Last updated: 2017-12-23)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

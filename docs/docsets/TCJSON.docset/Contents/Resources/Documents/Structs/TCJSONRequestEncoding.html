@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>TCJSONRequestEncoding Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/TCJSONRequestEncoding" class="dashAnchor"></a>
+    <a title="TCJSONRequestEncoding Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">TCJSON Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/TizianoCoroneo/TCJSON"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">TCJSON Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        TCJSONRequestEncoding Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/DataRequest.html">DataRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/SessionManager.html">SessionManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/TCJSONCodable.html">TCJSONCodable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/TCJSON.html">TCJSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/TCJSONRequestEncoding.html">TCJSONRequestEncoding</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>TCJSONRequestEncoding</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TCJSONRequestEncoding</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt"><a href="../Protocols/TCJSONCodable.html">TCJSONCodable</a></span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">ParameterEncoding</span></code></pre>
+
+                </div>
+              </div>
+            <p>Provides the encoding method when making requests using model objects.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON21TCJSONRequestEncodingV10requestKeySSv"></a>
+                    <a name="//apple_ref/swift/Property/requestKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON21TCJSONRequestEncodingV10requestKeySSv">requestKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The key used in the request dictionary. To send directly a request with
+a model object, you must wrap it in a <code>[String: Any]</code> dictionary, like:</p>
+<pre class="highlight plaintext"><code>[ "result": TestClass() ]
+</code></pre>
+
+<p><code>requestKey</code> is the key used in the dictionary (in this example: <q>result</q>).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">requestKey</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON21TCJSONRequestEncodingVACyxGSS14withRequestKey_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(withRequestKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON21TCJSONRequestEncodingVACyxGSS14withRequestKey_tcfc">init(withRequestKey:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize the encoding object, optionally providing a custom <code><a href="../Structs/TCJSONRequestEncoding.html#/s:6TCJSON21TCJSONRequestEncodingV10requestKeySSv">requestKey</a></code>.
+See <code><a href="../Structs/TCJSONRequestEncoding.html#/s:6TCJSON21TCJSONRequestEncodingV10requestKeySSv">requestKey</a></code> for more information.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">withRequestKey</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"request"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key to adopt in the request&rsquo;s parameters dictionary.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSON21TCJSONRequestEncodingV6encode10Foundation10URLRequestV9Alamofire0F11Convertible_p_s10DictionaryVySSypGSg4withtKF"></a>
+                    <a name="//apple_ref/swift/Method/encode(_:with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON21TCJSONRequestEncodingV6encode10Foundation10URLRequestV9Alamofire0F11Convertible_p_s10DictionaryVySSypGSg4withtKF">encode(_:with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Takes a POST method URLRequest and converts the model object in the parameters dictionary
+into <code>Data</code> with <code>.utf8</code> format, and injects it into the <code>httpBody</code> of the request.</p>
+
+<p>If the url request&rsquo;s method is not POST, returns the url request object unmodified.</p>
+<li>urlRequest: The endpoint of the request.</li>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    From the conversion of the <code>uri</code> in <code>URLRequest</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">urlRequest</span><span class="p">:</span> <span class="kt">URLRequestConvertible</span><span class="p">,</span>
+    <span class="n">with</span> <span class="nv">parameters</span><span class="p">:</span> <span class="kt">Parameters</span><span class="p">?)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">URLRequest</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The modified URLRequest with the data of the model in the <code>httpBody</code> as <code>Data</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://github.com/TizianoCoroneo/TCJSON" target="_blank" rel="external">Tiziano Coroneo</a>. All rights reserved. (Last updated: 2017-12-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

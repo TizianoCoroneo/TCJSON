@@ -23,6 +23,11 @@ xcode-select --install
 fastlane ios test
 ```
 Runs all the tests
+### ios push
+```
+fastlane ios push
+```
+Just to try the github access
 ### ios deploy
 ```
 fastlane ios deploy

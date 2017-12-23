@@ -27,6 +27,14 @@ platform :ios do
     pod_lib_lint(allow_warnings: false, verbose: false)
   end
 
+  desc "Just to try the github access"
+  lane :push do
+    push_to_git_remote(
+      remote_branch: 'master',
+      force: false,
+      tags: true)
+  end
+
   desc "Push the pod to Trunk"
   lane :deploy do
     current_branch = git_branch()

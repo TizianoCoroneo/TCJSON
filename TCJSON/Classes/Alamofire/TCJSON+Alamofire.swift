@@ -70,13 +70,34 @@ extension TCJSONCodable {
 }
 
 extension DataRequest {
-    /// Adds a handler to be called once the request has finished. This handler receives directly a converted model object.
-    ///
-    /// - Parameters:
-    ///   - queue: Dispatch queue in which executing the request.
-    /// - parameter options: The JSON serialization reading options. Defaults to `.allowFragments`.
-    /// - parameter completionHandler: A closure to be executed once the request has finished.
-    /// - returns: The request.
+    /**
+     Adds a handler to be called once the request has finished. This handler receives directly a converted model object.
+     
+     ```swift
+     SessionManager.default
+     	.request(
+     		"http://api.test.com/api/auth",
+     		method: .post,
+     		tcjson: request,
+     		headers: nil)
+     	.responseTCJSON {
+     		(auth: DataResponse<AuthResponse>) in
+     
+    	 	guard auth.error == nil else {
+            fail("Error = \(auth.error?.localizedDescription ?? "nil")")
+     			return
+	     	}
+     
+    	 	response = auth.result.value
+     }
+     ```
+     
+     - Parameters:
+     - queue: Dispatch queue in which executing the request.
+     - parameter options: The JSON serialization reading options. Defaults to `.allowFragments`.
+     - parameter completionHandler: A closure to be executed once the request has finished.
+     - returns: The request.
+     **/
     @discardableResult public func responseTCJSON<T: TCJSONCodable>(
         queue: DispatchQueue? = nil,
         options: JSONSerialization.ReadingOptions = .allowFragments,
@@ -122,15 +143,35 @@ extension DataRequest {
 
 // MARK: - Extension for TCJSONCodable objects compatible requests.
 extension SessionManager {
-    /// Creates a `DataRequest` using the default `SessionManager` to retrieve the contents of the specified `url`,
-    /// `method`, `parameters`, `encoding` and `headers`.
-    ///
-    /// - parameter url:        The URL.
-    /// - parameter method:     The HTTP method. `.get` by default.
-    /// - parameter tcjson:     The model object TCJSONCodable to use as parameter.
-    /// - parameter headers:    The HTTP headers. `nil` by default.
-    ///
-    /// - returns: The created `DataRequest`.
+    /**
+     Creates a `DataRequest` using the default `SessionManager` to retrieve the contents of the specified `url`,
+     `method`, `parameters`, `encoding` and `headers`.
+     
+     ```swift
+     SessionManager.default
+         .request(
+             "http://api.test.com/api/auth",
+             method: .post,
+             tcjson: request,
+             headers: nil)
+         .responseTCJSON {
+             (auth: DataResponse<AuthResponse>) in
+     
+             guard auth.error == nil else {
+                 fail("Error = \(auth.error?.localizedDescription ?? "nil")")
+                 return
+             }
+     
+             response = auth.result.value
+     }
+     ```
+     
+     - parameter url:        The URL.
+     - parameter method:     The HTTP method. `.get` by default.
+     - parameter tcjson:     The model object TCJSONCodable to use as parameter.
+     - parameter headers:    The HTTP headers. `nil` by default.
+     - returns: The created `DataRequest`.
+     **/
     public func request<T: TCJSONCodable>(
         _ url: URLConvertible,
         method: HTTPMethod,

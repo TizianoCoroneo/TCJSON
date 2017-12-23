@@ -1,0 +1,4 @@
+module: TCJSON
+author: Tiziano Coroneo
+github_url: https://github.com/TizianoCoroneo/TCJSON
+podspec: TCJSON.podspec

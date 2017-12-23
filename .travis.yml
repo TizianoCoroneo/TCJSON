@@ -1,19 +1,16 @@
-# references:
-# * http://www.objc.io/issue-6/travis-ci.html
-# * https://github.com/supermarin/xcpretty#usage
 osx_image: xcode9.2
 language: objective-c
-# cache: cocoapods
 podfile: Example/Podfile
 notifications:
   email: false
 before_install:
- - gem install bundler
- - bundle install
- - bundle update fastlane
- - export GITHUB_TOKEN=$GITHUB_TOKEN
+- gem install bundler
+- bundle install
+- bundle update fastlane
 script:
- - bundle exec fastlane test
+- bundle exec fastlane test
 after_success:
- - bash <(curl -s https://codecov.io/bash)
-# - bundle exec fastlane deploy
+- bash <(curl -s https://codecov.io/bash)
+- bundle exec fastlane deploy
+dd:
+  secure: FRbbfx3SMPMHysJrBKAG9F/yqopmQUoEJS926im9NXpC2vX4ktyOHfzNqNT2aTMo8aLNk3hp2dhCYvdPLOoVdswe32cO7wCAmrQDdHGtuNMmG4Mq0xemDA4pOEy2m3bqSxIgL+WYj8Xe1JY7aFh9nu2a4UXIhrlHliD4ymsJgJUtKMLkkfNaTeEerkyAMGbBQwIJlhF9FNnzP54kSwvbVVfG81tWjeOiLfUHwBde6jxU74qwFB8pw4KgTzqO8uSBnzLu2SG9EVQH8cnzOda8iksrZtetdmtQbMEzbuxMyhyHReKxAalF5UG8SFkXhj7iBpqO9oqQSwfbmHCQnOEFd71u6CUzt6QxcSlQJ77LCgJ/BTao8ocNuX4CnJL9Fq/Q5zTLHrCcgi3tKVQZxkJK3uWCnrUC09Uo7i5ReUc2Nsp+vAd5NyZk3WIZdUIDDc0Q5hdRd+e+NhBh3yoSqmIBEMONgCzNUAQz3DnQvYcu3f5hJ+CvH/thM7r3uZe7xXbjouS0F7gKXXSOnpWaL0PmWTwNz/11o39yRb1wYd8jmnFM1x2i0SzXz5hl6dNPg2kZimLc98herpwD1kJbBCiGZiwhQFzoPZi5g/8Tr9ZmYqI52/VbWbwteyLQj8rSr+Oy+U0Ws2mpKdkrLHlr0CzsKGPsPHOg/mkhP87oIYkWZtk=

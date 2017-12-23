@@ -40,11 +40,13 @@ class AlamofireSpec: QuickSpec {
                 beforeEach {
                     response = nil
                     
-                    SessionManager.default.request(
-                        "http://api.test.com/api/auth",
-                        method: .post,
-                        tcjson: request,
-                        headers: nil).responseTCJSON {
+                    SessionManager.default
+                        .request(
+                            "http://api.test.com/api/auth",
+                            method: .post,
+                            tcjson: request,
+                            headers: nil)
+                        .responseTCJSON {
                             (auth: DataResponse<AuthResponse>) in
                             
                             guard auth.error == nil else {

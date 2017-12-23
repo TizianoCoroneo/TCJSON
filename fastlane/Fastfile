@@ -34,9 +34,11 @@ platform :ios do
 #    ensure_git_branch
     version = version_bump_podspec(
       path: "TCJSON.podspec")
+    jazzy
+    git_add(pathspec: "docs/**")
     git_commit(
-      path: ["./TCJSON.podspec"], 
-      message: "Bumped to version #{version}")
+      path: ["./TCJSON.podspec", "./docs/**"], 
+      message: "Bumped to version #{version}\nUpdated docs.")
     push_to_git_remote(
       remote_branch: 'master', 
       force: false, 

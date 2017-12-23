@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Protocols  Reference</title>
+    <title>Enumerations  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,7 +10,7 @@
     
   </head>
   <body>
-    <a title="Protocols  Reference"></a>
+    <a title="Enumerations  Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">TCJSON Docs</a> (84% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="index.html">TCJSON Reference</a>
         <img id="carat" src="img/carat.png" />
-        Protocols  Reference
+        Enumerations  Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -90,8 +90,8 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>Protocols</h1>
-            <p>The following protocols are available globally.</p>
+            <h1>Enumerations</h1>
+            <p>The following enumerations are available globally.</p>
 
           </section>
           <section class="section task-group-section">
@@ -100,9 +100,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSON13TCJSONCodableP"></a>
-                    <a name="//apple_ref/swift/Protocol/TCJSONCodable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSON13TCJSONCodableP">TCJSONCodable</a>
+                    <a name="/s:6TCJSON13TCJSONServiceO"></a>
+                    <a name="//apple_ref/swift/Enum/TCJSONService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSON13TCJSONServiceO">TCJSONService</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -110,75 +110,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><code>TCJSONCodable</code> extends <code>Codable</code> and provides access to the correpsoding <code><a href="Structs/TCJSON.html">TCJSON</a></code> object and two utility initializers: <code>init(fromData:)</code> and <code>init(fromJSONString:)</code></p>
+                        <p><code>TargetType</code> used to initialize the <code>MoyaProvider</code>. Gets the requests values from the model itself.</p>
 
-                        <a href="Protocols/TCJSONCodable.html" class="slightly-smaller">See more</a>
+<ul>
+<li>requestObject: a call that pass a model object to the API.</li>
+</ul>
+
+                        <a href="Enums/TCJSONService.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TCJSONCodable</span><span class="p">:</span> <span class="kt">Codable</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6TCJSON22TCJSONMoyaRequestModelP"></a>
-                    <a name="//apple_ref/swift/Protocol/TCJSONMoyaRequestModel" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSON22TCJSONMoyaRequestModelP">TCJSONMoyaRequestModel</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Defines the necessary options for the Moya request.</p>
-
-                        <a href="Protocols/TCJSONMoyaRequestModel.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TCJSONMoyaRequestModel</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:6TCJSON10TCJSONMoyaP"></a>
-                    <a name="//apple_ref/swift/Protocol/TCJSONMoya" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSON10TCJSONMoyaP">TCJSONMoya</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Sub protocol of <code><a href="Protocols/TCJSONCodable.html">TCJSONCodable</a></code> that provides also the necessary Data to make the request with Moya.</p>
-
-                        <a href="Protocols/TCJSONMoya.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">TCJSONMoya</span><span class="p">:</span> <span class="kt"><a href="Protocols/TCJSONMoyaRequestModel.html">TCJSONMoyaRequestModel</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/TCJSONCodable.html">TCJSONCodable</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">TCJSONService</span><span class="p">:</span> <span class="kt">TargetType</span></code></pre>
 
                         </div>
                       </div>

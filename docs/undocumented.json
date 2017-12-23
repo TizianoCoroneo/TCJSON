@@ -1,6 +1,215 @@
 {
   "warnings": [
-
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 14,
+      "symbol": "TCJSONMoyaRequestModel.baseURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 14,
+      "symbol": "TCJSONMoyaRequestModel.baseURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 15,
+      "symbol": "TCJSONMoyaRequestModel.path",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 15,
+      "symbol": "TCJSONMoyaRequestModel.path",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 16,
+      "symbol": "TCJSONMoyaRequestModel.method",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 16,
+      "symbol": "TCJSONMoyaRequestModel.method",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 17,
+      "symbol": "TCJSONMoyaRequestModel.sampleData",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 17,
+      "symbol": "TCJSONMoyaRequestModel.sampleData",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 18,
+      "symbol": "TCJSONMoyaRequestModel.task",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 18,
+      "symbol": "TCJSONMoyaRequestModel.task",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 19,
+      "symbol": "TCJSONMoyaRequestModel.validate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 19,
+      "symbol": "TCJSONMoyaRequestModel.validate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 20,
+      "symbol": "TCJSONMoyaRequestModel.headers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 20,
+      "symbol": "TCJSONMoyaRequestModel.headers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 39,
+      "symbol": "TCJSON.Response.statusCode",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 39,
+      "symbol": "TCJSON.Response.statusCode",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 40,
+      "symbol": "TCJSON.Response.result",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 40,
+      "symbol": "TCJSON.Response.result",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 41,
+      "symbol": "TCJSON.Response.request",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 41,
+      "symbol": "TCJSON.Response.request",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 42,
+      "symbol": "TCJSON.Response.response",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 42,
+      "symbol": "TCJSON.Response.response",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 70,
+      "symbol": "TCJSONMoyaRequestModel.method",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 70,
+      "symbol": "TCJSONMoyaRequestModel.method",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 74,
+      "symbol": "TCJSONMoyaRequestModel.validate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 74,
+      "symbol": "TCJSONMoyaRequestModel.validate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 81,
+      "symbol": "TCJSONMoya.task",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONMoya.swift",
+      "line": 81,
+      "symbol": "TCJSONMoya.task",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONService.swift",
+      "line": 8,
+      "symbol": "TCJSONService.requestObject",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/TCJSON/Classes/Moya/TCJSONService.swift",
+      "line": 8,
+      "symbol": "TCJSONService.requestObject",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    }
   ],
   "source_directory": "/Users/tizianocoroneo/Downloads/TCJSON"
 }

@@ -24,7 +24,8 @@ platform :ios do
   desc "Runs all the tests"
   lane :test do
     scan(workspace: "Example/TCJSON.xcworkspace", scheme: "TCJSON-Example", clean: true)
-    pod_lib_lint(allow_warnings: false, verbose: false)
+#    pod_lib_lint(allow_warnings: false, verbose: false)
+     sh("bundle exec pod lib lint --quick")
   end
 
   desc "Just to try the github access"

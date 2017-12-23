@@ -22,7 +22,10 @@ public protocol TCJSONMoyaRequestModel {
 
 public protocol TCJSONMoya: TCJSONMoyaRequestModel, TCJSONCodable {}
 
+public typealias ResponseObject<A: TCJSONCodable> = Result<TCJSON<A>.Response, MoyaError>
+
 extension TCJSON where Content: TCJSONCodable {
+    
     public typealias Completion = (_ result: Result<Response, MoyaError>) -> Void
     
     public final class Response {
@@ -75,7 +78,7 @@ public extension TCJSONMoya {
 extension MoyaProvider {
     /// Designated request-making method. Returns a `Cancellable` token to cancel the request later.
     @discardableResult
-    public func request<A: TCJSONMoya>(
+    public func request<A: TCJSONCodable>(
         _ target: Target,
         callbackQueue: DispatchQueue? = .none,
         progress: ProgressBlock? = .none,

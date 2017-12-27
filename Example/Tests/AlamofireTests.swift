@@ -31,13 +31,7 @@ class AlamofireSpec: QuickSpec {
                             filePath: stubPath!,
                             headers: ["Content-Type":"application/json"])
                     }
-                }
-                
-                afterEach {
-                    OHHTTPStubs.removeAllStubs()
-                }
-                
-                beforeEach {
+                    
                     response = nil
                     
                     SessionManager.default
@@ -56,6 +50,10 @@ class AlamofireSpec: QuickSpec {
                             
                             response = auth.result.value
                     }
+                }
+                
+                afterEach {
+                    OHHTTPStubs.removeAllStubs()
                 }
                 
                 it("accepts a request model object") {

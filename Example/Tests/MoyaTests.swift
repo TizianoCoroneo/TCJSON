@@ -70,6 +70,7 @@ class MoyaSpec: QuickSpec {
             }
             
             context("when trying post") {
+                var response: AuthResponse! = nil
                 let expected = AuthResponse.init(
                     accessToken: "test",
                     expiresIn: 3600,
@@ -77,9 +78,7 @@ class MoyaSpec: QuickSpec {
                     scope: nil,
                     refreshToken: "test")
                 
-                it("accepts a request model object") {
-                    var response: AuthResponse! = nil
-                    
+                beforeEach {
                     _ = provider.request(
                         TCJSONService.requestObject(requestObject), completionObject: {
                             (res: ResponseObject<AuthResponse>) in
@@ -88,17 +87,22 @@ class MoyaSpec: QuickSpec {
                                 let value = res.value?.result
                                 else { return }
                             
+                            debugPrint(res.value!.debugDescription)
+                            
                             response = value
+                            
                     })
-                    
+                }
+                
+                it("accepts a request model object") {
+                    expect(response).toEventuallyNot(beNil())
+                }
+                
+                it("returns a correct response model object") {
                     expect(response).toEventually(equal(expected))
                 }
             }
-//
-//            context("when trying get") {
-//                it("returns a valid model object.") {
-//                }
-//            }
+
         }
     }
 }

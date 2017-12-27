@@ -9,7 +9,7 @@ import Foundation
 import Moya
 import Result
 
-/// Sub protocol of `TCJSONCodable` that provides also the necessary Data to make the request with Moya.
+/// Defines the necessary options for the Moya request.
 public protocol TCJSONMoyaRequestModel {
     var baseURL: URL { get }
     var path: String { get }
@@ -20,14 +20,21 @@ public protocol TCJSONMoyaRequestModel {
     var headers: [String: String]? { get }
 }
 
+/// Sub protocol of `TCJSONCodable` that provides also the necessary Data to make the request with Moya.
 public protocol TCJSONMoya: TCJSONMoyaRequestModel, TCJSONCodable {}
 
+
+/// Utility typealias to shorten the response type.
 public typealias ResponseObject<A: TCJSONCodable> = Result<TCJSON<A>.Response, MoyaError>
 
+
+// MARK: - TCJSON Response object definition
 extension TCJSON where Content: TCJSONCodable {
     
+    /// Type of the completion block of `responseTCJSON`.
     public typealias Completion = (_ result: Result<Response, MoyaError>) -> Void
     
+    /// This is the type returned in the completion block for `responseTCJSON` in case of success.
     public final class Response {
         public let statusCode: Int
         public let result: Content
@@ -69,6 +76,7 @@ public extension TCJSONMoyaRequestModel {
     }
 }
 
+// MARK: - Default implementation of the `TCJSONMoya` request objects. Needs TCJSONCodable conformance.
 public extension TCJSONMoya {
     public var task: Moya.Task {
         return Moya.Task.requestJSONEncodable(self)

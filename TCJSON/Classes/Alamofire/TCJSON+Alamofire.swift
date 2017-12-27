@@ -92,8 +92,7 @@ extension DataRequest {
      }
      ```
      
-     - Parameters:
-     - queue: Dispatch queue in which executing the request.
+     - parameter queue: Dispatch queue in which executing the request.
      - parameter options: The JSON serialization reading options. Defaults to `.allowFragments`.
      - parameter completionHandler: A closure to be executed once the request has finished.
      - returns: The request.

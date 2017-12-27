@@ -414,8 +414,8 @@
 			buildSettings = {
 				DEVELOPMENT_TEAM = 23YF8RW87L;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",

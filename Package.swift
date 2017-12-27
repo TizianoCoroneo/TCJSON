@@ -12,15 +12,12 @@ let package = Package(
             targets: ["TCJSON"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.6.0"),
+        .package(url: "https://github.com/Moya/Moya.git", from: "10.0.1"),
     ],
     targets: [
         .target(
             name: "TCJSON",
-            dependencies: []),
-        .testTarget(
-            name: "TCJSONTests",
-            dependencies: ["TCJSON"]),
+            dependencies: ["Alamofire", "Moya"]),
     ]
 )

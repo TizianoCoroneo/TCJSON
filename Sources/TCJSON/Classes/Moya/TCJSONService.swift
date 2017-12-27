@@ -1,4 +1,4 @@
-
+import Foundation
 import Moya
 
 /// `TargetType` used to initialize the `MoyaProvider`. Gets the requests values from the model itself.

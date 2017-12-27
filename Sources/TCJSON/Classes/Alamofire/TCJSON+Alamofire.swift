@@ -1,3 +1,4 @@
+import Foundation
 import Alamofire
 
 /// Provides the encoding method when making requests using model objects.

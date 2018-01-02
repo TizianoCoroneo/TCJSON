@@ -30,6 +30,14 @@ public struct TCJSON<Content: Codable>: Codable {
         return try JSONEncoder().encode(_content!)
     }
     
+    /// Returns a JSON object (dictionary) from a 'TCJSON' object.
+    ///
+    /// - Returns: A valid JSON object.
+    /// - Throws: Rethrows from reflection errors.
+    public func dictionary() throws -> [String: Any] {
+        return try Mirror.interpretObject(try self.content())
+    }
+    
     /// Initialize from a model object that conforms to Codable.
     ///
     /// - Parameter content: Model object.

@@ -55,7 +55,7 @@ public struct TCJSONRequestEncoding<T: TCJSONCodable>: ParameterEncoding {
         
         // TODO: Implement support also for get method.
         // URLEncoding.methodDependent.encode(urlRequest, with: parameters)
-        
+
         urlRequest.httpBody = try model.json.data()
         
         return urlRequest

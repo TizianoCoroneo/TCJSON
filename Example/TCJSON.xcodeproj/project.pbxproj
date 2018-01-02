@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3512709A1FFC48B5000877E0 /* TCJSONReflectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351270991FFC48B5000877E0 /* TCJSONReflectionTests.swift */; };
 		35BD6B0A1FEDD793001020E2 /* AlamofireTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BD6B091FEDD793001020E2 /* AlamofireTests.swift */; };
 		35BD6B181FEDD9E0001020E2 /* AuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BD6B0C1FEDD9DF001020E2 /* AuthRequest.swift */; };
 		35BD6B191FEDD9E0001020E2 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BD6B0D1FEDD9DF001020E2 /* Categories.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		1D34DB80EFC8A34A977AE913 /* TCJSON.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = TCJSON.podspec; path = ../TCJSON.podspec; sourceTree = "<group>"; };
 		3436E0D6373D62E2D7DBBB94 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		351270991FFC48B5000877E0 /* TCJSONReflectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCJSONReflectionTests.swift; sourceTree = "<group>"; };
 		35BD6B091FEDD793001020E2 /* AlamofireTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireTests.swift; sourceTree = "<group>"; };
 		35BD6B0C1FEDD9DF001020E2 /* AuthRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthRequest.swift; sourceTree = "<group>"; };
 		35BD6B0D1FEDD9DF001020E2 /* Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				35BD6B0B1FEDD9B9001020E2 /* JSON Files */,
 				607FACEB1AFB9204008FA782 /* TCJSONTests.swift */,
+				351270991FFC48B5000877E0 /* TCJSONReflectionTests.swift */,
 				35BD6B091FEDD793001020E2 /* AlamofireTests.swift */,
 				35BD6B261FEE5D1E001020E2 /* MoyaTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3512709A1FFC48B5000877E0 /* TCJSONReflectionTests.swift in Sources */,
 				35BD6B181FEDD9E0001020E2 /* AuthRequest.swift in Sources */,
 				35BD6B1A1FEDD9E0001020E2 /* SendNotificationResponse.swift in Sources */,
 				35BD6B191FEDD9E0001020E2 /* Categories.swift in Sources */,

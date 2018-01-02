@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TCJSON"
-s.version      = "0.2.5"
+s.version      = "0.2.6"
 s.summary      = "TCJSON is a utility that wraps Codable coding/decoding."
 
 s.description  = <<-DESC
@@ -18,7 +18,7 @@ s.social_media_url   = "https://facebook.com/tizianocoroneo"
 
 s.source       = { :git => "https://github.com/TizianoCoroneo/TCJSON.git", :tag => "#{s.version}" }
 
-s.platform = :ios, "11.0"
+s.platform = :ios, "9.0"
 
 s.subspec 'Core' do |core|
     core.source_files = "Sources/TCJSON/Classes/Core/**"

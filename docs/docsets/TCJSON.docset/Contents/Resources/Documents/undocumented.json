@@ -1,6 +1,34 @@
 {
   "warnings": [
     {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 114,
+      "symbol": "TCJSONReflectionError.WrongCategory",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 114,
+      "symbol": "TCJSONReflectionError.WrongCategory",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 114,
+      "symbol": "TCJSONReflectionError.WrongCategory",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 114,
+      "symbol": "TCJSONReflectionError.WrongCategory",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Moya/TCJSONMoya.swift",
       "line": 14,
       "symbol": "TCJSONMoyaRequestModel.baseURL",

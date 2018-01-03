@@ -35,7 +35,7 @@ public struct TCJSONRequestEncoding<T: TCJSONCodable>: ParameterEncoding {
     public func encode(
         _ urlRequest: URLRequestConvertible,
         with parameters: Parameters?) throws -> URLRequest {
-        var urlRequest = try urlRequest.asURLRequest()
+        let urlRequest = try urlRequest.asURLRequest()
         
         guard
             let par = parameters,
@@ -44,13 +44,10 @@ public struct TCJSONRequestEncoding<T: TCJSONCodable>: ParameterEncoding {
         
         let method = HTTPMethod(rawValue: urlRequest.httpMethod ?? "GET")!
         
-        if method == .get {
-            return try URLEncoding.queryString.encode(
-                urlRequest, with: try model.json.dictionary())
-        } else {
-            return try URLEncoding.httpBody.encode(
-                urlRequest, with: try model.json.dictionary())
-        }
+        let encoding: URLEncoding = method == .get ? .queryString : .httpBody
+        
+        return try encoding.encode(
+            urlRequest, with: try model.json.dictionary())
     }
 }
 

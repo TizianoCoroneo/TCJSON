@@ -22,7 +22,7 @@ class TCJSONReflectionSpec: QuickSpec {
                     expect(result.count > 20).to(beTrue())
                 }
             }
-            
+          
             context("when provided a tuple") {
                 it("pass through") {
                     let tuple = (1, "1")
@@ -34,6 +34,13 @@ class TCJSONReflectionSpec: QuickSpec {
             
             context("when provided an object") {
                 let object = TestClass()
+                
+                it("should interpret the right amount of parameters") {
+                    let object = TestClass()
+                    let res = try! Mirror.interpret(object) as! [String: Any]
+                    
+                    expect(res.count).to(equal(10))
+                }
                 
                 it("should interpret an object") {
                     let object = TestClass()

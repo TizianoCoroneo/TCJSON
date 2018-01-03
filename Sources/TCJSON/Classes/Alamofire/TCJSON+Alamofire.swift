@@ -169,7 +169,7 @@ extension SessionManager {
         ) -> DataRequest {
         let (parameters, encoding) = tcjson.af_encoded
         
-        return Alamofire.request(
+        return request(
             url,
             method: method,
             parameters: parameters,

@@ -116,7 +116,7 @@ public enum TCJSONReflectionError: Error {
     var localizedDescription: String {
         switch self {
         case .WrongCategory(let right, let wrongObj):
-            return "The item that should be interpreted as a \"\(right)\" is a \"\(type(of: wrongObj))\" instead."
+            return "The item that should be interpreted as a \"\(right)\" is a \"\(wrongObj)\" instead."
         }
     }
 }

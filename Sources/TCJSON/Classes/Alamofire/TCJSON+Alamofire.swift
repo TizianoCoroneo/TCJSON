@@ -23,42 +23,27 @@ public struct TCJSONRequestEncoding<T: TCJSONCodable>: ParameterEncoding {
     }
     
     /**
-     Takes a POST method URLRequest and converts the model object in the parameters dictionary
-     into `Data` with `.utf8` format, and injects it into the `httpBody` of the request.
-     
-     If the url request's method is not POST, returns the url request object unmodified.
+     Takes a URLRequest and converts the model object in the parameters dictionary
+     into a new parameters dictionary.
      
      - Parameters:
      - urlRequest: The endpoint of the request.
      - parameters: The parameters dict. For TCJSON models is `[ "result": TestClass() ]`.
-     - Returns: The modified URLRequest with the data of the model in the `httpBody` as `Data`.
+     - Returns: The modified URLRequest with the new parameters dict.
      - Throws: From the conversion of the `uri` in `URLRequest`.
      */
     public func encode(
         _ urlRequest: URLRequestConvertible,
         with parameters: Parameters?) throws -> URLRequest {
-        var urlRequest = try urlRequest.asURLRequest()
-        
-        guard urlRequest.httpMethod?.uppercased() == "POST" else {
-            print("WARNING: Sending requests using model objects as parameter currently works on with POST method.")
-            return urlRequest
-        }
-        
-        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        }
+        let urlRequest = try urlRequest.asURLRequest()
         
         guard
             let parameters = parameters,
             let model = parameters[requestKey] as? T
             else { return urlRequest }
         
-        // TODO: Implement support also for get method.
-        // URLEncoding.methodDependent.encode(urlRequest, with: parameters)
-
-        urlRequest.httpBody = try model.json.data()
-        
-        return urlRequest
+        return try URLEncoding.methodDependent.encode(
+            urlRequest, with: try model.json.dictionary())
     }
 }
 
@@ -130,7 +115,7 @@ extension DataRequest {
                     let object: T
                     
                     do {
-                        object = try T.init(fromJSON: value)
+                        object = try T(fromJSON: value)
                     } catch {
                         completionHandler(generate(error: error))
                         return

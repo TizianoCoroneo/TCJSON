@@ -118,9 +118,7 @@ public struct TCJSON<Content: Codable>: Codable {
         if let c = content as? TCJSON<X> { return c }
         if let s = self as? TCJSON<X> { return s }
         
-        throw FlatteningError(
-            fromType: Content.self,
-            toType: X.self)
+        throw TCJSONError.flattening(Content.self, X.self)
     }
     
     /// Applies a function to the `Data` content of a `TCJSON` object.
@@ -161,13 +159,20 @@ public struct TCJSON<Content: Codable>: Codable {
                     try x.content(),
                     try y.content()))
     }
-    
+}
+
+enum TCJSONError: Error {
     /// This error could occur when flattening a TCJSON which doesn't need flattening.
-    struct FlatteningError<X, Y>: Error {
-        private let string: String
-        var localizedDescription: String { return string }
-        init(fromType from: X.Type, toType to: Y.Type) {
-            self.string = "Impossible casting from \(from) to \(to)"
+    case flattening(Any.Type, Any.Type)
+    /// This error could occur when making a request using a unsupported HTTP method.
+    case wrongHTTPMethod(String)
+    
+    var localizedDescription: String {
+        switch self {
+        case .flattening(let from, let to):
+            return "Impossible casting from \(from) to \(to)"
+        case .wrongHTTPMethod(let method):
+            return "Wrong method is not POST or GET: \(method)"
         }
     }
 }

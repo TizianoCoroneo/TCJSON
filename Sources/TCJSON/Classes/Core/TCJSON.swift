@@ -7,8 +7,14 @@
 
 import Foundation
 
+public struct TCJSONOptions {
+    static var defaultEncoder = JSONEncoder()
+    static var defaultDecoder = JSONDecoder()
+}
+
 /// Utility wrapper for common `Codable` operations.
 public struct TCJSON<Content: Codable>: Codable {
+    
     private let _content: Content?
     private let _json: Data?
     
@@ -18,7 +24,9 @@ public struct TCJSON<Content: Codable>: Codable {
     /// - Throws: Rethrows from `JSONDecoder`.
     public func content() throws -> Content {
         if let content = _content { return content }
-        return try JSONDecoder().decode(Content.self, from: _json!)
+        return try TCJSONOptions
+            .defaultDecoder
+            .decode(Content.self, from: _json!)
     }
     
     /// Returns `Data` corresponding to the content object encoded with `JSONEncoder`.
@@ -27,7 +35,9 @@ public struct TCJSON<Content: Codable>: Codable {
     /// - Throws: Rethrows from `JSONEncoder`.
     public func data() throws -> Data {
         if let json = _json { return json }
-        return try JSONEncoder().encode(_content!)
+        return try TCJSONOptions
+            .defaultEncoder
+            .encode(_content!)
     }
     
     /// Returns a JSON object (dictionary) from a 'TCJSON' object.
@@ -112,7 +122,7 @@ public struct TCJSON<Content: Codable>: Codable {
     ///
     /// - Returns: The new internal TCJSON object.
     /// - Throws: Can throw `FlatteningError` if the swift type infer system fucks up. It shouldn't be possible to throw it.
-    public func flatten<X: Codable>() throws -> TCJSON<X> {
+    public func flatten<X>() throws -> TCJSON<X> {
         let content = try self.content()
         
         if let c = content as? TCJSON<X> { return c }

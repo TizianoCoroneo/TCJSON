@@ -12,55 +12,52 @@ extension Mirror {
   public static func codingKeysLabels<T: TCJSONCodable>(
     inObject object: T) throws -> [String: String] {
     
-    let newObjectData = try object.json.data()
-    let jsonSerialize = try JSONSerialization.jsonObject(
-      with: newObjectData)
-    guard
-      let serializedObject = jsonSerialize as? [String: Any] else { return [:] }
+    func systemInterpretObject(_ any: T) throws -> [String: Any] {
+      let newObjectData = try any.json.data()
+      let jsonSerialize = try JSONSerialization.jsonObject(with: newObjectData)
+      let serializedObject = jsonSerialize as? [String: Any] ?? [:]
+      return serializedObject
+    }
     
-    let interpretedOldObject = try interpretObject(object)
-    let interpretedNewObject = serializedObject
+    let tcInterpreted = try interpretObject(object)
+    let systemInterpreted = try systemInterpretObject(object)
     
-    guard !equals(interpretedNewObject, interpretedOldObject)
+    guard !equals(systemInterpreted, tcInterpreted)
       else {
         return Dictionary(
           uniqueKeysWithValues: zip(
-            interpretedOldObject.keys,
-            interpretedOldObject.keys))
+            tcInterpreted.keys,
+            tcInterpreted.keys))
     }
     
     func candidates(
-      forChild child: Mirror.Child)
+      forChild child: Mirror.Child,
+      inSystemInterpreted dict: [String: Any])
       throws -> [String] {
         guard let label = child.label else { return [] }
         
-        if try interpretedNewObject.first (where: {
+        if try dict.first (where: {
           (new: (key: String, value: Any?)) throws -> Bool in
           label == new.key
         }) != nil { return [label] }
         
-        let sameValueCandidates = try interpretedNewObject.filter {
+        let sameValueCandidates = try dict.filter {
           [child] (new: (key: String, value: Any)) throws -> Bool in
           return equals(child.value, new.value)
           }.map { $0.key }
         
-        if sameValueCandidates.count == 0 {
-          // A nil optional that wasn't decoded from the json
-          if Mirror(reflecting: child.value)
-            .displayStyle == .optional {
-            return [label]
-          }
-          
-          // or a field excluded by CodingKey
-          return []
-        } else {
-          return sameValueCandidates
-        }
+        if sameValueCandidates.count != 0 { return sameValueCandidates }
+        
+        // A nil optional that wasn't decoded from the json
+        // or a field excluded by CodingKey
+        return Mirror.isNil(child.value) ? [label] : []
     }
     
-    let keysAndCandidatesPairs: [(String, [String])] = try interpretedOldObject.flatMap {
+    let keysAndCandidatesPairs: [(String, [String])] = try tcInterpreted.flatMap {
       (a: (key: String, value: Any)) -> (String, [String])? in
-      let values = try candidates(forChild: (label: a.key, value: a.value))
+      let values = try candidates(
+        forChild: (label: a.key, value: a.value),
+        inSystemInterpreted: systemInterpreted)
       guard !values.isEmpty else { return nil }
       return (a.key, values)
       }.filter { !$0.1.isEmpty }
@@ -84,7 +81,7 @@ extension Mirror {
           cands.filter { candidateHasSingleBinding($0, fromList: oldList) }
         }
         
-        guard let candidates = list[receiver]?.filter ({ _ in true }) else {
+        guard let candidates = list[receiver] else {
           let remaining = list.filter { $0.key != receiver }
           return (assigned: [:], remaining)
         }

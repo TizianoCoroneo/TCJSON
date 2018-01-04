@@ -7,13 +7,16 @@ import Nimble
 class TCJSONReflectionSpec: QuickSpec {
   override func spec() {
     describe("TCJSONReflection") {
+      
       context("checking optionals as Any") {
+        
         it("can check if it is optional") {
-          let result = Mirror.isOptional(
+          let result: Bool = Mirror.isOptional(
             Optional<Any>.some(
               "sss" as Any)
               as Any)
-          expect(result).to(beTrue())
+          
+          expect(result).toEventually(beTrue())
         }
         
         it("can check if it is double optional") {
@@ -48,7 +51,7 @@ class TCJSONReflectionSpec: QuickSpec {
           let result = Mirror.isNil(
             Optional<Any>.some(
               Optional<Any>.none as Any) as Any)
-            expect(result).to(beFalse())
+          expect(result).to(beFalse())
         }
         
         it("can check if it is not nil") {
@@ -189,6 +192,40 @@ class TCJSONReflectionSpec: QuickSpec {
           expect { try Mirror.interpretOptional(["name": optional]) }
             .to(throwError())
         }
+        
+        it("should unwrap a double optional") {
+          let expected = 7
+          let doubleOpt: Any = Optional.some(Optional.some(expected)) as Any
+          let result = Mirror.unwrapOptional(doubleOpt)
+          
+          expect(Mirror.isOptional(result)).to(beFalse())
+          expect((result as! Int)).to(equal(expected))
+        }
+        
+        it("should unwrap a normal optional") {
+          let result = Mirror.unwrapOptional(optional as Any)
+          
+          expect(Mirror.isOptional(result)).to(beFalse())
+          expect((result as! Int)).to(equal(optional!))
+        }
+        
+        it("should do nothing to a nil value") {
+          let input = Optional<Any>.none as Any
+          
+          let result = Mirror.unwrapOptional(input)
+          let rMirror = { Mirror(reflecting: $0) }
+          
+          expect(Mirror.isOptional(result, rMirror)).to(beTrue())
+          expect(Mirror.isNil(result, rMirror)).to(beTrue())
+        }
+        
+        it("should do nothing to a non optional value") {
+          let expected = 4
+          let result = Mirror.unwrapOptional(expected)
+          
+          expect(Mirror.isOptional(result)).to(beFalse())
+          expect((result as! Int)).to(equal(expected))
+        }
       }
       
       context("when provided a dictionary") {
@@ -225,7 +262,16 @@ class TCJSONReflectionSpec: QuickSpec {
       
       context("when checking for CodingKey") {
         let obj = TestClassWithCodingKeys.init()
+        let withoutKeys = TestClass.init()
+        
         let result = try! Mirror.codingKeysLabels(inObject: obj)
+        
+        it("doesn't change an object without CodingKeys") {
+          let keys = try! Mirror.codingKeysLabels(inObject: withoutKeys)
+          let equalValues = keys.map { $0.key == $0.value }.reduce(true) { $0 && $1 }
+          let equalCount = keys.count == 10
+          expect(equalValues && equalCount).to(beTrue())
+        }
         
         it("returns the correct number of pairs") {
           expect(result.count).to(equal(11))

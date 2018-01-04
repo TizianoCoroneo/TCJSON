@@ -106,25 +106,23 @@ extension Mirror {
     return try d.mapValues(interpret)
   }
   
-  public static func equals(_ val1: Any, _ val2: Any) -> Bool {
+  public static func equals(_ a: Any, _ b: Any) -> Bool {
     
-    if (isOptional(val1) && isOptional(val2)) {
-      switch (isNil(val1), isNil(val2)) {
+    if (isOptional(a) && isOptional(b)) {
+      switch (isNil(a), isNil(b)) {
       case (true, true): return true
       case (true, false): return false
       case (false, true): return false
       case (false, false):
-        return equals(try! internalUnwrap(val1), try! internalUnwrap(val2))
+        return equals(forcedUnwrap(a), forcedUnwrap(b))
       }
-    } else if isOptional(val1) {
-      if isNil(val1) { return false }
-      return equals(try! internalUnwrap(val1), val2)
-    } else if isOptional(val2) {
-      return equals(val2, val1)
+    } else if isOptional(a) {
+      if isNil(a) { return false }
+      return equals(forcedUnwrap(a), b)
+    } else if isOptional(b) {
+      if isNil(b) { return false }
+      return equals(a, forcedUnwrap(b))
     }
-    
-    let a = val1
-    let b = val2
     
     switch (a, b) {
     case (let a as [Any], let b as [Any]):
@@ -155,51 +153,24 @@ extension Mirror {
     case (let a as AnyHashable, let b as AnyHashable):
       return a.hashValue == b.hashValue
     case (let a, let b):
-      let aMirror = Mirror.init(reflecting: a)
-      let bMirror = Mirror.init(reflecting: b)
-      
-      if isNil(a, { _ in aMirror }) || isNil(b, { _ in bMirror }) {
-        return isNil(a, { _ in aMirror }) && isNil(b, { _ in bMirror }) }
-      
-      let a2 = isOptional(a, { _ in aMirror })
-        ? try! internalUnwrap(a, { _ in aMirror })
-        : a
-      let b2 = isOptional(b, { _ in bMirror })
-        ? try! internalUnwrap(b, { _ in bMirror })
-        : b
-      
-      if isOptional(a) {
-        let a2 = try! internalUnwrap(a, { _ in aMirror })
-        if isOptional(b) {
-          let b2 = try! internalUnwrap(b, { _ in bMirror })
-          return equals(a2, b2)
-        } else {
-          return equals(a2, b)
-        }
-      } else if isOptional(b) {
-        let b2 = try! internalUnwrap(a, { _ in bMirror })
-        if isOptional(a) {
-          let a2 = try! internalUnwrap(a, { _ in aMirror })
-          return equals(a2, b2)
-        } else {
-          return equals(a, b2)
-        }
-      }
-      
-      guard let aObject = try? interpret(a2) as? [String: Any] else { return false }
-      guard let bObject = try? interpret(b2) as? [String: Any] else { return false }
-      return equals(aObject as? Any, bObject as? Any)
+      guard
+        let aInterpretedObject = try? interpret(a),
+        let bInterpretedObject = try? interpret(b),
+        let aObject = aInterpretedObject as? [String: Any],
+        let bObject = bInterpretedObject as? [String: Any]
+        else { return false }
+      return equals(aObject, bObject)
     }
   }
   
-  public static func isOptional(
+  static func isOptional(
     _ any: Any,
     _ mirror: (Any) -> (Mirror) = { Mirror(reflecting: $0) })
     -> Bool {
       return mirror(any).displayStyle == .optional
   }
   
-  public static func isNil(
+  static func isNil(
     _ any: Any,
     _ mirror: (Any) -> (Mirror) = { Mirror(reflecting: $0) })
     -> Bool {
@@ -208,28 +179,20 @@ extension Mirror {
       return m.children.count == 0
   }
   
-  public static func internalUnwrap(
+  private static func forcedUnwrap(
     _ any: Any,
-    _ mirror: (Any) -> (Mirror) = { Mirror(reflecting: $0) }) throws
-    -> Any {
-      let m = mirror(any)
-      
-      guard !isNil(any, { _ in m })
-      else { throw NSError(domain: "Nil optional unwrap", code: 420, userInfo: nil) }
-      
-      return m.children.first!.value
+    _ mirror: (Any) -> (Mirror) = { Mirror(reflecting: $0) })
+    -> Any { return mirror(any).children.first!.value
   }
   
-  private static func flattenOptional(_ any: Any) -> Any {
+  static func unwrapOptional(_ any: Any) -> Any {
     let mirror = Mirror.init(reflecting: any)
     guard mirror.displayStyle == .optional else { return any }
-    guard mirror.children.count != 0 else { return Optional<String>.none as Any }
-    let internalMirror = Mirror.init(reflecting: mirror.children.first!.value)
-    guard internalMirror.displayStyle == .optional else { return any }
-    return mirror.children.first!.value
+    guard mirror.children.count != 0 else { return Optional<Any>.none as Any }
+    let internalValue = mirror.children.first!.value
+    return unwrapOptional(internalValue)
   }
 }
-
 
 /// It's thrown from interpreting the inner values with the wrong func.
 public enum TCJSONReflectionError: Error {
@@ -239,8 +202,5 @@ public enum TCJSONReflectionError: Error {
   
   var localizedDescription: String {
     switch self {
-    case .WrongCategory(let right, let wrongObj):
-      return "The item that should be interpreted as a \"\(right)\" is a \"\(wrongObj)\" instead."
-    }
-  }
-}
+    case .WrongCategory(let right, let wrongObj): return "The item that should be interpreted as a \"\(right)\" is a \"\(wrongObj)\" instead."
+    }}}

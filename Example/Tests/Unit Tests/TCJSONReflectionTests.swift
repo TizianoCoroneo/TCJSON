@@ -262,9 +262,11 @@ class TCJSONReflectionSpec: QuickSpec {
       
       context("when checking for CodingKey") {
         let obj = TestClassWithCodingKeys.init()
+        let extremeObj = TestClassWithExtemeCodingKeys.init()
         let withoutKeys = TestClass.init()
         
         let result = try! Mirror.codingKeysLabels(inObject: obj)
+        let extremeResult = try! Mirror.codingKeysLabels(inObject: extremeObj)
         
         it("doesn't change an object without CodingKeys") {
           let keys = try! Mirror.codingKeysLabels(inObject: withoutKeys)
@@ -293,16 +295,73 @@ class TCJSONReflectionSpec: QuickSpec {
           ].forEach {
             createTestCase(
               with: $0.0,
-              contains: $0.1)
+              contains: $0.1,
+              withResult: result)
         }
         
-        func createTestCase(with key: String, contains: Bool) {
-          it("contains the \(key)") {
+//        [
+//          ("string3", true),
+//          ("string4", true),
+//
+//          ("int4", true),
+//          ("int5", true),
+//          ("int6", true),
+//
+//          ("double3", true),
+//          ("double4", true),
+//          ("double5", true),
+//
+//          ("boolean2", true),
+//          ("boolean3", true),
+//          ("boolean4", true),
+//
+//          ("optional4", true),
+//          ("optional5", true),
+//          ("optional6", true),
+//
+//          ("nilOptional4", true),
+//          ("nilOptional5", true),
+//          ("nilOptional6", true),
+//
+//          ("array4", true),
+//          ("array5", true),
+//          ("array6", true),
+//
+//          ("object4", true),
+//          ("object5", true),
+//          ("object6", true),
+//
+//          ("dict6", true),
+//          ("dict7", true),
+//          ("dict8", true),
+//          ("dict9", true),
+//          ("dict10", true),
+//
+//          ("disappear1", false),
+//          ("disappear2", false),
+//          ("disappear3", false),
+//          ].forEach {
+//            createTestCase(
+//              with: $0.0,
+//              contains: $0.1,
+//              withResult: extremeResult)
+//        }
+        
+        func createTestCase(
+          with key: String,
+          contains: Bool,
+          withResult result: [String: String]) {
+          it("extreme contains the \(key)") {
             let values = Array(result.values)
             if contains {
               expect(values).to(contain(key))
             } else {
-              expect(Array(result.keys)).toNot(contain(key))
+              let shouldNotContainKey: ([String: String]) -> Bool = { !$0.keys.contains(key) }
+              let valueShouldBeEmpty: ([String: String]) -> Bool = { $0[key]?.isEmpty ?? true }
+              
+              let success = shouldNotContainKey(result) || valueShouldBeEmpty(result)
+              
+              expect(success).to(beTrue())
             }
           }
         }

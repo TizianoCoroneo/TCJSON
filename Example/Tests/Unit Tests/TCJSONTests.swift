@@ -19,7 +19,7 @@ class TCJSONSpec: QuickSpec {
 }
 """
   
-  static let expectedFromJSONString = TestClass(
+  static let expectedFromJSONString: TestClass = TestClass(
     string: "ccc",
     int: 11,
     double: 11.2,
@@ -42,7 +42,7 @@ class TCJSONSpec: QuickSpec {
     "dict": ["1": 1]
   ]
   
-  static let expectedFromDictionary = TestClass(
+  static let expectedFromDictionary: TestClass = TestClass(
     string: "ccc",
     int: 11,
     double: 11.2,

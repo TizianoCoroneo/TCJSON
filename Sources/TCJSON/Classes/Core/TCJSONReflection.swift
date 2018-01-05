@@ -126,32 +126,32 @@ extension Mirror {
     
     switch (a, b) {
     case (let a as [Any], let b as [Any]):
+      guard !a.isEmpty && !b.isEmpty
+        else { return a.isEmpty && b.isEmpty }
       return zip(a, b).map(equals).reduce(true) { $0 && $1 }
+    
     case (let a as [String: Any], let b as [String: Any]):
+      guard !a.isEmpty && !b.isEmpty
+        else { return a.isEmpty && b.isEmpty }
       return zip(a, b).map(equals).reduce(true) { $0 && $1 }
+      
     case (let a as (Any, Any), let b as (Any, Any)):
       return equals(a.0, b.0) && equals(a.1, b.1)
-    case (_ as AnyHashable, _ as [Any]): return false
-    case (_ as [Any], _ as AnyHashable): return false
+    
+    case (let a as Int, let b as Int): return a == b
+    case (let a as Double, let b as Double): return a == b
+    case (let a as Bool, let b as Bool): return a == b
+    case (let a as String, let b as String): return a == b
       
-    case (let a as Int, let b as Int):
-      return a == b
-      
-    case (let a as Double, let b as Double):
-      return a == b
-      
-    case (let a as Bool, let b as Bool):
-      return a == b
     case (_ as Bool, _): return false
     case (_, _ as Bool): return false
       
-    case (let a as String, let b as String):
-      return a == b
     case (_ as String, _): return false
     case (_, _ as String): return false
       
     case (let a as AnyHashable, let b as AnyHashable):
       return a.hashValue == b.hashValue
+    
     case (let a, let b):
       guard
         let aInterpretedObject = try? interpret(a),

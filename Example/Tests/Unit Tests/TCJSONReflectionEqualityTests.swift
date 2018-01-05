@@ -21,6 +21,7 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
                 case bool
                 case array
                 case optional
+              case optionalObject
                 case nilOptional
                 case dict
                 case object
@@ -33,6 +34,7 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
                         .bool,
                         .array,
                         .optional,
+                        .optionalObject,
                         .nilOptional,
                         .dict,
                         .object
@@ -47,6 +49,7 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
                 .bool: true,
                 .array: ["a", "b"],
                 .optional:  Optional<String>.some("lol") as Any,
+                .optionalObject:  Optional.some(TestClass.Object.init(name: "aac")) as Any,
                 .nilOptional: Optional<String>.none as Any,
                 .dict: ["lol": "test"],
                 .object: TestClass.Object(name: "q")]

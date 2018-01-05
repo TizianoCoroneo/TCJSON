@@ -45,12 +45,25 @@ extension Mirror {
           [child] (new: (key: String, value: Any)) throws -> Bool in
           return equals(child.value, new.value)
           }.map { $0.key }
-        
-        if sameValueCandidates.count != 0 { return sameValueCandidates }
-        
-        // A nil optional that wasn't decoded from the json
-        // or a field excluded by CodingKey
-        return Mirror.isNil(child.value) ? [label] : []
+
+        if sameValueCandidates.count == 0 {
+          // A nil optional that wasn't decoded from the json
+          if Mirror(reflecting: child.value)
+            .displayStyle == .optional {
+            return [label]
+          }
+          
+          // or a field excluded by CodingKey
+          return []
+        } else {
+          return sameValueCandidates
+        }
+        // 10x Slower 
+//        if sameValueCandidates.count != 0 { return sameValueCandidates }
+//
+//        // A nil optional that wasn't decoded from the json
+//        // or a field excluded by CodingKey
+//        return Mirror.isNil(child.value) ? [label] : []
     }
     
     let keysAndCandidatesPairs: [(String, [String])] = try tcInterpreted.flatMap {

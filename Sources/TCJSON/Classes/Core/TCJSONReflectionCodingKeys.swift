@@ -28,7 +28,7 @@ extension Mirror {
             }
             
             let list = oldList.mapValues { cands in
-                cands.filter { candidateHasUniqueBinding($0, from: oldList) }
+                cands.filter { candidateHasUniqueReceiver($0, from: oldList) }
             }
             
             guard let candidates = list[receiver] else {
@@ -78,15 +78,13 @@ extension Mirror {
         return result
     }
     
-    static func hasUniqueBinding(
+    static func isUniqueBinding(
         _ receiver: Receiver,
+        _ candidate: Candidate,
         inList list: CandidatesDictionary) -> Bool {
         
-        let newList = list.mapValues { cands in
-            cands.filter { candidateHasUniqueBinding($0, from: list) }
-        }
-        
-        return receiverHasUniqueBinding(receiver, from: newList)
+        return receiverHasUniqueCandidate(receiver, from: list)
+        && candidateHasUniqueReceiver(candidate, from: list)
     }
     
     public static func codingKeysLabels<T: TCJSONCodable>(
@@ -140,7 +138,7 @@ extension Mirror {
         })
     }
     
-    static func receiverHasUniqueBinding(
+    static func receiverHasUniqueCandidate(
         _ receiver: Receiver,
         from candidateList: CandidatesDictionary)
         -> Bool {
@@ -148,7 +146,7 @@ extension Mirror {
             return candidates.count == 1 //|| candidates.count == 0
     }
     
-    static func candidateHasUniqueBinding(
+    static func candidateHasUniqueReceiver(
         _ candidate: Candidate,
         from candidateList: CandidatesDictionary)
         -> Bool {

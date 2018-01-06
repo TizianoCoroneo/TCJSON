@@ -61,7 +61,7 @@ struct TestClassWithCodingKeys: TCJSONCodable, Equatable {
   
   enum CodingKeys: String, CodingKey {
     case string
-    //        case emptyString
+    case emptyString
     case int = "int3"
     case int2 = "int4"
     case double = "changedDouble"
@@ -77,6 +77,7 @@ struct TestClassWithCodingKeys: TCJSONCodable, Equatable {
     static var allCodingKeys: [CodingKeys] {
         return [
         .string,
+        .emptyString,
         .int,
         .int2,
         .double,

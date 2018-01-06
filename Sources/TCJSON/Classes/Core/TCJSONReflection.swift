@@ -128,11 +128,13 @@ extension Mirror {
     case (let x as [Any], let y as [Any]):
       guard !x.isEmpty && !y.isEmpty
         else { return x.isEmpty && y.isEmpty }
+      guard x.count == y.count else { return false }
       return zip(x, y).map(equals).reduce(true) { $0 && $1 }
     
     case (let x as [String: Any], let y as [String: Any]):
       guard !x.isEmpty && !y.isEmpty
         else { return x.isEmpty && y.isEmpty }
+      guard x.count == y.count else { return false }
       return zip(x, y).map(equals).reduce(true) { $0 && $1 }
       
     case (let x as (Any, Any), let y as (Any, Any)):

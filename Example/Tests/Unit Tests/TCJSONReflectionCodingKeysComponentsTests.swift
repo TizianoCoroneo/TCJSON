@@ -13,8 +13,7 @@ import Quick
 class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
     override func spec() {
         
-        describe("Has Unique bindings") {
-            
+        describe("receiverHasUniqueCandidate") {
             func candidates<T: Encodable>(_ xs: T) -> Mirror.CandidatesDictionary {
                 return try! Mirror.getCandidates(
                     forObject: try! Mirror.interpret(xs) as! [String : Any],
@@ -27,13 +26,12 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                 it("should return true") {
                     let candidateList = candidates(obj)
                     
-                    let result = candidateList.map({
-                        return Mirror.hasUniqueBinding(
+                    candidateList.forEach({
+                        let res = Mirror.receiverHasUniqueCandidate(
                             $0.key,
-                            inList: candidateList) || candidateList[$0.key]!.count == 0
-                    }).reduce(true, { $0 && $1 })
-                    
-                    expect(result).to(beTrue())
+                            from: candidateList) || candidateList[$0.key]!.count == 0
+                        expect(res).to(beTrue())
+                    })
                 }
             }
             
@@ -46,13 +44,54 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                     print("\nlist = \(candidateList)")
                     
                     candidateList.forEach({
-                        let res = Mirror.hasUniqueBinding(
+                        let res = Mirror.receiverHasUniqueCandidate(
                             $0.key,
-                            inList: candidateList) || candidateList[$0.key]!.count == 0
+                            from: candidateList) || candidateList[$0.key]!.count == 0
                         
                         expect(res).to(beTrue())
                     })
                 }
+            }
+            
+            context("when provided an object with key conflicts") {
+                let obj = TestClassWithExtemeCodingKeys()
+                
+                func shouldntConflict(_ key: String) -> Bool {
+                    return key == "boolean3"
+                        || key == "double3"
+                        || key == "int3"
+                        || key == "nilOptional"
+                        || key == "nilOptional2"
+                        || key == "nilOptional3"
+                        || key == "array3"
+                        || key == "object3"
+                        || key == "dict3"
+                        || key == "dict4"
+                        || key == "dict5"
+                        || key == "disappear3"
+                }
+
+                let candidateList = candidates(obj)
+                
+                func test(_ key: String, _ candidates: [String: [String]], _ success: Bool) {
+                    
+                    let res = Mirror.receiverHasUniqueCandidate(
+                        key,
+                        from: candidates)
+                        || candidates.count == 0
+                    
+                    it("for \(key) should return \(success)") {
+                        if success {
+                            expect(res).to(beTrue())
+                        } else {
+                            expect(res).to(beFalse())
+                        }
+                    }
+                }
+                
+                candidateList.map({
+                    ($0.key, $0.value, shouldntConflict($0.key))
+                }).forEach { test($0.0, candidateList, $0.2) }
             }
         }
         

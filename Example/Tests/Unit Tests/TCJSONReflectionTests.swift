@@ -152,6 +152,22 @@ class TCJSONReflectionSpec: QuickSpec {
             .to(throwError())
         }
       }
+        
+        context("when provided a complex object") {
+            let extreme = TestClassWithExtemeCodingKeys()
+            
+            it("should interpret it correctly") {
+                let res = try! Mirror.interpretObject(extreme)
+                let result = try! TestClassWithExtemeCodingKeys.init(fromDictionary: res)
+                expect(result).to(equal(extreme))
+            }
+            
+            it("should interpret correctly its system serialized version") {
+                let res = try! Mirror.systemSerialize(extreme)
+                let result = try! TestClassWithExtemeCodingKeys.init(fromDictionary: res as! [String: Any])
+                expect(result).to(equal(extreme))
+            }
+        }
       
       context("when provided a value") {
         let value: Int = 12345
@@ -257,113 +273,6 @@ class TCJSONReflectionSpec: QuickSpec {
           let resDict = res as! [String: Int]
           
           expect(resDict).to(equal(dict))
-        }
-      }
-      
-      context("when checking for CodingKey") {
-        let obj = TestClassWithCodingKeys.init()
-        let extremeObj = TestClassWithExtemeCodingKeys.init()
-        let withoutKeys = TestClass.init()
-        
-        let result = try! Mirror.codingKeysLabels(inObject: obj)
-        let extremeResult = try! Mirror.codingKeysLabels(inObject: extremeObj)
-        
-        it("doesn't change an object without CodingKeys") {
-          let keys = try! Mirror.codingKeysLabels(inObject: withoutKeys)
-          let equalValues = keys.map { $0.key == $0.value }.reduce(true) { $0 && $1 }
-          let equalCount = keys.count == 10
-          expect(equalValues && equalCount).to(beTrue())
-        }
-        
-        it("returns the correct number of pairs") {
-          expect(result.count).to(equal(11))
-        }
-        
-        [
-          ("string", true),
-          ("emptyString", false),
-          ("int3", true),
-          ("int4", true),
-          ("changedDouble", true),
-          ("boolean3", true),
-          ("boolean2", true),
-          ("optional", true),
-          ("nilOptional", true),
-          ("array", true),
-          ("object", true),
-          ("dict", true)
-          ].forEach {
-            createTestCase(
-              with: $0.0,
-              contains: $0.1,
-              withResult: result)
-        }
-        
-//        [
-//          ("string3", true),
-//          ("string4", true),
-//
-//          ("int4", true),
-//          ("int5", true),
-//          ("int6", true),
-//
-//          ("double3", true),
-//          ("double4", true),
-//          ("double5", true),
-//
-//          ("boolean2", true),
-//          ("boolean3", true),
-//          ("boolean4", true),
-//
-//          ("optional4", true),
-//          ("optional5", true),
-//          ("optional6", true),
-//
-//          ("nilOptional4", true),
-//          ("nilOptional5", true),
-//          ("nilOptional6", true),
-//
-//          ("array4", true),
-//          ("array5", true),
-//          ("array6", true),
-//
-//          ("object4", true),
-//          ("object5", true),
-//          ("object6", true),
-//
-//          ("dict6", true),
-//          ("dict7", true),
-//          ("dict8", true),
-//          ("dict9", true),
-//          ("dict10", true),
-//
-//          ("disappear1", false),
-//          ("disappear2", false),
-//          ("disappear3", false),
-//          ].forEach {
-//            createTestCase(
-//              with: $0.0,
-//              contains: $0.1,
-//              withResult: extremeResult)
-//        }
-        
-        func createTestCase(
-          with key: String,
-          contains: Bool,
-          withResult result: [String: String]) {
-          it("extreme contains the \(key)") {
-            let values = Array(result.values)
-            if contains {
-              expect(values).to(contain(key))
-            } else {
-              let shouldNotContainKey: ([String: String]) -> Bool = { !$0.keys.contains(key) }
-              let valueShouldBeEmpty: ([String: String]) -> Bool = { $0[key]?.isEmpty ?? true }
-              
-              let success = shouldNotContainKey(result) || valueShouldBeEmpty(result)
-              
-              expect(success).to(beTrue())
-            }
-          }
         }
       }
     }

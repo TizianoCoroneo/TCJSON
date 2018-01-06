@@ -9,18 +9,44 @@ import Foundation
 
 extension Mirror {
   
+    static func candidates(
+        forChild child: Mirror.Child,
+        inSystemInterpreted dict: [String: Any])
+        throws -> [String] {
+            guard let label = child.label else { return [] }
+            
+            if dict.keys.contains(label) { return [label] }
+            
+            let sameValueCandidates = try dict.filter {
+                [child] info in
+                let infoLabel = info.key
+                
+                return equals(child.value, info.value)
+                }.map { $0.key }
+            
+            if sameValueCandidates.count != 0 {
+                return sameValueCandidates
+            }
+            
+            // A nil optional that wasn't decoded from the json
+            // or a field excluded by CodingKey
+            return Mirror.isNil(child.value) ? [label] : []
+    }
+    
+    public static func systemSerialize<T: Encodable>(
+        _ value: T) throws -> Any {
+        let encoded: Data = try JSONEncoder()
+            .encode(value)
+        return try JSONSerialization
+            .jsonObject(with: encoded)
+            as! [String: Any]
+    }
+    
   public static func codingKeysLabels<T: TCJSONCodable>(
     inObject object: T) throws -> [String: String] {
     
-    func systemInterpretObject(_ any: T) throws -> [String: Any] {
-      let newObjectData = try any.json.data()
-      let jsonSerialize = try JSONSerialization.jsonObject(with: newObjectData)
-      let serializedObject = jsonSerialize as? [String: Any] ?? [:]
-      return serializedObject
-    }
-    
     let tcInterpreted = try interpretObject(object)
-    let systemInterpreted = try systemInterpretObject(object)
+    let systemInterpreted = try systemSerialize(object) as! [String: Any]
     
     guard !equals(systemInterpreted, tcInterpreted)
       else {
@@ -30,37 +56,13 @@ extension Mirror {
             tcInterpreted.keys))
     }
     
-    func candidates(
-      forChild child: Mirror.Child,
-      inSystemInterpreted dict: [String: Any])
-      throws -> [String] {
-        guard let label = child.label else { return [] }
-        
-        if try dict.first (where: {
-          (new: (key: String, value: Any?)) throws -> Bool in
-          label == new.key
-        }) != nil { return [label] }
-        
-        let sameValueCandidates = try dict.filter {
-          [child] (new: (key: String, value: Any)) throws -> Bool in
-          
-          return equals(child.value, new.value)
-          }.map { $0.key }
-        
-        if sameValueCandidates.count != 0 { return sameValueCandidates }
-        
-        // A nil optional that wasn't decoded from the json
-        // or a field excluded by CodingKey
-        return Mirror.isNil(child.value) ? [label] : []
-    }
     
     let keysAndCandidatesPairs: [(String, [String])] = try tcInterpreted.flatMap {
-      (a: (key: String, value: Any)) -> (String, [String])? in
       let values = try candidates(
-        forChild: (label: a.key, value: a.value),
+        forChild: (label: $0.key, value: $0.value),
         inSystemInterpreted: systemInterpreted)
       guard !values.isEmpty else { return nil }
-      return (a.key, values)
+      return ($0.key, values)
       }.filter { !$0.1.isEmpty }
     
     let keysAndCandidates = Dictionary(uniqueKeysWithValues: keysAndCandidatesPairs)

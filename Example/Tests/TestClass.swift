@@ -73,6 +73,22 @@ struct TestClassWithCodingKeys: TCJSONCodable, Equatable {
     case object
     case dict
   }
+    
+    static var allCodingKeys: [CodingKeys] {
+        return [
+        .string,
+        .int,
+        .int2,
+        .double,
+        .boolean,
+        .boolean2,
+        .optional,
+        .nilOptional,
+        .array,
+        .object,
+        .dict,
+        ]
+    }
   
   struct Object: TCJSONCodable {
     let name: String
@@ -119,7 +135,7 @@ struct TestClassWithExtemeCodingKeys: TCJSONCodable, Equatable {
   
   let nilOptional: String? = nil
   let nilOptional2: String? = nil
-  let nilOptional3: String? = "aaa"
+  let nilOptional3: String? = "aaab"
   
   let array: [String] = ["aaa", "bbb"]
   let array2: [String] = ["aaa", "bbb"]
@@ -135,48 +151,89 @@ struct TestClassWithExtemeCodingKeys: TCJSONCodable, Equatable {
   let dict4: [String: Int] = ["2": 4]
   let dict5: [String: Int] = ["3": 4]
   
-  let disappear1 = 0
-  let disappear2 = 0
-  let disappear3 = 1
+    let disappear1: Int = 0
+    let disappear2: Int = 0
+    let disappear3: Int = 1
   
   enum CodingKeys: String, CodingKey {
-    case string = "string3"
-    case string2 = "string4"
+    case string = "correct_string"
+    case string2 = "correct_string2"
     
-    case int = "int4"
-    case int2 = "int5"
-    case int3 = "int6"
+    case int = "correct_int"
+    case int2 = "correct_int2"
+    case int3 = "correct_int3"
     
-    case double = "double3"
-    case double2 = "double4"
-    case double3 = "double5"
+    case double = "correct_double"
+    case double2 = "correct_double2"
+    case double3 = "correct_double3"
     
-    case boolean = "boolean2"
-    case boolean2 = "boolean3"
-    case boolean3 = "boolean4"
+    case boolean = "correct_boolean"
+    case boolean2 = "correct_boolean2"
+    case boolean3 = "correct_boolean3"
     
-    case optional = "optional4"
-    case optional2 = "optional5"
-    case optional3 = "optional6"
+    case optional = "correct_optional"
+    case optional2 = "correct_optional2"
+    case optional3 = "correct_optional3"
     
-    case nilOptional = "nilOptional4"
-    case nilOptional2 = "nilOptional5"
-    case nilOptional3 = "nilOptional6"
+    case nilOptional = "correct_nilOptional"
+    case nilOptional2 = "correct_nilOptional2"
+    case nilOptional3 = "correct_nilOptional3"
     
-    case array = "array4"
-    case array2 = "array5"
-    case array3 = "array6"
+    case array = "correct_array"
+    case array2 = "correct_array2"
+    case array3 = "correct_array3"
     
-    case object = "object4"
-    case object2 = "object5"
-    case object3 = "object6"
+    case object = "correct_object"
+    case object2 = "correct_object2"
+    case object3 = "correct_object3"
     
-    case dict = "dict6"
-    case dict2 = "dict7"
-    case dict3 = "dict8"
-    case dict4 = "dict9"
-    case dict5 = "dict10"
+    case dict = "correct_dict"
+    case dict2 = "correct_dict2"
+    case dict3 = "correct_dict3"
+    case dict4 = "correct_dict4"
+    case dict5 = "correct_dict5"
   }
+    
+    static var allCodingKeys: [CodingKeys] {
+        return [
+        .string,
+        .string2,
+        
+        .int,
+        .int2,
+        .int3,
+        
+        .double,
+        .double2,
+        .double3,
+        
+        .boolean,
+        .boolean2,
+        .boolean3,
+        
+        .optional,
+        .optional2,
+        .optional3,
+        
+        .nilOptional,
+        .nilOptional2,
+        .nilOptional3,
+        
+        .array,
+        .array2,
+        .array3,
+        
+        .object,
+        .object2,
+        .object3,
+        
+        .dict,
+        .dict2,
+        .dict3,
+        .dict4,
+        .dict5,
+        ]
+    }
   
   struct Object: TCJSONCodable {
     let name: String

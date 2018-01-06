@@ -21,8 +21,12 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
                 case bool
                 case array
                 case optional
-              case optionalObject
+                case optionalObject
+                case nilOptionalObject
                 case nilOptional
+                case numberOne
+                case numberZero
+                case someNil
                 case dict
                 case object
                 
@@ -35,29 +39,57 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
                         .array,
                         .optional,
                         .optionalObject,
+                        .nilOptionalObject,
                         .nilOptional,
+                        .numberOne,
+                        .numberZero,
+                        .someNil,
                         .dict,
                         .object
                     ]
                 }
             }
             
+            let compatibilityTable: [(ThrowingType, ThrowingType)] = [
+                (.nilOptional, .nilOptionalObject),
+            ]
+            
             let expectedValues: [ThrowingType: Any] = [
                 .string: "aaa",
                 .int: 2,
-                .double: 2.0,
+                .double: 3.0,
                 .bool: true,
                 .array: ["a", "b"],
                 .optional:  Optional<String>.some("lol") as Any,
                 .optionalObject:  Optional.some(TestClass.Object.init(name: "aac")) as Any,
+                .nilOptionalObject: Optional<TestClass.Object>.none as Any,
                 .nilOptional: Optional<String>.none as Any,
-                .dict: ["lol": "test"],
+                .numberZero: 0,
+                .numberOne: 1,
+                .someNil: Optional<Any?>.some(Optional<Any>.none) as Any,
+                .dict: ["lol": 3],
                 .object: TestClass.Object(name: "q")]
             
             func createTestContext(_ ownType: ThrowingType) {
+                func isCompatible(
+                    _ a: ThrowingType,
+                    _ b: ThrowingType,
+                    table: [(ThrowingType, ThrowingType)]) -> Bool {
+                    let forwardResult = table.filter({ $0.0 == a }).map { $0.1 }
+                    let reverseResult = table.filter({ $0.1 == a }).map { $0.0 }
+                    let forwardResultSet = Set.init(forwardResult)
+                    let reverseResultSet = Set.init(reverseResult)
+                    let resultSet = forwardResultSet.union(reverseResultSet)
+                    return resultSet.contains(b) || a == b
+                }
                 context("when given a \(ownType.rawValue)") {
                     ThrowingType.all.forEach { otherType in
-                        createTestCase(ownType, otherType, shouldBe: ownType == otherType)
+                        let success = ownType == otherType
+                            || isCompatible(
+                                ownType,
+                                otherType,
+                                table: compatibilityTable)
+                        createTestCase(ownType, otherType, shouldBe: success)
                     }
                 }
             }

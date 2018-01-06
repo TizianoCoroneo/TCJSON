@@ -108,54 +108,69 @@ extension Mirror {
   
   public static func equals(_ a: Any, _ b: Any) -> Bool {
     
-    if (isOptional(a) && isOptional(b)) {
-      switch (isNil(a), isNil(b)) {
-      case (true, true): return true
-      case (true, false): return false
-      case (false, true): return false
-      case (false, false):
-        return equals(forcedUnwrap(a), forcedUnwrap(b))
-      }
-    } else if isOptional(a) {
-      if isNil(a) { return false }
-      return equals(forcedUnwrap(a), b)
-    } else if isOptional(b) {
-      if isNil(b) { return false }
-      return equals(a, forcedUnwrap(b))
-    }
-    
+        if (isOptional(a) && isOptional(b)) {
+            switch (isNil(a), isNil(b)) {
+            case (true, true): return true
+            case (true, false): return false
+            case (false, true): return false
+            case (false, false):
+                return equals(forcedUnwrap(a), forcedUnwrap(b))
+            }
+        } else if isOptional(a) {
+            if isNil(a) { return false }
+            return equals(forcedUnwrap(a), b)
+        } else if isOptional(b) {
+            if isNil(b) { return false }
+            return equals(a, forcedUnwrap(b))
+        }
+        
     switch (a, b) {
-    case (let a as [Any], let b as [Any]):
-      guard !a.isEmpty && !b.isEmpty
-        else { return a.isEmpty && b.isEmpty }
-      return zip(a, b).map(equals).reduce(true) { $0 && $1 }
+    case (let x as [Any], let y as [Any]):
+      guard !x.isEmpty && !y.isEmpty
+        else { return x.isEmpty && y.isEmpty }
+      return zip(x, y).map(equals).reduce(true) { $0 && $1 }
     
-    case (let a as [String: Any], let b as [String: Any]):
-      guard !a.isEmpty && !b.isEmpty
-        else { return a.isEmpty && b.isEmpty }
-      return zip(a, b).map(equals).reduce(true) { $0 && $1 }
+    case (let x as [String: Any], let y as [String: Any]):
+      guard !x.isEmpty && !y.isEmpty
+        else { return x.isEmpty && y.isEmpty }
+      return zip(x, y).map(equals).reduce(true) { $0 && $1 }
       
-    case (let a as (Any, Any), let b as (Any, Any)):
-      return equals(a.0, b.0) && equals(a.1, b.1)
-    
-    case (let a as Int, let b as Int): return a == b
-    case (let a as Double, let b as Double): return a == b
-    case (let a as Bool, let b as Bool): return a == b
-    case (let a as String, let b as String): return a == b
+    case (let x as (Any, Any), let y as (Any, Any)):
+      return equals(x.0, y.0) && equals(x.1, y.1)
+
+    case (let x as Int, let y as Int): return x == y
+    case (let x as Double, let y as Double): return x == y
+    case (let x as Bool, let y as Bool): return x == y
+    case (let x as String, let y as String): return x == y
       
     case (_ as Bool, _): return false
     case (_, _ as Bool): return false
-      
+    
+    case (_ as (Any, Any), _): return false
+    case (_, _ as (Any, Any)): return false
+        
+    case (_ as [String: Any], _): return false
+    case (_, _ as [String: Any]): return false
+        
+    case (_ as [Any], _): return false
+    case (_, _ as [Any]): return false
+        
+    case (_ as Double, _): return false
+    case (_, _ as Double): return false
+        
+    case (_ as Int, _): return false
+    case (_, _ as Int): return false
+        
     case (_ as String, _): return false
     case (_, _ as String): return false
       
-    case (let a as AnyHashable, let b as AnyHashable):
-      return a.hashValue == b.hashValue
-    
-    case (let a, let b):
+//    case (let x as AnyHashable, let y as AnyHashable):
+//      return x.hashValue == y.hashValue
+        
+    case (let x, let y):
       guard
-        let aInterpretedObject = try? interpret(a),
-        let bInterpretedObject = try? interpret(b),
+        let aInterpretedObject = try? interpret(x),
+        let bInterpretedObject = try? interpret(y),
         let aObject = aInterpretedObject as? [String: Any],
         let bObject = bInterpretedObject as? [String: Any]
         else { return false }

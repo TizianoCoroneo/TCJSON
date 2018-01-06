@@ -69,6 +69,9 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                         || key == "dict5"
                         || key == "disappear1"
                         || key == "disappear2"
+                        || key == "same"
+                        || key == "same2"
+                        || key == "same3"
                 }
                 
                 let candidateList = candidates(obj)
@@ -100,7 +103,7 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
             func check(
                 _ cands: Mirror.CandidatesDictionary,
                 _ success: Bool? = nil,
-                _ successDict: [Mirror.Candidate: Bool]? = nil) {
+                _ successPredicate: ((Mirror.Candidate) -> Bool)? = nil) {
                 cands.forEach({ receiverPair in
                     receiverPair.value.forEach { cand in
                         let res = Mirror.candidateHasUniqueReceiver(
@@ -108,9 +111,9 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                             from: cands)
                     
                         let ok: Bool = success
-                            ?? successDict?[cand] ?? true
+                            ?? successPredicate?(cand) ?? true
                         
-                        it("for \(receiverPair.key) returns \(ok)") {
+                        it("for \(cand) returns \(ok)") {
                             if ok {
                                 expect(res).to(beTrue())
                             } else {
@@ -140,42 +143,24 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                 let obj = TestClassWithExtemeCodingKeys()
                 
                 func shouldntConflict(_ key: String) -> Bool {
-                    return key == "boolean3"
-                        || key == "double3"
-                        || key == "int3"
+                    return key == "correct_double3"
+                        || key == "correct_int3"
+                        || key == "correct_array3"
+                        || key == "correct_nilOptional3"
+                        || key == "correct_object3"
+                        || key == "correct_dict3"
+                        || key == "correct_dict4"
+                        || key == "correct_dict5"
+                        || key == "same"
+                        || key == "same2"
+                        || key == "same3"
                         || key == "nilOptional"
                         || key == "nilOptional2"
-                        || key == "nilOptional3"
-                        || key == "array3"
-                        || key == "object3"
-                        || key == "dict3"
-                        || key == "dict4"
-                        || key == "dict5"
-                        || key == "disappear1"
-                        || key == "disappear2"
                 }
                 
                 let candidateList = candidates(obj)
                 
-                func test(_ key: String, _ candidates: [String: [String]], _ success: Bool) {
-                    
-                    let res = Mirror.receiverHasUniqueCandidate(
-                        key,
-                        from: candidates)
-                        || candidates.count == 0
-                    
-                    it("for \(key) returns \(success)") {
-                        if success {
-                            expect(res).to(beTrue())
-                        } else {
-                            expect(res).to(beFalse())
-                        }
-                    }
-                }
-                
-                candidateList.map({
-                    ($0.key, $0.value, shouldntConflict($0.key))
-                }).forEach { test($0.0, candidateList, $0.2) }
+                check(candidateList, nil, shouldntConflict)
             }
         }
     }

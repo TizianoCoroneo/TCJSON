@@ -68,7 +68,8 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                         || key == "dict3"
                         || key == "dict4"
                         || key == "dict5"
-                        || key == "disappear3"
+                        || key == "disappear1"
+                        || key == "disappear2"
                 }
 
                 let candidateList = candidates(obj)

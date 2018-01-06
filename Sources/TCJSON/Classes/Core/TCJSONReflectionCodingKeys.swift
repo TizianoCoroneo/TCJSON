@@ -8,20 +8,166 @@
 import Foundation
 
 extension Mirror {
-  
+    
+    public typealias Receiver = String
+    public typealias Candidate = Receiver
+    public typealias CandidatesDictionary = [Receiver: [Candidate]]
+    public typealias BindingsDictionary = [Receiver: Candidate]
+    
+    static func assignLabel(
+        fromList oldList: CandidatesDictionary,
+        forReceiver receiver: Receiver)
+        -> (assigned: BindingsDictionary, remaining: CandidatesDictionary) {
+            
+            func remove(
+                assigned: BindingsDictionary,
+                fromList list: CandidatesDictionary)
+                -> (assigned: BindingsDictionary, remaining: CandidatesDictionary) {
+                    let remaining = list.filter { !assigned.keys.contains($0.key) }
+                    return (assigned: assigned, remaining: remaining)
+            }
+            
+            let list = oldList.mapValues { cands in
+                cands.filter { candidateHasUniqueBinding($0, from: oldList) }
+            }
+            
+            guard let candidates = list[receiver] else {
+                let remaining = list.filter { $0.key != receiver }
+                return (assigned: [:], remaining)
+            }
+            
+            guard candidates.count != 0 else {
+                return remove(
+                    assigned: [receiver: receiver],
+                    fromList: list)
+            }
+            
+            guard candidates.count != 1 else {
+                return remove(
+                    assigned: [receiver: candidates.first!],
+                    fromList: list)
+            }
+            
+            let allPossibleReceivers = list
+                .filter { $0.value == candidates }
+                .map { $0.key }
+            
+            let result = Dictionary(
+                uniqueKeysWithValues: zip(
+                    allPossibleReceivers,
+                    candidates))
+            
+            return remove(assigned: result, fromList: list)
+    }
+    
+    static func getCandidates(
+        forObject obj: [String: Any],
+        comparingTo systemObj: [String: Any]) throws -> CandidatesDictionary {
+        
+        var result: CandidatesDictionary = obj.mapValues {
+            (_: Any) -> [Candidate] in
+            return [Candidate]()
+        }
+
+        try obj.forEach {
+            result[$0.key] = try candidates(
+                forChild: (label: $0.key, value: $0.value),
+                inSystemInterpreted: systemObj)
+        }
+        
+        return result
+    }
+    
+    static func hasUniqueBinding(
+        _ receiver: Receiver,
+        inList list: CandidatesDictionary) -> Bool {
+        
+        let newList = list.mapValues { cands in
+            cands.filter { candidateHasUniqueBinding($0, from: list) }
+        }
+        
+        return receiverHasUniqueBinding(receiver, from: newList)
+    }
+    
+    public static func codingKeysLabels<T: TCJSONCodable>(
+        inObject object: T) throws -> BindingsDictionary {
+        
+        let tcInterpreted = try interpretObject(object)
+        let systemInterpreted = try systemSerialize(object) as! [String: Any]
+        
+        guard !equals(systemInterpreted, tcInterpreted)
+            else {
+                return Dictionary(
+                    uniqueKeysWithValues: zip(
+                        tcInterpreted.keys,
+                        tcInterpreted.keys))
+        }
+    
+        let keysCandidatesDict = try getCandidates(
+            forObject: tcInterpreted,
+            comparingTo: systemInterpreted)
+
+        let empty: BindingsDictionary = [:]
+        
+        let result: (BindingsDictionary, CandidatesDictionary?) = keysCandidatesDict.keys
+            .reduce((empty, nil), {
+                acc, originalKey in
+                
+                var (bindings, remainingCandidates) = acc
+
+                let assigned = assignLabel(
+                    fromList: remainingCandidates ?? keysCandidatesDict,
+                    forReceiver: originalKey)
+                
+                assigned.assigned.forEach {
+                    bindings[$0.key] = $0.value
+                }
+
+                return (bindings, assigned.remaining)
+            })
+        
+        return result.0
+    }
+    
+    //===========
+    
+    static func receivers(
+        fromList list: CandidatesDictionary,
+        forCandidate candidate: Candidate) -> [Receiver] {
+        return list.flatMap({
+            (receiver: Receiver, receiverCandidatesList: [Candidate]) -> Receiver? in
+            return receiverCandidatesList.contains(candidate) ? receiver : nil
+        })
+    }
+    
+    static func receiverHasUniqueBinding(
+        _ receiver: Receiver,
+        from candidateList: CandidatesDictionary)
+        -> Bool {
+            guard let candidates = candidateList[receiver] else { return false }
+            return candidates.count == 1 //|| candidates.count == 0
+    }
+    
+    static func candidateHasUniqueBinding(
+        _ candidate: Candidate,
+        from candidateList: CandidatesDictionary)
+        -> Bool {
+            let result = receivers(
+                fromList: candidateList,
+                forCandidate: candidate)
+            return result.count == 1 //|| result.count == 0
+    }
+    
     static func candidates(
         forChild child: Mirror.Child,
         inSystemInterpreted dict: [String: Any])
-        throws -> [String] {
+        throws -> [Candidate] {
             guard let label = child.label else { return [] }
             
             if dict.keys.contains(label) { return [label] }
             
-            let sameValueCandidates = try dict.filter {
-                [child] info in
-                let infoLabel = info.key
-                
-                return equals(child.value, info.value)
+            let sameValueCandidates = dict.filter {
+                return equals(child.value, $0.value)
                 }.map { $0.key }
             
             if sameValueCandidates.count != 0 {
@@ -42,130 +188,4 @@ extension Mirror {
             as! [String: Any]
     }
     
-  public static func codingKeysLabels<T: TCJSONCodable>(
-    inObject object: T) throws -> [String: String] {
-    
-    let tcInterpreted = try interpretObject(object)
-    let systemInterpreted = try systemSerialize(object) as! [String: Any]
-    
-    guard !equals(systemInterpreted, tcInterpreted)
-      else {
-        return Dictionary(
-          uniqueKeysWithValues: zip(
-            tcInterpreted.keys,
-            tcInterpreted.keys))
-    }
-    
-    
-    let keysAndCandidatesPairs: [(String, [String])] = try tcInterpreted.flatMap {
-      let values = try candidates(
-        forChild: (label: $0.key, value: $0.value),
-        inSystemInterpreted: systemInterpreted)
-      guard !values.isEmpty else { return nil }
-      return ($0.key, values)
-      }.filter { !$0.1.isEmpty }
-    
-    let keysAndCandidates = Dictionary(uniqueKeysWithValues: keysAndCandidatesPairs)
-    
-    func assignLabel(
-      fromList oldList: [String: [String]],
-      forReceiver receiver: String)
-      -> (assigned: [String: String], remaining: [String: [String]]) {
-        
-        func assigned(
-          _ assigned: [String: String],
-          fromList list: [String: [String]])
-          -> (assigned: [String: String], remaining: [String: [String]]) {
-            let remaining = list.filter { !assigned.keys.contains($0.key) }
-            return (assigned: assigned, remaining: remaining)
-        }
-        
-        let list = oldList.mapValues { cands in
-          cands.filter { candidateHasSingleBinding($0, fromList: oldList) }
-        }
-        
-        guard let candidates = list[receiver] else {
-          let remaining = list.filter { $0.key != receiver }
-          return (assigned: [:], remaining)
-        }
-
-        guard candidates.count != 0 else {
-          return assigned([receiver: receiver], fromList: list)
-        }
-        
-        guard candidates.count != 1 else {
-          return assigned([receiver: candidates.first!], fromList: list)
-        }
-        
-        let allPossibleReceivers = list
-          .filter { $0.value == candidates }
-          .map { $0.key }
-
-        let result = Dictionary(
-          uniqueKeysWithValues: zip(
-            allPossibleReceivers,
-            candidates))
-        
-        return assigned(result, fromList: list)
-    }
-    
-    func receivers(
-      fromList list: [String: [String]],
-      forCandidate cand: String) -> [String] {
-      return list.flatMap({ (key: String, value: [String]) -> String? in
-        return value.contains(cand) ? key : nil
-      })
-    }
-    
-    func receiverHasSingleBinding(
-      _ receiver: String,
-      fromList list: [String: [String]])
-      -> Bool {
-        guard let candidates = list[receiver] else { return false }
-        return candidates.count == 1
-    }
-    
-    func candidateHasSingleBinding(
-      _ candidate: String,
-      fromList list: [String: [String]])
-      -> Bool {
-        let recs = receivers(
-          fromList: list,
-          forCandidate: candidate)
-        
-        return recs.count == 1
-    }
-    
-    func isUniqueBinding(
-      _ receiver: String,
-      inList list: [String: [String]]) -> Bool {
-
-      let newList = list.mapValues { cands in
-        cands.filter { candidateHasSingleBinding($0, fromList: list) }
-      }
-      
-      return receiverHasSingleBinding(receiver, fromList: newList)
-    }
-    
-    let empty: [String: String] = [:]
-    
-    let result: ([String: String], [String: [String]]?) = keysAndCandidates.keys
-      .reduce((empty, nil), {
-        acc, originalKey in
-        
-        let (accResults, accRemaining) = acc
-        
-        let assigned = assignLabel(
-          fromList: accRemaining ?? keysAndCandidates,
-          forReceiver: originalKey)
-        
-        let result = Dictionary(uniqueKeysWithValues: zip(
-          Array(accResults.keys) + Array(assigned.assigned.keys),
-          Array(accResults.values) + Array(assigned.assigned.values)))
-        
-        return (result, assigned.remaining)
-      })
-    
-    return result.0
-  }
 }

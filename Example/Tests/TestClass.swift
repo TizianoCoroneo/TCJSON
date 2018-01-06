@@ -51,7 +51,7 @@ struct TestClassWithCodingKeys: TCJSONCodable, Equatable {
   
   let double: Double = 10.2
   let boolean: Bool = true
-  let boolean2: Bool = true
+  let boolean2: Bool = false
   let optional: String? = "bbb"
   
   let nilOptional: String? = nil

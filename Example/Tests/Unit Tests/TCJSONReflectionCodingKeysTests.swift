@@ -6,15 +6,12 @@
 //  Copyright © 2018 CocoaPods. All rights reserved.
 //
 
-import TCJSON
+@testable import TCJSON
 import Nimble
 import Quick
 
 class TCJSONReflectionCodingKeysSpec: QuickSpec {
     override func spec() {
-        describe("Is Optional") {
-            
-        }
         
         describe("Coding keys check on ") {
             context("a object without keys"){
@@ -33,7 +30,7 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let result = try! Mirror.codingKeysLabels(inObject: obj)
                 
                 it("returns the correct number of pairs") {
-                    expect(result.count).to(equal(11))
+                    expect(result.count).to(equal(12))
                 }
                 
                 zip(TestClassWithCodingKeys.allCodingKeys,

@@ -23,17 +23,17 @@ class ReflectionPerformance: XCTestCase {
     
     func testMeasure_isNil() { measure {
         makeAny(nilObject as Any, .mediumLarge)
-            .forEach { _ = Mirror.isNil($0) }
+            .forEach { _ = TCJSONReflection.isNil($0) }
         }}
     
     func testMeasure_isOptional() { measure {
         makeAny(optionalObject as Any, .mediumLarge)
-            .forEach { _ = Mirror.isOptional($0) }
+            .forEach { _ = TCJSONReflection.isOptional($0) }
         }}
     
     func testMeasure_flattenDoubleOptional() { measure {
         makeAny(doubleOptionalObject as Any, .mediumLarge)
-            .forEach { _ = Mirror.unwrapOptional($0) }
+            .forEach { _ = TCJSONReflection.unwrapOptional($0) }
         }}
     
     func testMeasure_equality() { measure {
@@ -42,17 +42,17 @@ class ReflectionPerformance: XCTestCase {
     
     func testMeasure_interpret() { measure {
         make(object, .mediumSmall)
-            .forEach { _ = try? Mirror.interpret($0) }
+            .forEach { _ = try? TCJSONReflection.interpret($0) }
         }}
     
     func testMeasure_codingKeys() { measure {
         make(objectWithCoding, .small)
-            .forEach { _ = try? Mirror.codingKeysLabels(inObject: $0) }
+            .forEach { _ = try? TCJSONReflection.codingKeysLabels(inObject: $0) }
         }}
     
     func testMeasure_extremeCodingKeys() { measure {
         make(extremeObjectWithCoding, .small)
-            .forEach { _ = try? Mirror.codingKeysLabels(inObject: $0) }
+            .forEach { _ = try? TCJSONReflection.codingKeysLabels(inObject: $0) }
         }}
 }
 
@@ -116,7 +116,7 @@ func createTestContext(_ ownType: ThrowingType) {
 }
 
 func createTestCase(_ ownType: ThrowingType, _ otherType: ThrowingType, shouldBe success: Bool) {
-    let result = Mirror.equals(
+    let result = TCJSONReflection.equals(
         expectedValues[ownType]!,
         expectedValues[otherType]!)
     XCTAssert(result == success)

@@ -14,8 +14,8 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
     override func spec() {
         
         func check(
-            _ f: (String?, String?, Mirror.CandidatesDictionary) -> Bool,
-            _ cands: Mirror.CandidatesDictionary,
+            _ f: (String?, String?, TCJSONReflection.CandidatesDictionary) -> Bool,
+            _ cands: TCJSONReflection.CandidatesDictionary,
             _ success: Bool? = nil,
             _ successPredicate: ((String, String) -> Bool)? = nil) {
             
@@ -39,17 +39,17 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
             })
         }
         
-        func candidates<T: Encodable>(_ xs: T) -> Mirror.CandidatesDictionary {
-            return try! Mirror.getCandidates(
-                forObject: try! Mirror.interpret(xs) as! [String : Any],
-                comparingTo: try! Mirror.systemSerialize(xs) as! [String : Any])
+        func candidates<T: Encodable>(_ xs: T) -> TCJSONReflection.CandidatesDictionary {
+            return TCJSONReflection.getCandidates(
+                forObject: try! TCJSONReflection.interpret(xs) as! [String : Any],
+                comparingTo: try! TCJSONReflection.systemSerialize(xs) as! [String : Any])
         }
         
         describe("receiverHasUniqueCandidate") {
-            let function: (String?, String?, Mirror.CandidatesDictionary) -> Bool = {
+            let function: (String?, String?, TCJSONReflection.CandidatesDictionary) -> Bool = {
                 rec, _, ls in
                 guard let rec = rec else { return false }
-                return Mirror.receiverHasUniqueCandidate(rec, from: ls)
+                return TCJSONReflection.receiverHasUniqueCandidate(rec, from: ls)
             }
             
             context("with object with no coding keys") {
@@ -97,10 +97,10 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
         }
         
         describe("candidateHasUniqueReceiver") {
-            let function: (String?, String?, Mirror.CandidatesDictionary) -> Bool = {
+            let function: (String?, String?, TCJSONReflection.CandidatesDictionary) -> Bool = {
                 rec, cand, ls in
                 guard let cand = cand else { return false }
-                return Mirror.candidateHasUniqueReceiver(
+                return TCJSONReflection.candidateHasUniqueReceiver(
                     cand,
                     from: ls)
             }
@@ -150,13 +150,13 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
         describe("isUniqueBinding") {
             
             func check(
-                _ cands: Mirror.CandidatesDictionary,
+                _ cands: TCJSONReflection.CandidatesDictionary,
                 _ success: Bool? = nil,
                 _ successPredicate: ((String) -> Bool)? = nil) {
                 cands.forEach({ receiverPair in
                     let rec = receiverPair.key
                     receiverPair.value.forEach { cand in
-                        let res = Mirror.isUniqueBinding(
+                        let res = TCJSONReflection.isUniqueBinding(
                             rec, cand, inList: cands)
                         
                         let ok: Bool = success

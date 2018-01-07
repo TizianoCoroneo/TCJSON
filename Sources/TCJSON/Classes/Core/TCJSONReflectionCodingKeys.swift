@@ -7,13 +7,19 @@
 
 import Foundation
 
-extension Mirror {
+extension TCJSONReflection {
     
     public typealias Receiver = String
     public typealias Candidate = Receiver
     public typealias CandidatesDictionary = [Receiver: [Candidate]]
     public typealias BindingsDictionary = [Receiver: Candidate]
     
+    /// Assigns a new candidate name to a receiver by reading from the sourceList.
+    ///
+    /// - Parameters:
+    ///   - oldList: The source list
+    ///   - receiver: The receiver to apply the candidate name to.
+    /// - Returns: A tuple where the first element is a binding dictionary like `["oldName": "newName"]`; and the second value is the `oldList` minus the newly assigned label.
     static func assignLabel(
         fromList oldList: CandidatesDictionary,
         forReceiver receiver: Receiver)
@@ -62,17 +68,23 @@ extension Mirror {
             return remove(assigned: result, fromList: oldList)
     }
     
+    /// Returns the receiver:candidates dictionary by comparing two different dictionaries.
+    ///
+    /// - Parameters:
+    ///   - obj: The object as interpreted by tcjson.
+    ///   - systemObj: The object as interpreted by the system.
+    /// - Returns: The candidates dictionary.
     static func getCandidates(
         forObject obj: [String: Any],
-        comparingTo systemObj: [String: Any]) throws -> CandidatesDictionary {
+        comparingTo systemObj: [String: Any]) -> CandidatesDictionary {
         
         var result: CandidatesDictionary = obj.mapValues {
             (_: Any) -> [Candidate] in
             return [Candidate]()
         }
         
-        try obj.forEach {
-            result[$0.key] = try candidates(
+        obj.forEach {
+            result[$0.key] = candidates(
                 forChild: (label: $0.key, value: $0.value),
                 inSystemInterpreted: systemObj)
         }
@@ -94,7 +106,7 @@ extension Mirror {
                         tcInterpreted.keys))
         }
         
-        let keysCandidatesDict: [String: [String]] = try getCandidates(
+        let keysCandidatesDict: [String: [String]] = getCandidates(
             forObject: tcInterpreted,
             comparingTo: systemInterpreted)
         
@@ -120,6 +132,13 @@ extension Mirror {
         return result.0
     }
     
+    /// Checks if the binding between a receiver and a candidate is unique.
+    ///
+    /// - Parameters:
+    ///   - receiver: The receiver that will get the candidate name.
+    ///   - candidate: The candidate name for the receiver.
+    ///   - list: The source list.
+    /// - Returns: True if the binding is unique.
     static func isUniqueBinding(
         _ receiver: Receiver,
         _ candidate: Candidate,
@@ -129,15 +148,12 @@ extension Mirror {
             && candidateHasUniqueReceiver(candidate, from: list)
     }
     
-    static func receivers(
-        fromList list: CandidatesDictionary,
-        forCandidate candidate: Candidate) -> [Receiver] {
-        return list.flatMap({
-            (receiver: Receiver, receiverCandidatesList: [Candidate]) -> Receiver? in
-            return receiverCandidatesList.contains(candidate) ? receiver : nil
-        })
-    }
-    
+    /// Checks if the provided receiver has only one possible candidate.
+    ///
+    /// - Parameters:
+    ///   - receiver: The receiver to check.
+    ///   - candidateList: The source list.
+    /// - Returns: true if the receiver has a unique candidate.
     static func receiverHasUniqueCandidate(
         _ receiver: Receiver,
         from candidateList: CandidatesDictionary)
@@ -146,6 +162,12 @@ extension Mirror {
             return candidates.count == 1
     }
     
+    /// Checks if the provided candidate has only one possible receiver.
+    ///
+    /// - Parameters:
+    ///   - candidate: The candidate to check
+    ///   - candidateList: The source list.
+    /// - Returns: true if the candidate has a unique receiver.
     static func candidateHasUniqueReceiver(
         _ candidate: Candidate,
         from candidateList: CandidatesDictionary)
@@ -156,10 +178,31 @@ extension Mirror {
             return result.count == 1
     }
     
+    /// All the possible receivers for the given candidate.
+    ///
+    /// - Parameters:
+    ///   - list: The source list.
+    ///   - candidate: The candidate to check
+    /// - Returns: All the possible receivers.
+    static func receivers(
+        fromList list: CandidatesDictionary,
+        forCandidate candidate: Candidate) -> [Receiver] {
+        return list.flatMap({
+            (receiver: Receiver, receiverCandidatesList: [Candidate]) -> Receiver? in
+            return receiverCandidatesList.contains(candidate) ? receiver : nil
+        })
+    }
+    
+    /// Finds all the candidates for a receiver in a system interpreted object.
+    ///
+    /// - Parameters:
+    ///   - child: Mirror child with to which assign the new codingkey.
+    ///   - dict: The system interpreted dictionary.
+    /// - Returns: All the found candidates
     static func candidates(
         forChild child: Mirror.Child,
         inSystemInterpreted dict: [String: Any])
-        throws -> [Candidate]? {
+        -> [Candidate]? {
             guard let label = child.label else { return [] }
             
             if dict.keys.contains(label) { return [label] }
@@ -174,9 +217,14 @@ extension Mirror {
             
             // A nil optional that wasn't decoded from the json
             // or a field excluded by CodingKey
-            return Mirror.isNil(child.value) ? nil : []
+            return isNil(child.value) ? nil : []
     }
     
+    /// Use the system serializer to create a JSON Any instance.
+    ///
+    /// - Parameter value: the encodable object to use.
+    /// - Returns: the object encoded as dictionary, as Any.
+    /// - Throws: Rethrows from the JSONEncoder.encode method.
     public static func systemSerialize<T: Encodable>(
         _ value: T) throws -> Any {
         let encoded: Data = try JSONEncoder()

@@ -18,7 +18,7 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let withoutKeys = TestClass.init()
                 
                 it("doesn't change") {
-                    let keys = try! Mirror.codingKeysLabels(inObject: withoutKeys)
+                    let keys = try! TCJSONReflection.codingKeysLabels(inObject: withoutKeys)
                     let equalValues = keys.map { $0.key == $0.value }.reduce(true) { $0 && $1 }
                     let equalCount = keys.count == 9
                     expect(equalValues && equalCount).to(beTrue())
@@ -27,7 +27,7 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
             
             context("a simple object") {
                 let obj = TestClassWithCodingKeys.init()
-                let result = try! Mirror.codingKeysLabels(inObject: obj)
+                let result = try! TCJSONReflection.codingKeysLabels(inObject: obj)
                 
                 it("returns the correct number of pairs") {
                     expect(result.count).to(equal(11))
@@ -47,7 +47,7 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 
                 let extremeObj = TestClassWithExtemeCodingKeys.init()
                 
-                let extremeResult = try! Mirror.codingKeysLabels(inObject: extremeObj)
+                let extremeResult = try! TCJSONReflection.codingKeysLabels(inObject: extremeObj)
                 
                 TestClassWithExtemeCodingKeys.allCodingKeys.map {
                     return ($0, !(

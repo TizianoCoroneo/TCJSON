@@ -45,7 +45,7 @@ public struct TCJSON<Content: Codable>: Codable {
     /// - Returns: A valid JSON object.
     /// - Throws: Rethrows from reflection errors.
     public func dictionary() throws -> [String: Any] {
-        return try Mirror.interpretObject(try self.content())
+        return try TCJSONReflection.interpretObject(try self.content())
     }
     
     /// Initialize from a model object that conforms to Codable.

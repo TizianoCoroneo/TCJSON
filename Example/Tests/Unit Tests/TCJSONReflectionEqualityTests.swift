@@ -6,7 +6,7 @@
 //  Copyright © 2018 CocoaPods. All rights reserved.
 //
 
-import TCJSON
+@testable import TCJSON
 import Nimble
 import Quick
 
@@ -96,7 +96,7 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
             
             func createTestCase(_ ownType: ThrowingType, _ otherType: ThrowingType, shouldBe success: Bool) {
                 it("should be \(success) with a \(otherType.rawValue)") {
-                    let result = Mirror.equals(
+                    let result = TCJSONReflection.equals(
                         expectedValues[ownType]!,
                         expectedValues[otherType]!)
                     expect(result).to(equal(success))
@@ -111,49 +111,49 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
                 it("should be true with same value") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some("SSS" as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beTrue())
                 }
                 
                 it("should be true with same value reversed") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some("SSS" as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beTrue())
                 }
                 
                 it("should be false with different value") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some("aaa" as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beFalse())
                 }
                 
                 it("should be false with a object") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some("aaa" as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beFalse())
                 }
                 
                 it("should be false with different value reversed") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some("aaa" as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beFalse())
                 }
                 
                 it("should be true with same value in double optional") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some(Optional.some("SSS" as Any) as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beTrue())
                 }
                 
                 it("should be false with same value in double optional") {
                     let string: Any = "SSS"
                     let optString: Any = Optional.some(Optional.some("aaa" as Any) as Any) as Any
-                    let result = Mirror.equals(string, optString)
+                    let result = TCJSONReflection.equals(string, optString)
                     expect(result).to(beFalse())
                 }
             }

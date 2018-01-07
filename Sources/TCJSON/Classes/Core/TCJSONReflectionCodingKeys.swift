@@ -27,28 +27,39 @@ extension Mirror {
                     return (assigned: assigned, remaining: remaining)
             }
             
-            let list = oldList.mapValues { cands in
-                cands.filter { candidateHasUniqueReceiver($0, from: oldList) }
+            if receiverHasUniqueCandidate(receiver, from: oldList) {
+                return remove(
+                    assigned: [receiver: oldList[receiver]!.first!],
+                    fromList: oldList)
             }
             
-            guard let candidates = list[receiver] else {
-                let remaining = list.filter { $0.key != receiver }
+//            let uniqueRecCandidatesList = oldList.mapValues { cands in
+//                cands.filter { candidateHasUniqueReceiver($0, from: oldList) }
+//            }
+//
+//            if let uniqueRecCandidates = uniqueRecCandidatesList[receiver] {
+//                let remaining = uniqueRecCandidatesList.filter { $0.key != receiver }
+//                return (assigned: [:], remaining)
+//            }
+
+            guard let candidates = oldList[receiver] else {
+                let remaining = oldList.filter { $0.key != receiver }
                 return (assigned: [:], remaining)
             }
             
             guard candidates.count != 0 else {
                 return remove(
                     assigned: [receiver: receiver],
-                    fromList: list)
+                    fromList: oldList)
             }
             
             guard candidates.count != 1 else {
                 return remove(
                     assigned: [receiver: candidates.first!],
-                    fromList: list)
+                    fromList: oldList)
             }
             
-            let allPossibleReceivers = list
+            let allPossibleReceivers = oldList
                 .filter { $0.value == candidates }
                 .map { $0.key }
             
@@ -57,7 +68,7 @@ extension Mirror {
                     allPossibleReceivers,
                     candidates))
             
-            return remove(assigned: result, fromList: list)
+            return remove(assigned: result, fromList: oldList)
     }
     
     static func getCandidates(
@@ -76,15 +87,6 @@ extension Mirror {
         }
         
         return result
-    }
-    
-    static func isUniqueBinding(
-        _ receiver: Receiver,
-        _ candidate: Candidate,
-        inList list: CandidatesDictionary) -> Bool {
-        
-        return receiverHasUniqueCandidate(receiver, from: list)
-        && candidateHasUniqueReceiver(candidate, from: list)
     }
     
     public static func codingKeysLabels<T: TCJSONCodable>(
@@ -128,6 +130,15 @@ extension Mirror {
     }
     
     //===========
+    
+    static func isUniqueBinding(
+        _ receiver: Receiver,
+        _ candidate: Candidate,
+        inList list: CandidatesDictionary) -> Bool {
+        
+        return receiverHasUniqueCandidate(receiver, from: list)
+            && candidateHasUniqueReceiver(candidate, from: list)
+    }
     
     static func receivers(
         fromList list: CandidatesDictionary,

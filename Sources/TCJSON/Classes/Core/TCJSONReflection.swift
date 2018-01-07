@@ -166,9 +166,6 @@ extension Mirror {
     case (_ as String, _): return false
     case (_, _ as String): return false
       
-//    case (let x as AnyHashable, let y as AnyHashable):
-//      return x.hashValue == y.hashValue
-        
     case (let x, let y):
       guard
         let aInterpretedObject = try? interpret(x),

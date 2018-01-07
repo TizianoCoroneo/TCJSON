@@ -9,34 +9,55 @@
 import XCTest
 
 class CorePerformance: XCTestCase {
-  
-  let object = TestClass()
-  let optionalObject = Optional.some(TestClass())
-  let doubleOptionalObject = Optional.some(TestClass())
-  let objectWithCoding = TestClassWithCodingKeys()
-  let nilObject: TestClass? = nil
-
-  override func setUp() { super.setUp() }
-  override func tearDown() { super.tearDown() }
-  
-  func testPerformance_toData() { measure {
-    try! make(object, .mediumSmall)
-      .forEach { _ = try $0.json.data() }
-    }}
-  
-  func testPerformance_toDictionary() { measure {
-    try! make(object, .mediumSmall)
-      .forEach { _ = try $0.json.dictionary() }
-    }}
-  
-  func testPerformance_fromJSONString() { measure {
-    try! make(0, .mediumSmall).forEach { _ in
-      _ = try TestClass(fromJSONString: TCJSONSpec.exampleJSONString)
-    }}}
-  
-  func testPerformance_fromDictionary() { measure {
-    try! make(0, .mediumSmall).forEach { _ in
-      _ = try TestClass(fromDictionary: TCJSONSpec.exampleDictionary)
-    }}}
-  
+    
+    let object = TestClass()
+    let optionalObject = Optional.some(TestClass())
+    let doubleOptionalObject = Optional.some(TestClass())
+    let objectWithCoding = TestClassWithCodingKeys()
+    let objectWithExtremeCoding = TestClassWithCodingKeys()
+    let nilObject: TestClass? = nil
+    
+    override func setUp() { super.setUp() }
+    override func tearDown() { super.tearDown() }
+    
+    func testPerformance_toData() { measure {
+        try! make(object, .mediumSmall)
+            .forEach { _ = try $0.json.data() }
+        }}
+    
+    func testPerformance_toDictionary() { measure {
+        try! make(object, .mediumSmall)
+            .forEach { _ = try $0.json.dictionary() }
+        }}
+    
+    func testPerformance_toDataWithCoding() { measure {
+        try! make(objectWithCoding, .mediumSmall)
+            .forEach { _ = try $0.json.data() }
+        }}
+    
+    func testPerformance_toDictionaryWithCoding() { measure {
+        try! make(objectWithCoding, .mediumSmall)
+            .forEach { _ = try $0.json.dictionary() }
+        }}
+    
+    func testPerformance_toDataWithExtremeCoding() { measure {
+        try! make(objectWithExtremeCoding, .mediumSmall)
+            .forEach { _ = try $0.json.data() }
+        }}
+    
+    func testPerformance_toDictionaryWithExtremeCoding() { measure {
+        try! make(objectWithExtremeCoding, .mediumSmall)
+            .forEach { _ = try $0.json.dictionary() }
+        }}
+    
+    func testPerformance_fromJSONString() { measure {
+        try! make(0, .mediumSmall).forEach { _ in
+            _ = try TestClass(fromJSONString: TCJSONSpec.exampleJSONString)
+        }}}
+    
+    func testPerformance_fromDictionary() { measure {
+        try! make(0, .mediumSmall).forEach { _ in
+            _ = try TestClass(fromDictionary: TCJSONSpec.exampleDictionary)
+        }}}
+    
 }

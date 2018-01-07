@@ -51,7 +51,7 @@ public extension TCJSONCodable {
     public init(fromData data: Data) throws {
         self = try TCJSON(data).content()
     }
-
+    
     /// Initialize a `TCJSON` object from a `String` and initialize `self` with it.
     ///
     /// - Parameter data: The JSON formatted `String`.

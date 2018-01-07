@@ -52,7 +52,7 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
             
             let compatibilityTable: [(ThrowingType, ThrowingType)] = [
                 (.nilOptional, .nilOptionalObject),
-            ]
+                ]
             
             let expectedValues: [ThrowingType: Any] = [
                 .string: "aaa",
@@ -97,8 +97,8 @@ class TCJSONReflectionEqualitySpec: QuickSpec {
             func createTestCase(_ ownType: ThrowingType, _ otherType: ThrowingType, shouldBe success: Bool) {
                 it("should be \(success) with a \(otherType.rawValue)") {
                     let result = Mirror.equals(
-                      expectedValues[ownType]!,
-                      expectedValues[otherType]!)
+                        expectedValues[ownType]!,
+                        expectedValues[otherType]!)
                     expect(result).to(equal(success))
                 }
             }

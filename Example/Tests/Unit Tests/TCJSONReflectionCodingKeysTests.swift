@@ -20,7 +20,7 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 it("doesn't change") {
                     let keys = try! Mirror.codingKeysLabels(inObject: withoutKeys)
                     let equalValues = keys.map { $0.key == $0.value }.reduce(true) { $0 && $1 }
-                    let equalCount = keys.count == 10
+                    let equalCount = keys.count == 9
                     expect(equalValues && equalCount).to(beTrue())
                 }
             }
@@ -30,13 +30,11 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let result = try! Mirror.codingKeysLabels(inObject: obj)
                 
                 it("returns the correct number of pairs") {
-                    expect(result.count).to(equal(12))
+                    expect(result.count).to(equal(11))
                 }
                 
                 zip(TestClassWithCodingKeys.allCodingKeys,
-                    Array.init(
-                        repeating: true,
-                        count: TestClassWithCodingKeys.allCodingKeys.count))
+                    TestClassWithCodingKeys.allCodingKeys.map { $0.rawValue != "nilOptional" })
                     .forEach {
                         createTestCase(
                             with: $0.0,
@@ -52,8 +50,10 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let extremeResult = try! Mirror.codingKeysLabels(inObject: extremeObj)
                 
                 TestClassWithExtemeCodingKeys.allCodingKeys.map {
-                    print("rawValue = \($0.rawValue)\t\t\tstringValue = \($0.stringValue)")
-                    return ($0, !$0.rawValue.contains("disappear"))
+                    return ($0, !(
+                        $0.rawValue.contains("disappear")
+                            || $0.rawValue == "correct_nilOptional"
+                            || $0.rawValue == "correct_nilOptional2"))
                     }.forEach { (info: (TestClassWithExtemeCodingKeys.CodingKeys, Bool)) in
                         createTestCase(
                             with: info.0,

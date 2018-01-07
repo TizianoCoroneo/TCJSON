@@ -14,10 +14,10 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
     override func spec() {
         
         func check(
-            _ f: (Mirror.Receiver?, Mirror.Candidate?, Mirror.CandidatesDictionary) -> Bool,
+            _ f: (String?, String?, Mirror.CandidatesDictionary) -> Bool,
             _ cands: Mirror.CandidatesDictionary,
             _ success: Bool? = nil,
-            _ successPredicate: ((Mirror.Receiver, Mirror.Candidate) -> Bool)? = nil) {
+            _ successPredicate: ((String, String) -> Bool)? = nil) {
             
             cands.forEach({ receiverPair in
                 let rec = receiverPair.key
@@ -46,7 +46,7 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
         }
         
         describe("receiverHasUniqueCandidate") {
-            let function: (Mirror.Receiver?, Mirror.Candidate?, Mirror.CandidatesDictionary) -> Bool = {
+            let function: (String?, String?, Mirror.CandidatesDictionary) -> Bool = {
                 rec, _, ls in
                 guard let rec = rec else { return false }
                 return Mirror.receiverHasUniqueCandidate(rec, from: ls)
@@ -97,7 +97,7 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
         }
         
         describe("candidateHasUniqueReceiver") {
-            let function: (Mirror.Receiver?, Mirror.Candidate?, Mirror.CandidatesDictionary) -> Bool = {
+            let function: (String?, String?, Mirror.CandidatesDictionary) -> Bool = {
                 rec, cand, ls in
                 guard let cand = cand else { return false }
                 return Mirror.candidateHasUniqueReceiver(
@@ -152,7 +152,7 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
             func check(
                 _ cands: Mirror.CandidatesDictionary,
                 _ success: Bool? = nil,
-                _ successPredicate: ((Mirror.Candidate) -> Bool)? = nil) {
+                _ successPredicate: ((String) -> Bool)? = nil) {
                 cands.forEach({ receiverPair in
                     let rec = receiverPair.key
                     receiverPair.value.forEach { cand in

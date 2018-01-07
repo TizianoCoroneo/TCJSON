@@ -5,7 +5,7 @@ import Nimble
 import TCJSON
 
 class TCJSONSpec: QuickSpec {
-  static let exampleJSONString = """
+    static let exampleJSONString = """
 {
 "string": "ccc",
 "int": 11,
@@ -18,44 +18,44 @@ class TCJSONSpec: QuickSpec {
 "dict": { "1": 1 }
 }
 """
-  
-  static let expectedFromJSONString: TestClass = TestClass(
-    string: "ccc",
-    int: 11,
-    double: 11.2,
-    boolean: false,
-    optional: "ddd",
-    nilOptional: nil,
-    array: ["ccc", "ddd"],
-    object: TestClass.Object.init(name: "eee"),
-    dict: ["1": 1])
-  
-  static let exampleDictionary: [String: Any?] = [
-    "string": "ccc",
-    "int": 11,
-    "double": 11.2,
-    "boolean": false,
-    "optional": "ddd",
-    "nilOptional": nil,
-    "array": ["ccc", "ddd"],
-    "object": ["name": "eee"],
-    "dict": ["1": 1]
-  ]
-  
-  static let expectedFromDictionary: TestClass = TestClass(
-    string: "ccc",
-    int: 11,
-    double: 11.2,
-    boolean: false,
-    optional: "ddd",
-    nilOptional: nil,
-    array: ["ccc", "ddd"],
-    object: TestClass.Object(name: "eee"),
-    dict: ["1": 1])
-  
-  
+    
+    static let expectedFromJSONString: TestClass = TestClass(
+        string: "ccc",
+        int: 11,
+        double: 11.2,
+        boolean: false,
+        optional: "ddd",
+        nilOptional: nil,
+        array: ["ccc", "ddd"],
+        object: TestClass.Object.init(name: "eee"),
+        dict: ["1": 1])
+    
+    static let exampleDictionary: [String: Any?] = [
+        "string": "ccc",
+        "int": 11,
+        "double": 11.2,
+        "boolean": false,
+        "optional": "ddd",
+        "nilOptional": nil,
+        "array": ["ccc", "ddd"],
+        "object": ["name": "eee"],
+        "dict": ["1": 1]
+    ]
+    
+    static let expectedFromDictionary: TestClass = TestClass(
+        string: "ccc",
+        int: 11,
+        double: 11.2,
+        boolean: false,
+        optional: "ddd",
+        nilOptional: nil,
+        array: ["ccc", "ddd"],
+        object: TestClass.Object(name: "eee"),
+        dict: ["1": 1])
+    
+    
     override func spec() {
-      
+        
         describe("TCJSONCodable") {
             context("when provided with content") {
                 var instance: TestClass! = nil
@@ -77,8 +77,8 @@ class TCJSONSpec: QuickSpec {
                     let data = try! instance.json.data()
                     expect {
                         return try TestClass
-                        .init(fromData: data)
-                    }.notTo(throwError())
+                            .init(fromData: data)
+                        }.notTo(throwError())
                 }
                 
                 it("can retrieve a dictionary") {
@@ -94,7 +94,7 @@ class TCJSONSpec: QuickSpec {
                             array: dict["array"] as! [String],
                             object: try! TestClass.Object(fromJSON: dict["object"]!),
                             dict: ["1": 1])
-                    }.to(equal(instance))
+                        }.to(equal(instance))
                 }
             }
             
@@ -128,7 +128,7 @@ class TCJSONSpec: QuickSpec {
             context("when provided with a JSON formatted string") {
                 it("can parse it into an object") {
                     expect { try TestClass(fromJSONString: TCJSONSpec.exampleJSONString) }
-                    .notTo(throwError())
+                        .notTo(throwError())
                 }
                 
                 it("can retrieve the correct values") {
@@ -161,7 +161,7 @@ class TCJSONSpec: QuickSpec {
                     expect(dict).to(equal(TCJSONSpec.expectedFromDictionary))
                 }
             }
-
+            
             context("should throw an error") {
                 
                 let wrongData: Data = {
@@ -194,7 +194,7 @@ class TCJSONSpec: QuickSpec {
                         .to(throwError())
                 }
             }
-
+            
             
             context("when provided with closures") {
                 var instance: TestClass! = nil

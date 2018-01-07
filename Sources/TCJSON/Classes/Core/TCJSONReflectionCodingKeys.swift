@@ -33,15 +33,6 @@ extension Mirror {
                     fromList: oldList)
             }
             
-//            let uniqueRecCandidatesList = oldList.mapValues { cands in
-//                cands.filter { candidateHasUniqueReceiver($0, from: oldList) }
-//            }
-//
-//            if let uniqueRecCandidates = uniqueRecCandidatesList[receiver] {
-//                let remaining = uniqueRecCandidatesList.filter { $0.key != receiver }
-//                return (assigned: [:], remaining)
-//            }
-
             guard let candidates = oldList[receiver] else {
                 let remaining = oldList.filter { $0.key != receiver }
                 return (assigned: [:], remaining)
@@ -79,7 +70,7 @@ extension Mirror {
             (_: Any) -> [Candidate] in
             return [Candidate]()
         }
-
+        
         try obj.forEach {
             result[$0.key] = try candidates(
                 forChild: (label: $0.key, value: $0.value),
@@ -102,11 +93,11 @@ extension Mirror {
                         tcInterpreted.keys,
                         tcInterpreted.keys))
         }
-    
-        let keysCandidatesDict = try getCandidates(
+        
+        let keysCandidatesDict: [String: [String]] = try getCandidates(
             forObject: tcInterpreted,
             comparingTo: systemInterpreted)
-
+        
         let empty: BindingsDictionary = [:]
         
         let result: (BindingsDictionary, CandidatesDictionary?) = keysCandidatesDict.keys
@@ -114,7 +105,7 @@ extension Mirror {
                 acc, originalKey in
                 
                 var (bindings, remainingCandidates) = acc
-
+                
                 let assigned = assignLabel(
                     fromList: remainingCandidates ?? keysCandidatesDict,
                     forReceiver: originalKey)
@@ -122,14 +113,12 @@ extension Mirror {
                 assigned.assigned.forEach {
                     bindings[$0.key] = $0.value
                 }
-
+                
                 return (bindings, assigned.remaining)
             })
         
         return result.0
     }
-    
-    //===========
     
     static func isUniqueBinding(
         _ receiver: Receiver,
@@ -170,7 +159,7 @@ extension Mirror {
     static func candidates(
         forChild child: Mirror.Child,
         inSystemInterpreted dict: [String: Any])
-        throws -> [Candidate] {
+        throws -> [Candidate]? {
             guard let label = child.label else { return [] }
             
             if dict.keys.contains(label) { return [label] }
@@ -185,7 +174,7 @@ extension Mirror {
             
             // A nil optional that wasn't decoded from the json
             // or a field excluded by CodingKey
-            return Mirror.isNil(child.value) ? [label] : []
+            return Mirror.isNil(child.value) ? nil : []
     }
     
     public static func systemSerialize<T: Encodable>(
@@ -196,5 +185,4 @@ extension Mirror {
             .jsonObject(with: encoded)
             as! [String: Any]
     }
-    
 }

@@ -41,10 +41,10 @@ extension AuthRequest: TCJSONMoya {
 extension AuthResponse: Equatable {
     static func ==(_ a: AuthResponse, _ b: AuthResponse) -> Bool {
         return a.accessToken == b.accessToken
-        && a.expiresIn == b.expiresIn
-        && a.tokenType == b.tokenType
-        && a.scope == b.scope
-        && a.refreshToken == b.refreshToken
+            && a.expiresIn == b.expiresIn
+            && a.tokenType == b.tokenType
+            && a.scope == b.scope
+            && a.refreshToken == b.refreshToken
     }
 }
 
@@ -102,7 +102,7 @@ class MoyaSpec: QuickSpec {
                     expect(response).toEventually(equal(expected))
                 }
             }
-
+            
         }
     }
 }

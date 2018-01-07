@@ -13,6 +13,32 @@ import Quick
 class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
     override func spec() {
         
+        func check(
+            _ f: (Mirror.Receiver?, Mirror.Candidate?, Mirror.CandidatesDictionary) -> Bool,
+            _ cands: Mirror.CandidatesDictionary,
+            _ success: Bool? = nil,
+            _ successPredicate: ((Mirror.Receiver, Mirror.Candidate) -> Bool)? = nil) {
+            
+            cands.forEach({ receiverPair in
+                let rec = receiverPair.key
+                receiverPair.value.forEach { cand in
+                    
+                    let res = f(rec, cand, cands)
+                    
+                    let ok: Bool = success
+                        ?? successPredicate?(rec, cand) ?? false
+                    
+                    it("for \(rec), \(cand) returns \(ok)") {
+                        if ok {
+                            expect(res).to(beTrue())
+                        } else {
+                            expect(res).to(beFalse())
+                        }
+                    }
+                }
+            })
+        }
+        
         func candidates<T: Encodable>(_ xs: T) -> Mirror.CandidatesDictionary {
             return try! Mirror.getCandidates(
                 forObject: try! Mirror.interpret(xs) as! [String : Any],
@@ -20,96 +46,119 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
         }
         
         describe("receiverHasUniqueCandidate") {
+            let function: (Mirror.Receiver?, Mirror.Candidate?, Mirror.CandidatesDictionary) -> Bool = {
+                rec, _, ls in
+                guard let rec = rec else { return false }
+                return Mirror.receiverHasUniqueCandidate(rec, from: ls)
+            }
             
             context("with object with no coding keys") {
                 let obj = TestClass()
+                let candidateList = candidates(obj)
                 
-                it("should return true") {
-                    let candidateList = candidates(obj)
-                    
-                    candidateList.forEach({
-                        let res = Mirror.receiverHasUniqueCandidate(
-                            $0.key,
-                            from: candidateList) || candidateList[$0.key]!.count == 0
-                        expect(res).to(beTrue())
-                    })
-                }
+                check(function, candidateList, true)
             }
+            
             
             context("with object with no key conflicts") {
                 let obj = TestClassWithCodingKeys()
+                let candidateList = candidates(obj)
                 
-                it("should return true") {
-                    let candidateList = candidates(obj)
-                    
-                    candidateList.forEach({
-                        let res = Mirror.receiverHasUniqueCandidate(
-                            $0.key,
-                            from: candidateList) || candidateList[$0.key]!.count == 0
-                        
-                        expect(res).to(beTrue())
-                    })
-                }
+                check(function, candidateList, true)
             }
             
             context("with object with key conflicts") {
                 let obj = TestClassWithExtemeCodingKeys()
                 
-                func shouldntConflict(_ key: String) -> Bool {
-                    return key == "boolean3"
-                        || key == "double3"
-                        || key == "int3"
-                        || key == "nilOptional"
-                        || key == "nilOptional2"
-                        || key == "nilOptional3"
-                        || key == "array3"
-                        || key == "object3"
-                        || key == "dict3"
-                        || key == "dict4"
-                        || key == "dict5"
-                        || key == "disappear1"
-                        || key == "disappear2"
-                        || key == "same"
-                        || key == "same2"
-                        || key == "same3"
+                func shouldntConflict(
+                    _ rec: String,
+                    _ cand: String) -> Bool {
+                    return rec == "boolean3"
+                        || rec == "double3"
+                        || rec == "int3"
+                        || rec == "nilOptional"
+                        || rec == "nilOptional2"
+                        || rec == "nilOptional3"
+                        || rec == "array3"
+                        || rec == "object3"
+                        || rec == "dict3"
+                        || rec == "dict4"
+                        || rec == "dict5"
+                        || rec == "disappear1"
+                        || rec == "disappear2"
+                        || rec == "same"
+                        || rec == "same2"
+                        || rec == "same3"
                 }
                 
                 let candidateList = candidates(obj)
-                
-                func test(_ key: String, _ candidates: [String: [String]], _ success: Bool) {
-                    
-                    let res = Mirror.receiverHasUniqueCandidate(
-                        key,
-                        from: candidates)
-                        || candidates.count == 0
-                    
-                    it("for \(key) returns \(success)") {
-                        if success {
-                            expect(res).to(beTrue())
-                        } else {
-                            expect(res).to(beFalse())
-                        }
-                    }
-                }
-                
-                candidateList.map({
-                    ($0.key, $0.value, shouldntConflict($0.key))
-                }).forEach { test($0.0, candidateList, $0.2) }
+                check(function, candidateList, nil, shouldntConflict)
             }
         }
         
         describe("candidateHasUniqueReceiver") {
+            let function: (Mirror.Receiver?, Mirror.Candidate?, Mirror.CandidatesDictionary) -> Bool = {
+                rec, cand, ls in
+                guard let cand = cand else { return false }
+                return Mirror.candidateHasUniqueReceiver(
+                    cand,
+                    from: ls)
+            }
+            
+            context("with object with no coding keys") {
+                let obj = TestClass()
+                let candidateList = candidates(obj)
+                
+                check(function, candidateList, true)
+            }
+            
+            
+            context("with object with no key conflicts") {
+                let obj = TestClassWithCodingKeys()
+                let candidateList = candidates(obj)
+                
+                check(function, candidateList, true)
+            }
+            
+            context("with object with key conflicts") {
+                let obj = TestClassWithExtemeCodingKeys()
+                
+                func shouldntConflict(
+                    _ rec: String,
+                    _ cand: String) -> Bool {
+                    return cand == "correct_double3"
+                        || cand == "correct_int3"
+                        || cand == "correct_array3"
+                        || cand == "correct_nilOptional3"
+                        || cand == "correct_object3"
+                        || cand == "correct_dict3"
+                        || cand == "correct_dict4"
+                        || cand == "correct_dict5"
+                        || cand == "same"
+                        || cand == "same2"
+                        || cand == "same3"
+                        || cand == "nilOptional"
+                        || cand == "nilOptional2"
+                }
+                
+                let candidateList = candidates(obj)
+                
+                check(function, candidateList, nil, shouldntConflict)
+            }
+        }
+        
+        describe("isUniqueBinding") {
             
             func check(
                 _ cands: Mirror.CandidatesDictionary,
                 _ success: Bool? = nil,
                 _ successPredicate: ((Mirror.Candidate) -> Bool)? = nil) {
                 cands.forEach({ receiverPair in
+                    let rec = receiverPair.key
                     receiverPair.value.forEach { cand in
-                        let res = Mirror.candidateHasUniqueReceiver(
-                            cand,
-                            from: cands)
-                    
+                        let res = Mirror.isUniqueBinding(
+                            rec, cand, inList: cands)
+                        
                         let ok: Bool = success
                             ?? successPredicate?(cand) ?? true
                         
@@ -130,7 +179,6 @@ class TCJSONReflectionCodingKeysComponentsSpec: QuickSpec {
                 
                 check(candidateList, true)
             }
-            
             
             context("with object with no key conflicts") {
                 let obj = TestClassWithCodingKeys()

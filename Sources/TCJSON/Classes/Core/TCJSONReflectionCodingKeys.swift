@@ -143,7 +143,7 @@ extension Mirror {
         from candidateList: CandidatesDictionary)
         -> Bool {
             guard let candidates = candidateList[receiver] else { return false }
-            return candidates.count == 1 //|| candidates.count == 0
+            return candidates.count == 1
     }
     
     static func candidateHasUniqueReceiver(
@@ -153,7 +153,7 @@ extension Mirror {
             let result = receivers(
                 fromList: candidateList,
                 forCandidate: candidate)
-            return result.count == 1 //|| result.count == 0
+            return result.count == 1
     }
     
     static func candidates(

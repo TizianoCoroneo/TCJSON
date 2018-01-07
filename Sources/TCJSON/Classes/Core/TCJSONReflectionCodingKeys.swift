@@ -7,175 +7,230 @@
 
 import Foundation
 
-extension Mirror {
-  
-  public static func codingKeysLabels<T: TCJSONCodable>(
-    inObject object: T) throws -> [String: String] {
+extension TCJSONReflection {
     
-    func systemInterpretObject(_ any: T) throws -> [String: Any] {
-      let newObjectData = try any.json.data()
-      let jsonSerialize = try JSONSerialization.jsonObject(with: newObjectData)
-      let serializedObject = jsonSerialize as? [String: Any] ?? [:]
-      return serializedObject
+    public typealias Receiver = String
+    public typealias Candidate = Receiver
+    public typealias CandidatesDictionary = [Receiver: [Candidate]]
+    public typealias BindingsDictionary = [Receiver: Candidate]
+    
+    /// Assigns a new candidate name to a receiver by reading from the sourceList.
+    ///
+    /// - Parameters:
+    ///   - oldList: The source list
+    ///   - receiver: The receiver to apply the candidate name to.
+    /// - Returns: A tuple where the first element is a binding dictionary like `["oldName": "newName"]`; and the second value is the `oldList` minus the newly assigned label.
+    static func assignLabel(
+        fromList oldList: CandidatesDictionary,
+        forReceiver receiver: Receiver)
+        -> (assigned: BindingsDictionary, remaining: CandidatesDictionary) {
+            
+            func remove(
+                assigned: BindingsDictionary,
+                fromList list: CandidatesDictionary)
+                -> (assigned: BindingsDictionary, remaining: CandidatesDictionary) {
+                    let remaining = list.filter { !assigned.keys.contains($0.key) }
+                    return (assigned: assigned, remaining: remaining)
+            }
+            
+            if receiverHasUniqueCandidate(receiver, from: oldList) {
+                return remove(
+                    assigned: [receiver: oldList[receiver]!.first!],
+                    fromList: oldList)
+            }
+            
+            guard let candidates = oldList[receiver] else {
+                let remaining = oldList.filter { $0.key != receiver }
+                return (assigned: [:], remaining)
+            }
+            
+            guard candidates.count != 0 else {
+                return remove(
+                    assigned: [receiver: receiver],
+                    fromList: oldList)
+            }
+            
+            guard candidates.count != 1 else {
+                return remove(
+                    assigned: [receiver: candidates.first!],
+                    fromList: oldList)
+            }
+            
+            let allPossibleReceivers = oldList
+                .filter { $0.value == candidates }
+                .map { $0.key }
+            
+            let result = Dictionary(
+                uniqueKeysWithValues: zip(
+                    allPossibleReceivers,
+                    candidates))
+            
+            return remove(assigned: result, fromList: oldList)
     }
     
-    let tcInterpreted = try interpretObject(object)
-    let systemInterpreted = try systemInterpretObject(object)
-    
-    guard !equals(systemInterpreted, tcInterpreted)
-      else {
-        return Dictionary(
-          uniqueKeysWithValues: zip(
-            tcInterpreted.keys,
-            tcInterpreted.keys))
-    }
-    
-    func candidates(
-      forChild child: Mirror.Child,
-      inSystemInterpreted dict: [String: Any])
-      throws -> [String] {
-        guard let label = child.label else { return [] }
+    /// Returns the receiver:candidates dictionary by comparing two different dictionaries.
+    ///
+    /// - Parameters:
+    ///   - obj: The object as interpreted by tcjson.
+    ///   - systemObj: The object as interpreted by the system.
+    /// - Returns: The candidates dictionary.
+    static func getCandidates(
+        forObject obj: [String: Any],
+        comparingTo systemObj: [String: Any]) -> CandidatesDictionary {
         
-        if try dict.first (where: {
-          (new: (key: String, value: Any?)) throws -> Bool in
-          label == new.key
-        }) != nil { return [label] }
-        
-        let sameValueCandidates = try dict.filter {
-          [child] (new: (key: String, value: Any)) throws -> Bool in
-          return equals(child.value, new.value)
-          }.map { $0.key }
-
-        if sameValueCandidates.count == 0 {
-          // A nil optional that wasn't decoded from the json
-          if Mirror(reflecting: child.value)
-            .displayStyle == .optional {
-            return [label]
-          }
-          
-          // or a field excluded by CodingKey
-          return []
-        } else {
-          return sameValueCandidates
-        }
-        // 10x Slower 
-//        if sameValueCandidates.count != 0 { return sameValueCandidates }
-//
-//        // A nil optional that wasn't decoded from the json
-//        // or a field excluded by CodingKey
-//        return Mirror.isNil(child.value) ? [label] : []
-    }
-    
-    let keysAndCandidatesPairs: [(String, [String])] = try tcInterpreted.flatMap {
-      (a: (key: String, value: Any)) -> (String, [String])? in
-      let values = try candidates(
-        forChild: (label: a.key, value: a.value),
-        inSystemInterpreted: systemInterpreted)
-      guard !values.isEmpty else { return nil }
-      return (a.key, values)
-      }.filter { !$0.1.isEmpty }
-    
-    let keysAndCandidates = Dictionary(uniqueKeysWithValues: keysAndCandidatesPairs)
-    
-    func assignLabel(
-      fromList oldList: [String: [String]],
-      forReceiver receiver: String)
-      -> (assigned: [String: String], remaining: [String: [String]]) {
-        
-        func assigned(
-          _ assigned: [String: String],
-          fromList list: [String: [String]])
-          -> (assigned: [String: String], remaining: [String: [String]]) {
-            let remaining = list.filter { !assigned.keys.contains($0.key) }
-            return (assigned: assigned, remaining: remaining)
+        var result: CandidatesDictionary = obj.mapValues {
+            (_: Any) -> [Candidate] in
+            return [Candidate]()
         }
         
-        let list = oldList.mapValues { cands in
-          cands.filter { candidateHasSingleBinding($0, fromList: oldList) }
+        obj.forEach {
+            result[$0.key] = candidates(
+                forChild: (label: $0.key, value: $0.value),
+                inSystemInterpreted: systemObj)
         }
         
-        guard let candidates = list[receiver] else {
-          let remaining = list.filter { $0.key != receiver }
-          return (assigned: [:], remaining)
+        return result
+    }
+    
+    public static func codingKeysLabels<T: TCJSONCodable>(
+        inObject object: T) throws -> BindingsDictionary {
+        
+        let tcInterpreted = try interpretObject(object)
+        let systemInterpreted = try systemSerialize(object) as! [String: Any]
+        
+        guard !equals(systemInterpreted, tcInterpreted)
+            else {
+                return Dictionary(
+                    uniqueKeysWithValues: zip(
+                        tcInterpreted.keys,
+                        tcInterpreted.keys))
         }
-
-        guard candidates.count != 0 else {
-          return assigned([receiver: receiver], fromList: list)
-        }
         
-        guard candidates.count != 1 else {
-          return assigned([receiver: candidates.first!], fromList: list)
-        }
+        let keysCandidatesDict: [String: [String]] = getCandidates(
+            forObject: tcInterpreted,
+            comparingTo: systemInterpreted)
         
-        let allPossibleReceivers = list
-          .filter { $0.value == candidates }
-          .map { $0.key }
-
-        let result = Dictionary(
-          uniqueKeysWithValues: zip(
-            allPossibleReceivers,
-            candidates))
+        let empty: BindingsDictionary = [:]
         
-        return assigned(result, fromList: list)
+        let result: (BindingsDictionary, CandidatesDictionary?) = keysCandidatesDict.keys
+            .reduce((empty, nil), {
+                acc, originalKey in
+                
+                var (bindings, remainingCandidates) = acc
+                
+                let assigned = assignLabel(
+                    fromList: remainingCandidates ?? keysCandidatesDict,
+                    forReceiver: originalKey)
+                
+                assigned.assigned.forEach {
+                    bindings[$0.key] = $0.value
+                }
+                
+                return (bindings, assigned.remaining)
+            })
+        
+        return result.0
     }
     
-    func receivers(
-      fromList list: [String: [String]],
-      forCandidate cand: String) -> [String] {
-      return list.flatMap({ (key: String, value: [String]) -> String? in
-        return value.contains(cand) ? key : nil
-      })
+    /// Checks if the binding between a receiver and a candidate is unique.
+    ///
+    /// - Parameters:
+    ///   - receiver: The receiver that will get the candidate name.
+    ///   - candidate: The candidate name for the receiver.
+    ///   - list: The source list.
+    /// - Returns: True if the binding is unique.
+    static func isUniqueBinding(
+        _ receiver: Receiver,
+        _ candidate: Candidate,
+        inList list: CandidatesDictionary) -> Bool {
+        
+        return receiverHasUniqueCandidate(receiver, from: list)
+            && candidateHasUniqueReceiver(candidate, from: list)
     }
     
-    func receiverHasSingleBinding(
-      _ receiver: String,
-      fromList list: [String: [String]])
-      -> Bool {
-        guard let candidates = list[receiver] else { return false }
-        return candidates.count == 1
+    /// Checks if the provided receiver has only one possible candidate.
+    ///
+    /// - Parameters:
+    ///   - receiver: The receiver to check.
+    ///   - candidateList: The source list.
+    /// - Returns: true if the receiver has a unique candidate.
+    static func receiverHasUniqueCandidate(
+        _ receiver: Receiver,
+        from candidateList: CandidatesDictionary)
+        -> Bool {
+            guard let candidates = candidateList[receiver] else { return false }
+            return candidates.count == 1
     }
     
-    func candidateHasSingleBinding(
-      _ candidate: String,
-      fromList list: [String: [String]])
-      -> Bool {
-        let recs = receivers(
-          fromList: list,
-          forCandidate: candidate)
-        
-        return recs.count == 1
+    /// Checks if the provided candidate has only one possible receiver.
+    ///
+    /// - Parameters:
+    ///   - candidate: The candidate to check
+    ///   - candidateList: The source list.
+    /// - Returns: true if the candidate has a unique receiver.
+    static func candidateHasUniqueReceiver(
+        _ candidate: Candidate,
+        from candidateList: CandidatesDictionary)
+        -> Bool {
+            let result = receivers(
+                fromList: candidateList,
+                forCandidate: candidate)
+            return result.count == 1
     }
     
-    func isUniqueBinding(
-      _ receiver: String,
-      inList list: [String: [String]]) -> Bool {
-
-      let newList = list.mapValues { cands in
-        cands.filter { candidateHasSingleBinding($0, fromList: list) }
-      }
-      
-      return receiverHasSingleBinding(receiver, fromList: newList)
+    /// All the possible receivers for the given candidate.
+    ///
+    /// - Parameters:
+    ///   - list: The source list.
+    ///   - candidate: The candidate to check
+    /// - Returns: All the possible receivers.
+    static func receivers(
+        fromList list: CandidatesDictionary,
+        forCandidate candidate: Candidate) -> [Receiver] {
+        return list.flatMap({
+            (receiver: Receiver, receiverCandidatesList: [Candidate]) -> Receiver? in
+            return receiverCandidatesList.contains(candidate) ? receiver : nil
+        })
     }
     
-    let empty: [String: String] = [:]
+    /// Finds all the candidates for a receiver in a system interpreted object.
+    ///
+    /// - Parameters:
+    ///   - child: Mirror child with to which assign the new codingkey.
+    ///   - dict: The system interpreted dictionary.
+    /// - Returns: All the found candidates
+    static func candidates(
+        forChild child: Mirror.Child,
+        inSystemInterpreted dict: [String: Any])
+        -> [Candidate]? {
+            guard let label = child.label else { return [] }
+            
+            if dict.keys.contains(label) { return [label] }
+            
+            let sameValueCandidates = dict.filter {
+                return equals(child.value, $0.value)
+                }.map { $0.key }
+            
+            if sameValueCandidates.count != 0 {
+                return sameValueCandidates
+            }
+            
+            // A nil optional that wasn't decoded from the json
+            // or a field excluded by CodingKey
+            return isNil(child.value) ? nil : []
+    }
     
-    let result: ([String: String], [String: [String]]?) = keysAndCandidates.keys
-      .reduce((empty, nil), {
-        acc, originalKey in
-        
-        let (accResults, accRemaining) = acc
-        
-        let assigned = assignLabel(
-          fromList: accRemaining ?? keysAndCandidates,
-          forReceiver: originalKey)
-        
-        let result = Dictionary(uniqueKeysWithValues: zip(
-          Array(accResults.keys) + Array(assigned.assigned.keys),
-          Array(accResults.values) + Array(assigned.assigned.values)))
-        
-        return (result, assigned.remaining)
-      })
-    
-    return result.0
-  }
+    /// Use the system serializer to create a JSON Any instance.
+    ///
+    /// - Parameter value: the encodable object to use.
+    /// - Returns: the object encoded as dictionary, as Any.
+    /// - Throws: Rethrows from the JSONEncoder.encode method.
+    public static func systemSerialize<T: Encodable>(
+        _ value: T) throws -> Any {
+        let encoded: Data = try JSONEncoder()
+            .encode(value)
+        return try JSONSerialization
+            .jsonObject(with: encoded)
+            as! [String: Any]
+    }
 }

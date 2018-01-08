@@ -36,7 +36,7 @@ public protocol TCJSONCodable: Codable {
     /// - Throws: Rethrows from the JSONSerialization and from the `JSONDecoder` `decode` method.
     init(fromDictionary dict: [String: Any?]) throws
     
-//    var codingKeysForNestedObject: [String: [String: String]] { get }
+    var codingKeysForNestedObject: [String: [String: String]] { get }
 }
 
 // MARK: - Default implementations of `TCJSONCodable`
@@ -85,5 +85,9 @@ public extension TCJSONCodable {
     /// - Throws: Rehrows from serializing the dictionary into `Data` and from initializing from `Data`.
     public init(fromDictionary dict: [String: Any?]) throws {
         try self.init(fromJSON: dict)
+    }
+    
+    var codingKeysForNestedObject: [String: [String: String]] {
+        return [:]
     }
 }

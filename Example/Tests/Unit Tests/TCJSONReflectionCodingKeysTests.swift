@@ -14,11 +14,8 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
     override func spec() {
         describe("applyCodingKeys") {
             func check<T: TCJSONCodable>(_ object: T) -> Bool {
-                let keys = try! TCJSONReflection
-                    .codingKeysLabels(inObject: object)
                 let codingApplied = try! TCJSONReflection
-                    .applyCodingKeys(
-                        keys,
+                    .applyMultiLevelCodingKeys(
                         toObject: object)
                 
                 let expected = try! TCJSONReflection

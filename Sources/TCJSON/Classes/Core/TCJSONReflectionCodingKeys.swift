@@ -14,27 +14,44 @@ extension TCJSONReflection {
     public typealias CandidatesDictionary = [Receiver: [Candidate]]
     public typealias BindingsDictionary = [Receiver: Candidate]
     
-    static func applyCodingKeys<T: TCJSONCodable>(
-        _ bindingDict: BindingsDictionary,
+    static func applyMultiLevelCodingKeys<T: TCJSONCodable>(
         toObject obj: T) throws -> [String: Any] {
+        
         let dict = try obj.json.dictionary()
+        let codingKeys = try TCJSONReflection.codingKeysLabels(inObject: obj)
         
+        guard obj.codingKeysForNestedObject.count != 0 else {
+            return try applySingleLevelCodingKey(dict, codingKeys: codingKeys)
+        }
         
-        return dict
+        let newKeyValuePairs = try dict.map {
+            (pair: (key: String, value: Any)) -> (String, Any) in
+            
+            guard
+                let value = pair.value as? [String: Any],
+                let codingKeys = obj.codingKeysForNestedObject[pair.key]
+                else { return pair }
+            
+            let newVal = try applySingleLevelCodingKey(value, codingKeys: codingKeys)
+            return (pair.key, newVal)
+        }
+        
+        return Dictionary(uniqueKeysWithValues: newKeyValuePairs)
     }
     
-    static func applySingleLevelCodingKey<T: Codable>(
-        _ obj: T) throws -> [String: Any] {
-        
-        let codingKeys = try codingKeysLabels(inObject: obj)
-        let dict = try interpretObject(obj)
-        
-        let newKeysDict = Dictionary<String, Any>.init(
-            uniqueKeysWithValues: dict.map { (pair) -> (key: String, value: Any) in
-                return (key: codingKeys[pair.key] ?? pair.key, value: pair.value)
-        })
-        
-        return newKeysDict
+    static func applySingleLevelCodingKey(
+        _ dict: [String: Any],
+        codingKeys: [String: String])
+        throws -> [String: Any] {
+            let newKeys: [(String, Any)] = dict.map {
+                (pair) -> (key: String, value: Any) in
+                return (
+                    key: codingKeys[pair.key] ?? pair.key,
+                    value: pair.value)
+            }
+            
+            return Dictionary<String, Any>(
+                newKeys, uniquingKeysWith: { a, _ in a })
     }
     
     /// Describes the content of the coding keys of a class by comparing a system interpreted object and a naively interpreted one.

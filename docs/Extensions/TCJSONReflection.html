@@ -14,7 +14,7 @@
     <a title="TCJSONReflection Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">TCJSON Docs</a> (79% documented)</p>
+        <p><a href="../index.html">TCJSON Docs</a> (77% documented)</p>
         <p class="header-right"><a href="https://github.com/TizianoCoroneo/TCJSON"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -110,9 +110,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSON16TCJSONReflectionC16codingKeysLabelss10DictionaryVyS2SGx8inObject_tKAA13TCJSONCodableRzlFZ"></a>
+                    <a name="/s:6TCJSON16TCJSONReflectionC16codingKeysLabelss10DictionaryVyS2SGx8inObject_tKs9DecodableRzs9EncodableRzlFZ"></a>
                     <a name="//apple_ref/swift/Method/codingKeysLabels(inObject:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSON16TCJSONReflectionC16codingKeysLabelss10DictionaryVyS2SGx8inObject_tKAA13TCJSONCodableRzlFZ">codingKeysLabels(inObject:)</a>
+                    <a class="token" href="#/s:6TCJSON16TCJSONReflectionC16codingKeysLabelss10DictionaryVyS2SGx8inObject_tKs9DecodableRzs9EncodableRzlFZ">codingKeysLabels(inObject:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -120,17 +120,45 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Describes the content of the coding keys of a class by comparing a system interpreted object and a naively interpreted one.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from the system interpreting of the object and from the naive interpreting.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">codingKeysLabels</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt"><a href="../Protocols/TCJSONCodable.html">TCJSONCodable</a></span><span class="o">&gt;</span><span class="p">(</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">codingKeysLabels</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">Codable</span><span class="o">&gt;</span><span class="p">(</span>
     <span class="n">inObject</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">BindingsDictionary</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A dictionary where the keys are the name of the old property and the values are the new names from the coding key.</p>
                       </div>
                     </section>
                   </div>

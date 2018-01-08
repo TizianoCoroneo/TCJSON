@@ -54,9 +54,8 @@ class TCJSONReflection {
         return Dictionary(uniqueKeysWithValues: result)
     }
     
-    public static func interpretObjectWithCodingKeys(
-        _ object: Any,
-        codingKeysAware: Bool = false)
+    public static func interpretObjectWithNestedTypes<T:TCJSONCodable>(
+        _ object: T)
         throws -> [String: Any] {
             
             let mirror = Mirror(reflecting: object)
@@ -67,13 +66,8 @@ class TCJSONReflection {
             
             let result: [(String, Any)] = try mirror.children.map {
                 let newValue = try interpret($0.value)
+            
                 
-                if codingKeysAware {
-                    
-//                    let singleLevel = try applySingleLevelCodingKey(codable)
-                    return ($0.label!, newValue)
-                    
-                }
                 
                 return ($0.label!, newValue)
             }

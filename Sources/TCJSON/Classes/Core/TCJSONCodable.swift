@@ -35,6 +35,8 @@ public protocol TCJSONCodable: Codable {
     /// - Parameter data: The JSON object's dictionary.
     /// - Throws: Rethrows from the JSONSerialization and from the `JSONDecoder` `decode` method.
     init(fromDictionary dict: [String: Any?]) throws
+    
+//    var codingKeysForNestedObject: [String: [String: String]] { get }
 }
 
 // MARK: - Default implementations of `TCJSONCodable`

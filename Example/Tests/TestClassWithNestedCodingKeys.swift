@@ -60,6 +60,13 @@ struct TestClassWithNestedCodingKeys: TCJSONCodable, Equatable {
             && a.boolean == b.boolean
             && a.object == b.object
     }
+    
+    func codingKeysForNestedObject()
+        throws -> [String : [String : String]] {
+        guard let obj = object else { return [:] }
+        let keys = try codingKeys(forObject: obj)
+        return ["object": keys]
+    }
 }
 
 fileprivate extension Optional where Wrapped == TestClassWithNestedCodingKeys.Object {

@@ -19,9 +19,11 @@ extension TCJSONReflection {
         
         let dict = try obj.json.dictionary()
         let codingKeys = try TCJSONReflection.codingKeysLabels(inObject: obj)
+        let nestedKeys = try obj.codingKeysForNestedObject()
         
-        guard obj.codingKeysForNestedObject.count != 0 else {
-            return try applySingleLevelCodingKey(dict, codingKeys: codingKeys)
+        guard nestedKeys.count != 0 else {
+            return try applySingleLevelCodingKey(
+                dict, codingKeys: codingKeys)
         }
         
         let newKeyValuePairs = try dict.map {
@@ -29,10 +31,11 @@ extension TCJSONReflection {
             
             guard
                 let value = pair.value as? [String: Any],
-                let codingKeys = obj.codingKeysForNestedObject[pair.key]
+                let codingKeys = nestedKeys[pair.key]
                 else { return pair }
             
-            let newVal = try applySingleLevelCodingKey(value, codingKeys: codingKeys)
+            let newVal = try applySingleLevelCodingKey(
+                value, codingKeys: codingKeys)
             return (pair.key, newVal)
         }
         

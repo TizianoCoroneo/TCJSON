@@ -64,15 +64,7 @@ class TCJSONReflection {
                 else { throw TCJSONReflectionError
                     .WrongCategory(.class, object) }
             
-            let result: [(String, Any)] = try mirror.children.map {
-                let newValue = try interpret($0.value)
-            
-                
-                
-                return ($0.label!, newValue)
-            }
-            
-            return Dictionary(uniqueKeysWithValues: result)
+            return try applyMultiLevelCodingKeys(toObject: object)
     }
     
     /// Interprets an optional into a valid JSON object representation of it.

@@ -36,7 +36,7 @@ public protocol TCJSONCodable: Codable {
     /// - Throws: Rethrows from the JSONSerialization and from the `JSONDecoder` `decode` method.
     init(fromDictionary dict: [String: Any?]) throws
     
-    var codingKeysForNestedObject: [String: [String: String]] { get }
+    func codingKeysForNestedObject() throws -> [String : [String : String]]
 }
 
 // MARK: - Default implementations of `TCJSONCodable`
@@ -87,7 +87,13 @@ public extension TCJSONCodable {
         try self.init(fromJSON: dict)
     }
     
-    var codingKeysForNestedObject: [String: [String: String]] {
-        return [:]
+    func codingKeysForNestedObject()
+        throws -> [String : [String : String]] {
+            return [:]
+    }
+    
+    func codingKeys<T: TCJSONCodable>(
+        forObject obj: T) throws -> [String: String] {
+        return try TCJSONReflection.codingKeysLabels(inObject: obj)
     }
 }

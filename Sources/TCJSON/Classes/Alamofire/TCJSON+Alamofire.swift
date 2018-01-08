@@ -47,7 +47,7 @@ public struct TCJSONRequestEncoding<T: TCJSONCodable>: ParameterEncoding {
         let encoding: URLEncoding = method == .get ? .queryString : .httpBody
         
         return try encoding.encode(
-            urlRequest, with: try model.json.dictionary())
+            urlRequest, with: try model.json.codingKeyAwareDictionary())
     }
 }
 

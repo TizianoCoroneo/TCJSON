@@ -115,7 +115,10 @@ func createTestContext(_ ownType: ThrowingType) {
     }
 }
 
-func createTestCase(_ ownType: ThrowingType, _ otherType: ThrowingType, shouldBe success: Bool) {
+func createTestCase(
+    _ ownType: ThrowingType,
+    _ otherType: ThrowingType,
+    shouldBe success: Bool) {
     let result = TCJSONReflection.equals(
         expectedValues[ownType]!,
         expectedValues[otherType]!)

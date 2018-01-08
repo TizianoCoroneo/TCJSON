@@ -12,6 +12,40 @@ import Quick
 
 class TCJSONReflectionCodingKeysSpec: QuickSpec {
     override func spec() {
+        describe("applyCodingKeys") {
+            context("a object without keys") {
+                let withoutKeys = TestClass.init()
+                
+                it("doesn't change") {
+                    let keys = try! TCJSONReflection
+                        .codingKeysLabels(inObject: withoutKeys)
+                    let codingApplied = TCJSONReflection
+                        .applyCodingKeys(
+                            keys,
+                            toObject: withoutKeys)
+                    
+                    let expected = try! TCJSONReflection
+                    .systemSerialize(withoutKeys) as! [String: Any]
+                    
+                    let result = expected.keys.map { key in
+                        codingApplied.keys.contains(key)
+                        }.reduce(true, { $0 && $1 })
+                    
+                    print("\ncoding = \(codingApplied)\n\nexpected = \(expected)")
+                    
+                    expect(result).to(beTrue())
+                }
+            }
+            
+            context("a simple object") {
+                
+            }
+            
+            context("a complex object") {
+                
+            }
+        }
+        
         
         describe("Coding keys check on ") {
             context("a object without keys"){

@@ -14,6 +14,59 @@ extension TCJSONReflection {
     public typealias CandidatesDictionary = [Receiver: [Candidate]]
     public typealias BindingsDictionary = [Receiver: Candidate]
     
+    static func applyCodingKeys<T: TCJSONCodable>(
+        _ bindingDict: BindingsDictionary,
+        toObject obj: T) -> [String: Any] {
+        let dict = try! obj.json.dictionary()
+        
+        return dict
+    }
+    
+    /// Describes the content of the coding keys of a class by comparing a system interpreted object and a naively interpreted one.
+    ///
+    /// - Parameter object: Request object
+    /// - Returns: A dictionary where the keys are the name of the old property and the values are the new names from the coding key.
+    /// - Throws: Rethrows from the system interpreting of the object and from the naive interpreting.
+    public static func codingKeysLabels<T: TCJSONCodable>(
+        inObject object: T) throws -> BindingsDictionary {
+        
+        let tcInterpreted = try interpretObject(object)
+        let systemInterpreted = try systemSerialize(object) as! [String: Any]
+        
+        guard !equals(systemInterpreted, tcInterpreted)
+            else {
+                return Dictionary(
+                    uniqueKeysWithValues: zip(
+                        tcInterpreted.keys,
+                        tcInterpreted.keys))
+        }
+        
+        let keysCandidatesDict: [String: [String]] = getCandidates(
+            forObject: tcInterpreted,
+            comparingTo: systemInterpreted)
+        
+        let empty: BindingsDictionary = [:]
+        
+        let result: (BindingsDictionary, CandidatesDictionary?) = keysCandidatesDict.keys
+            .reduce((empty, nil), {
+                acc, originalKey in
+                
+                var (bindings, remainingCandidates) = acc
+                
+                let assigned = assignLabel(
+                    fromList: remainingCandidates ?? keysCandidatesDict,
+                    forReceiver: originalKey)
+                
+                assigned.assigned.forEach {
+                    bindings[$0.key] = $0.value
+                }
+                
+                return (bindings, assigned.remaining)
+            })
+        
+        return result.0
+    }
+    
     /// Assigns a new candidate name to a receiver by reading from the sourceList.
     ///
     /// - Parameters:
@@ -92,45 +145,6 @@ extension TCJSONReflection {
         return result
     }
     
-    public static func codingKeysLabels<T: TCJSONCodable>(
-        inObject object: T) throws -> BindingsDictionary {
-        
-        let tcInterpreted = try interpretObject(object)
-        let systemInterpreted = try systemSerialize(object) as! [String: Any]
-        
-        guard !equals(systemInterpreted, tcInterpreted)
-            else {
-                return Dictionary(
-                    uniqueKeysWithValues: zip(
-                        tcInterpreted.keys,
-                        tcInterpreted.keys))
-        }
-        
-        let keysCandidatesDict: [String: [String]] = getCandidates(
-            forObject: tcInterpreted,
-            comparingTo: systemInterpreted)
-        
-        let empty: BindingsDictionary = [:]
-        
-        let result: (BindingsDictionary, CandidatesDictionary?) = keysCandidatesDict.keys
-            .reduce((empty, nil), {
-                acc, originalKey in
-                
-                var (bindings, remainingCandidates) = acc
-                
-                let assigned = assignLabel(
-                    fromList: remainingCandidates ?? keysCandidatesDict,
-                    forReceiver: originalKey)
-                
-                assigned.assigned.forEach {
-                    bindings[$0.key] = $0.value
-                }
-                
-                return (bindings, assigned.remaining)
-            })
-        
-        return result.0
-    }
     
     /// Checks if the binding between a receiver and a candidate is unique.
     ///

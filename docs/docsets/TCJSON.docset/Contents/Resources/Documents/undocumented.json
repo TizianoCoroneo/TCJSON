@@ -2,28 +2,28 @@
   "warnings": [
     {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSON.swift",
-      "line": 10,
+      "line": 17,
       "symbol": "TCJSONOptions",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSON.swift",
-      "line": 10,
+      "line": 17,
       "symbol": "TCJSONOptions",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSON.swift",
-      "line": 10,
+      "line": 17,
       "symbol": "TCJSONOptions",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSON.swift",
-      "line": 10,
+      "line": 17,
       "symbol": "TCJSONOptions",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"

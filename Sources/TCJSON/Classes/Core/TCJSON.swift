@@ -7,13 +7,20 @@
 
 import Foundation
 
+extension String: TCJSONCodable {}
+extension Int: TCJSONCodable {}
+extension Bool: TCJSONCodable {}
+extension Double: TCJSONCodable {}
+extension Dictionary: TCJSONCodable {}
+extension Array: TCJSONCodable {}
+
 public struct TCJSONOptions {
     static var defaultEncoder = JSONEncoder()
     static var defaultDecoder = JSONDecoder()
 }
 
 /// Utility wrapper for common `Codable` operations.
-public struct TCJSON<Content: Codable>: Codable {
+public struct TCJSON<Content: TCJSONCodable>: TCJSONCodable {
     
     private let _content: Content?
     private let _json: Data?
@@ -46,6 +53,23 @@ public struct TCJSON<Content: Codable>: Codable {
     /// - Throws: Rethrows from reflection errors.
     public func dictionary() throws -> [String: Any] {
         return try TCJSONReflection.interpretObject(try self.content())
+    }
+    
+    /// Returns a JSON object (dictionary) from a 'TCJSON' object.
+    ///
+    /// - Returns: A valid JSON object.
+    /// - Throws: Rethrows from reflection errors.
+    public func codingKeyAwareDictionary() throws -> [String: Any] {
+        let model = try content()
+        let codingKeys = try TCJSONReflection.codingKeysLabels(
+            inObject: model)
+        let dict = try model.json.dictionary()
+        
+        let newDict = Dictionary<String, Any>.init(
+            uniqueKeysWithValues: dict.map { (pair) -> (key: String, value: Any) in
+                return (key: codingKeys[pair.key] ?? pair.key, value: pair.value)
+        })
+        return newDict
     }
     
     /// Initialize from a model object that conforms to Codable.
@@ -159,7 +183,7 @@ public struct TCJSON<Content: Codable>: Codable {
     ///   - closure: Function to be applied to the contents of the two `TCJSON`s.
     /// - Returns: The new `TCJSON` object with the content of the result of `f`.
     /// - Throws: Rethrows from initializing with content and from the two conversions to content.
-    public static func zip<X, Y, Z: Codable>(
+    public static func zip<X, Y, Z>(
         x: TCJSON<X>,
         y: TCJSON<Y>,
         closure: (X, Y) throws -> Z)

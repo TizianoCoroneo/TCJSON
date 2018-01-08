@@ -29,7 +29,7 @@ public typealias ResponseObject<A: TCJSONCodable> = Result<TCJSON<A>.Response, M
 
 
 // MARK: - TCJSON Response object definition
-extension TCJSON where Content: TCJSONCodable {
+extension TCJSON {
     
     /// Type of the completion block of `responseTCJSON`.
     public typealias Completion = (_ result: Result<Response, MoyaError>) -> Void
@@ -86,7 +86,7 @@ public extension TCJSONMoya {
 extension MoyaProvider {
     /// Designated request-making method. Returns a `Cancellable` token to cancel the request later.
     @discardableResult
-    public func request<A: TCJSONCodable>(
+    public func request<A>(
         _ target: Target,
         callbackQueue: DispatchQueue? = .none,
         progress: ProgressBlock? = .none,

@@ -56,21 +56,13 @@ public struct TCJSON<Content: TCJSONCodable>: TCJSONCodable {
             try self.content())
     }
     
-    /// Returns a JSON object (dictionary) from a 'TCJSON' object.
+    /// Returns a JSON object (dictionary) from a 'TCJSON' object, applying codingKeys to both top-level objects and inner nested objects.
     ///
     /// - Returns: A valid JSON object.
     /// - Throws: Rethrows from reflection errors.
     public func codingKeyAwareDictionary() throws -> [String: Any] {
-        let model = try content()
-        let codingKeys = try TCJSONReflection.codingKeysLabels(
-            inObject: model)
-        let dict = try model.json.dictionary()
-        
-        let newDict = Dictionary<String, Any>.init(
-            uniqueKeysWithValues: dict.map { (pair) -> (key: String, value: Any) in
-                return (key: codingKeys[pair.key] ?? pair.key, value: pair.value)
-        })
-        return newDict
+        return try TCJSONReflection.interpretObjectWithNestedTypes(
+            try self.content())
     }
     
     /// Initialize from a model object that conforms to Codable.

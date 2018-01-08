@@ -55,19 +55,13 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "AlamofireSpec">
-               </Test>
-               <Test
                   Identifier = "CorePerformance">
-               </Test>
-               <Test
-                  Identifier = "MoyaSpec">
                </Test>
                <Test
                   Identifier = "ReflectionPerformance">
                </Test>
                <Test
-                  Identifier = "TCJSONReflectionCodingKeysComponentsSpec">
+                  Identifier = "TCJSONIntegrationSpec">
                </Test>
             </SkippedTests>
          </TestableReference>

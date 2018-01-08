@@ -12,53 +12,97 @@ import Quick
 
 class TCJSONReflectionCodingKeysSpec: QuickSpec {
     override func spec() {
-        describe("applyCodingKeys") {
-            func check<T: TCJSONCodable>(_ object: T) -> Bool {
+        describe("applyCodingKeys on") {
+            func checkCorrect<T: TCJSONCodable>(_ object: T) -> Bool {
                 let codingApplied = try! TCJSONReflection
-                    .applyMultiLevelCodingKeys(
-                        toObject: object)
+                    .interpretObjectWithNestedTypes(object)
                 
                 let expected = try! TCJSONReflection
                     .systemSerialize(object) as! [String: Any]
-                
+             
                 return expected.keys.map { key in
                     codingApplied.keys.contains(key)
                     }.reduce(true, { $0 && $1 })
             }
             
+            func checkKeysSameAsSystem<T: TCJSONCodable>(_ object: T) -> [(String, String)] {
+                let codingApplied = try! TCJSONReflection
+                    .interpretObjectWithNestedTypes(object)
+                
+                let expected = try! TCJSONReflection
+                    .systemSerialize(object) as! [String: Any]
+                
+                let data = (Array(codingApplied.keys).filter {
+                    !TCJSONReflection.isNil(codingApplied[$0]!)
+                    }, Array(expected.keys).filter {
+                        !TCJSONReflection.isNil(expected[$0]!)
+                })
+                
+                return Array(zip(
+                    data.0.sorted(),
+                    data.1.sorted()))
+            }
+            
+            func checkNoKeys<T: TCJSONCodable>(_ object: T) -> ([String], [String]) {
+                let codingNotApplied = try! TCJSONReflection
+                    .interpretObject(object)
+                let codingApplied = try! TCJSONReflection
+                    .interpretObjectWithNestedTypes(object)
+                
+                return (Array(codingNotApplied.keys).filter {
+                    !TCJSONReflection.isNil(codingNotApplied[$0]!)
+                    }, Array(codingApplied.keys).filter {
+                        !TCJSONReflection.isNil(codingApplied[$0]!)
+                })
+            }
+            
             context("a object without keys") {
                 let object = TestClass.init()
                 
-                it("doesn't change") {
-                    let result = check(object)
+                let correct = checkCorrect(object)
+                expect(correct).to(beTrue())
                     
-                    expect(result).to(beTrue())
+                let same = checkNoKeys(object)
+                    
+                zip(same.0.sorted(),
+                    same.1.sorted())
+                    .forEach { a, b in
+                        it("doesn't change \(a)") {
+                            expect(a).to(equal(b))
+                        }
                 }
             }
             
             context("a simple object") {
-                let object = TestClassWithCodingKeys.init()
+                let object = TestClassWithCodingKeys()
                 
-                it("changes the correct keys") {
-                    let result = check(object)
+                let result = checkCorrect(object)
+                let same = checkKeysSameAsSystem(object)
                     
-                    expect(result).to(beTrue())
+                expect(result).to(beTrue())
+                same.forEach { a, b in
+                    it("doesn't change \(a)") {
+                        expect(a).to(equal(b))
+                    }
                 }
             }
             
             context("a complex object") {
-                let object = TestClassWithExtemeCodingKeys.init()
+                let object = TestClassWithExtemeCodingKeys()
                 
-                it("changes the correct keys") {
-                    let result = check(object)
+                let result = checkCorrect(object)
+                let same = checkKeysSameAsSystem(object)
                     
-                    expect(result).to(beTrue())
+                expect(result).to(beTrue())
+                same.forEach { a, b in
+                    it("doesn't change \(a)") {
+                        expect(a).to(equal(b))
+                    }
                 }
             }
         }
         
-        
-        describe("Coding keys check on ") {
+        describe("codingKeysLabels on") {
             context("a object without keys"){
                 let withoutKeys = TestClass.init()
                 

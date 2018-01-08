@@ -141,10 +141,8 @@ public struct TCJSON<Content: TCJSONCodable>: TCJSONCodable {
     /// - Throws: Can throw `FlatteningError` if the swift type infer system fucks up. It shouldn't be possible to throw it.
     public func flatten<X>() throws -> TCJSON<X> {
         let content = try self.content()
-        
         if let c = content as? TCJSON<X> { return c }
         if let s = self as? TCJSON<X> { return s }
-        
         throw TCJSONError.flattening(Content.self, X.self)
     }
     
@@ -191,15 +189,11 @@ public struct TCJSON<Content: TCJSONCodable>: TCJSONCodable {
 enum TCJSONError: Error {
     /// This error could occur when flattening a TCJSON which doesn't need flattening.
     case flattening(Any.Type, Any.Type)
-    /// This error could occur when making a request using a unsupported HTTP method.
-    case wrongHTTPMethod(String)
     
     var localizedDescription: String {
         switch self {
         case .flattening(let from, let to):
             return "Impossible casting from \(from) to \(to)"
-        case .wrongHTTPMethod(let method):
-            return "Wrong method is not POST or GET: \(method)"
         }
     }
 }

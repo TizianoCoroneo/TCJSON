@@ -53,17 +53,6 @@
                BlueprintName = "TCJSON_Tests"
                ReferencedContainer = "container:TCJSON.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "CorePerformance">
-               </Test>
-               <Test
-                  Identifier = "ReflectionPerformance">
-               </Test>
-               <Test
-                  Identifier = "TCJSONIntegrationSpec">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

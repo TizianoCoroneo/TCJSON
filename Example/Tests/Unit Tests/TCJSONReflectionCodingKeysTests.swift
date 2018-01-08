@@ -32,11 +32,11 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let expected = try! TCJSONReflection
                     .systemSerialize(object) as! [String: Any]
                 
-                let data = (Array(codingApplied.keys).filter {
+                let data = (Array(expected.keys).filter {
+                    !TCJSONReflection.isNil(expected[$0]!)
+                    }, Array(codingApplied.keys).filter {
                     !TCJSONReflection.isNil(codingApplied[$0]!)
-                    }, Array(expected.keys).filter {
-                        !TCJSONReflection.isNil(expected[$0]!)
-                })
+                    })
                 
                 return Array(zip(
                     data.0.sorted(),
@@ -60,14 +60,17 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let object = TestClass.init()
                 
                 let correct = checkCorrect(object)
-                expect(correct).to(beTrue())
+                
+                it("should return correct keys") {
+                    expect(correct).to(beTrue())
+                }
                     
                 let same = checkNoKeys(object)
                     
                 zip(same.0.sorted(),
                     same.1.sorted())
                     .forEach { a, b in
-                        it("doesn't change \(a)") {
+                        it("interprets \(a)") {
                             expect(a).to(equal(b))
                         }
                 }
@@ -79,9 +82,12 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let result = checkCorrect(object)
                 let same = checkKeysSameAsSystem(object)
                     
-                expect(result).to(beTrue())
+                it("should return correct keys") {
+                    expect(result).to(beTrue())
+                }
+                
                 same.forEach { a, b in
-                    it("doesn't change \(a)") {
+                    it("interprets \(a)") {
                         expect(a).to(equal(b))
                     }
                 }
@@ -93,10 +99,38 @@ class TCJSONReflectionCodingKeysSpec: QuickSpec {
                 let result = checkCorrect(object)
                 let same = checkKeysSameAsSystem(object)
                     
-                expect(result).to(beTrue())
+                it("should return correct keys") {
+                    expect(result).to(beTrue())
+                }
+                
                 same.forEach { a, b in
-                    it("doesn't change \(a)") {
+                    it("interprets \(a)") {
                         expect(a).to(equal(b))
+                    }
+                }
+            }
+
+            context("an object with nested Codable objects") {
+                let object = TestClassWithNestedCodingKeys()
+
+                let result = checkCorrect(object)
+                let same = checkKeysSameAsSystem(object)
+
+                let innerSame = checkKeysSameAsSystem(object.object!)
+                
+                it("should return correct keys") {
+                    expect(result).to(beTrue())
+                }
+                
+                same.forEach { system, interpreted in
+                    it("interprets \(system)") {
+                        expect(interpreted).to(equal(system))
+                    }
+                }
+                
+                innerSame.forEach { system, interpreted in
+                    it("interprets \(system)") {
+                        expect(interpreted).to(equal(system))
                     }
                 }
             }

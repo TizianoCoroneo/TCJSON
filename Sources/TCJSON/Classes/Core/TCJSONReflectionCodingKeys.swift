@@ -39,7 +39,10 @@ extension TCJSONReflection {
             return (pair.key, newVal)
         }
         
-        return Dictionary(uniqueKeysWithValues: newKeyValuePairs)
+        let newDict = Dictionary(uniqueKeysWithValues: newKeyValuePairs)
+        
+        return try applySingleLevelCodingKey(
+            newDict, codingKeys: codingKeys)
     }
     
     static func applySingleLevelCodingKey(

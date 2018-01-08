@@ -16,10 +16,25 @@ extension TCJSONReflection {
     
     static func applyCodingKeys<T: TCJSONCodable>(
         _ bindingDict: BindingsDictionary,
-        toObject obj: T) -> [String: Any] {
-        let dict = try! obj.json.dictionary()
+        toObject obj: T) throws -> [String: Any] {
+        let dict = try obj.json.dictionary()
+        
         
         return dict
+    }
+    
+    static func applySingleLevelCodingKey<T: Codable>(
+        _ obj: T) throws -> [String: Any] {
+        
+        let codingKeys = try codingKeysLabels(inObject: obj)
+        let dict = try interpretObject(obj)
+        
+        let newKeysDict = Dictionary<String, Any>.init(
+            uniqueKeysWithValues: dict.map { (pair) -> (key: String, value: Any) in
+                return (key: codingKeys[pair.key] ?? pair.key, value: pair.value)
+        })
+        
+        return newKeysDict
     }
     
     /// Describes the content of the coding keys of a class by comparing a system interpreted object and a naively interpreted one.
@@ -27,7 +42,7 @@ extension TCJSONReflection {
     /// - Parameter object: Request object
     /// - Returns: A dictionary where the keys are the name of the old property and the values are the new names from the coding key.
     /// - Throws: Rethrows from the system interpreting of the object and from the naive interpreting.
-    public static func codingKeysLabels<T: TCJSONCodable>(
+    public static func codingKeysLabels<T: Codable>(
         inObject object: T) throws -> BindingsDictionary {
         
         let tcInterpreted = try interpretObject(object)

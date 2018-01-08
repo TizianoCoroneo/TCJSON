@@ -61,19 +61,13 @@
                   Identifier = "CorePerformance">
                </Test>
                <Test
+                  Identifier = "MoyaSpec">
+               </Test>
+               <Test
                   Identifier = "ReflectionPerformance">
                </Test>
                <Test
                   Identifier = "TCJSONReflectionCodingKeysComponentsSpec">
-               </Test>
-               <Test
-                  Identifier = "TCJSONReflectionEqualitySpec">
-               </Test>
-               <Test
-                  Identifier = "TCJSONReflectionSpec">
-               </Test>
-               <Test
-                  Identifier = "TCJSONSpec">
                </Test>
             </SkippedTests>
          </TestableReference>

@@ -13,36 +13,50 @@ import Quick
 class TCJSONReflectionCodingKeysSpec: QuickSpec {
     override func spec() {
         describe("applyCodingKeys") {
+            func check<T: TCJSONCodable>(_ object: T) -> Bool {
+                let keys = try! TCJSONReflection
+                    .codingKeysLabels(inObject: object)
+                let codingApplied = try! TCJSONReflection
+                    .applyCodingKeys(
+                        keys,
+                        toObject: object)
+                
+                let expected = try! TCJSONReflection
+                    .systemSerialize(object) as! [String: Any]
+                
+                return expected.keys.map { key in
+                    codingApplied.keys.contains(key)
+                    }.reduce(true, { $0 && $1 })
+            }
+            
             context("a object without keys") {
-                let withoutKeys = TestClass.init()
+                let object = TestClass.init()
                 
                 it("doesn't change") {
-                    let keys = try! TCJSONReflection
-                        .codingKeysLabels(inObject: withoutKeys)
-                    let codingApplied = TCJSONReflection
-                        .applyCodingKeys(
-                            keys,
-                            toObject: withoutKeys)
-                    
-                    let expected = try! TCJSONReflection
-                    .systemSerialize(withoutKeys) as! [String: Any]
-                    
-                    let result = expected.keys.map { key in
-                        codingApplied.keys.contains(key)
-                        }.reduce(true, { $0 && $1 })
-                    
-                    print("\ncoding = \(codingApplied)\n\nexpected = \(expected)")
+                    let result = check(object)
                     
                     expect(result).to(beTrue())
                 }
             }
             
             context("a simple object") {
+                let object = TestClassWithCodingKeys.init()
                 
+                it("changes the correct keys") {
+                    let result = check(object)
+                    
+                    expect(result).to(beTrue())
+                }
             }
             
             context("a complex object") {
+                let object = TestClassWithExtemeCodingKeys.init()
                 
+                it("changes the correct keys") {
+                    let result = check(object)
+                    
+                    expect(result).to(beTrue())
+                }
             }
         }
         

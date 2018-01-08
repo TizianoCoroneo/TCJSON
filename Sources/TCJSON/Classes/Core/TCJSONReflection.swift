@@ -54,6 +54,33 @@ class TCJSONReflection {
         return Dictionary(uniqueKeysWithValues: result)
     }
     
+    public static func interpretObjectWithCodingKeys(
+        _ object: Any,
+        codingKeysAware: Bool = false)
+        throws -> [String: Any] {
+            
+            let mirror = Mirror(reflecting: object)
+            guard mirror.displayStyle == .class
+                || mirror.displayStyle == .struct
+                else { throw TCJSONReflectionError
+                    .WrongCategory(.class, object) }
+            
+            let result: [(String, Any)] = try mirror.children.map {
+                let newValue = try interpret($0.value)
+                
+                if codingKeysAware {
+                    
+//                    let singleLevel = try applySingleLevelCodingKey(codable)
+                    return ($0.label!, newValue)
+                    
+                }
+                
+                return ($0.label!, newValue)
+            }
+            
+            return Dictionary(uniqueKeysWithValues: result)
+    }
+    
     /// Interprets an optional into a valid JSON object representation of it.
     ///
     /// - Parameter value: The optional to interpret.

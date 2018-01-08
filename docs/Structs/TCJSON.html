@@ -103,7 +103,7 @@
             <h1>TCJSON</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TCJSON</span><span class="o">&lt;</span><span class="kt">Content</span><span class="p">:</span> <span class="kt">Codable</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">Codable</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">TCJSON</span><span class="o">&lt;</span><span class="kt">Content</span><span class="p">:</span> <span class="kt"><a href="../Protocols/TCJSONCodable.html">TCJSONCodable</a></span><span class="o">&gt;</span><span class="p">:</span> <span class="kt"><a href="../Protocols/TCJSONCodable.html">TCJSONCodable</a></span></code></pre>
 
                 </div>
               </div>
@@ -211,6 +211,42 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">dictionary</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A valid JSON object.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6TCJSONAAV24codingKeyAwareDictionarys0E0VySSypGyKF"></a>
+                    <a name="//apple_ref/swift/Method/codingKeyAwareDictionary()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6TCJSONAAV24codingKeyAwareDictionarys0E0VySSypGyKF">codingKeyAwareDictionary()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a JSON object (dictionary) from a &lsquo;TCJSON&rsquo; object.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Rethrows from reflection errors.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">codingKeyAwareDictionary</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -362,9 +398,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAV3mapAByqd__Gqd__10Foundation4DataVKc4data_tKs9DecodableRd__s9EncodableRd__lF"></a>
+                    <a name="/s:6TCJSONAAV3mapAByqd__Gqd__10Foundation4DataVKc4data_tKAA13TCJSONCodableRd__lF"></a>
                     <a name="//apple_ref/swift/Method/map(data:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAV3mapAByqd__Gqd__10Foundation4DataVKc4data_tKs9DecodableRd__s9EncodableRd__lF">map(data:)</a>
+                    <a class="token" href="#/s:6TCJSONAAV3mapAByqd__Gqd__10Foundation4DataVKc4data_tKAA13TCJSONCodableRd__lF">map(data:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -419,9 +455,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAV3mapAByqd__Gqd__xKc7content_tKs9DecodableRd__s9EncodableRd__lF"></a>
+                    <a name="/s:6TCJSONAAV3mapAByqd__Gqd__xKc7content_tKAA13TCJSONCodableRd__lF"></a>
                     <a name="//apple_ref/swift/Method/map(content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAV3mapAByqd__Gqd__xKc7content_tKs9DecodableRd__s9EncodableRd__lF">map(content:)</a>
+                    <a class="token" href="#/s:6TCJSONAAV3mapAByqd__Gqd__xKc7content_tKAA13TCJSONCodableRd__lF">map(content:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -476,9 +512,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAV7flatMapAByqd__GAD10Foundation4DataVKc4data_tKs9DecodableRd__s9EncodableRd__lF"></a>
+                    <a name="/s:6TCJSONAAV7flatMapAByqd__GAD10Foundation4DataVKc4data_tKAA13TCJSONCodableRd__lF"></a>
                     <a name="//apple_ref/swift/Method/flatMap(data:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAV7flatMapAByqd__GAD10Foundation4DataVKc4data_tKs9DecodableRd__s9EncodableRd__lF">flatMap(data:)</a>
+                    <a class="token" href="#/s:6TCJSONAAV7flatMapAByqd__GAD10Foundation4DataVKc4data_tKAA13TCJSONCodableRd__lF">flatMap(data:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -533,9 +569,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAV7flatMapAByqd__GADxKc7content_tKs9DecodableRd__s9EncodableRd__lF"></a>
+                    <a name="/s:6TCJSONAAV7flatMapAByqd__GADxKc7content_tKAA13TCJSONCodableRd__lF"></a>
                     <a name="//apple_ref/swift/Method/flatMap(content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAV7flatMapAByqd__GADxKc7content_tKs9DecodableRd__s9EncodableRd__lF">flatMap(content:)</a>
+                    <a class="token" href="#/s:6TCJSONAAV7flatMapAByqd__GADxKc7content_tKAA13TCJSONCodableRd__lF">flatMap(content:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -590,9 +626,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAV7flattenAByqd__GyKs9DecodableRd__s9EncodableRd__lF"></a>
+                    <a name="/s:6TCJSONAAV7flattenAByqd__GyKAA13TCJSONCodableRd__lF"></a>
                     <a name="//apple_ref/swift/Method/flatten()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAV7flattenAByqd__GyKs9DecodableRd__s9EncodableRd__lF">flatten()</a>
+                    <a class="token" href="#/s:6TCJSONAAV7flattenAByqd__GyKAA13TCJSONCodableRd__lF">flatten()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -732,9 +768,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAV3zipAByqd_1_GAByqd__G1x_AByqd_0_G1yqd_1_qd___qd_0_tKc7closuretKs9DecodableRd__s9EncodableRd__sAJRd_0_sAKRd_0_sAJRd_1_sAKRd_1_r1_lFZ"></a>
+                    <a name="/s:6TCJSONAAV3zipAByqd_1_GAByqd__G1x_AByqd_0_G1yqd_1_qd___qd_0_tKc7closuretKAA13TCJSONCodableRd__AaJRd_0_AaJRd_1_r1_lFZ"></a>
                     <a name="//apple_ref/swift/Method/zip(x:y:closure:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAV3zipAByqd_1_GAByqd__G1x_AByqd_0_G1yqd_1_qd___qd_0_tKc7closuretKs9DecodableRd__s9EncodableRd__sAJRd_0_sAKRd_0_sAJRd_1_sAKRd_1_r1_lFZ">zip(x:y:closure:)</a>
+                    <a class="token" href="#/s:6TCJSONAAV3zipAByqd_1_GAByqd__G1x_AByqd_0_G1yqd_1_qd___qd_0_tKc7closuretKAA13TCJSONCodableRd__AaJRd_0_AaJRd_1_r1_lFZ">zip(x:y:closure:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -754,7 +790,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">zip</span><span class="o">&lt;</span><span class="kt">X</span><span class="p">,</span> <span class="kt">Y</span><span class="p">,</span> <span class="kt">Z</span><span class="p">:</span> <span class="kt">Codable</span><span class="o">&gt;</span><span class="p">(</span>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="n">zip</span><span class="o">&lt;</span><span class="kt">X</span><span class="p">,</span> <span class="kt">Y</span><span class="p">,</span> <span class="kt">Z</span><span class="o">&gt;</span><span class="p">(</span>
     <span class="nv">x</span><span class="p">:</span> <span class="kt">TCJSON</span><span class="o">&lt;</span><span class="kt">X</span><span class="o">&gt;</span><span class="p">,</span>
     <span class="nv">y</span><span class="p">:</span> <span class="kt">TCJSON</span><span class="o">&lt;</span><span class="kt">Y</span><span class="o">&gt;</span><span class="p">,</span>
     <span class="nv">closure</span><span class="p">:</span> <span class="p">(</span><span class="kt">X</span><span class="p">,</span> <span class="kt">Y</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Z</span><span class="p">)</span>
@@ -819,9 +855,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAVA2A13TCJSONCodableRzlE10Completiona"></a>
+                    <a name="/s:6TCJSONAAV10Completiona"></a>
                     <a name="//apple_ref/swift/Alias/Completion" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAVA2A13TCJSONCodableRzlE10Completiona">Completion</a>
+                    <a class="token" href="#/s:6TCJSONAAV10Completiona">Completion</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -846,9 +882,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6TCJSONAAVA2A13TCJSONCodableRzlE8ResponseC"></a>
+                    <a name="/s:6TCJSONAAV8ResponseC"></a>
                     <a name="//apple_ref/swift/Class/Response" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6TCJSONAAVA2A13TCJSONCodableRzlE8ResponseC">Response</a>
+                    <a class="token" href="#/s:6TCJSONAAV8ResponseC">Response</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -876,7 +912,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2018 <a class="link" href="https://github.com/TizianoCoroneo/TCJSON" target="_blank" rel="external">Tiziano Coroneo</a>. All rights reserved. (Last updated: 2018-01-07)</p>
+          <p>&copy; 2018 <a class="link" href="https://github.com/TizianoCoroneo/TCJSON" target="_blank" rel="external">Tiziano Coroneo</a>. All rights reserved. (Last updated: 2018-01-08)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -54,6 +54,11 @@ class TCJSONReflection {
         return Dictionary(uniqueKeysWithValues: result)
     }
     
+    /// Interprets an object into a valid JSON object representation of it, considering any possible sub object that contains coding keys itself.
+    ///
+    /// - Parameter value: The object to interpret.
+    /// - Returns: A valid JSON object.
+    /// - Throws: From passing as argument something that is not an object.
     public static func interpretObjectWithNestedTypes<T:TCJSONCodable>(
         _ object: T)
         throws -> [String: Any] {

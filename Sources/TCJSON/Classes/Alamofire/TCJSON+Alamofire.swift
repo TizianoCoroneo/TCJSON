@@ -97,11 +97,19 @@ extension DataRequest {
                 options: options,
                 completionHandler: { json in
                     func generate(error: Error) -> DataResponse<T> {
+                        if TCJSONOptions.isVerbose {
+                            debugPrint("TCJSON Error: \(error.localizedDescription)\n\nDetails: \(error)")
+                        }
+                        
                         return generate(Result.failure(error))
                     }
                     
                     func generate(
                         _ result: Result<T>) -> DataResponse<T> {
+                        if TCJSONOptions.isVerbose {
+                            debugPrint("TCJSON Result:\n\(result)\n\nFrom:\n\(json)")
+                        }
+                        
                         return DataResponse(
                             request: json.request,
                             response: json.response,
@@ -110,21 +118,20 @@ extension DataRequest {
                     }
                     
                     guard let value = json.result.value else {
-                        guard let e = json.result.error else { fatalError() }
-                        completionHandler(generate(error: e))
+                        completionHandler(
+                            generate(error: json.result.error!))
                         return
                     }
-                    
-                    let object: T
                     
                     do {
-                        object = try T(fromJSON: value)
+                        let object = try T(fromJSON: value)
+                        
+                        completionHandler(
+                            generate(Result.success(object)))
                     } catch {
-                        completionHandler(generate(error: error))
-                        return
+                        completionHandler(
+                            generate(error: error))
                     }
-                    
-                    completionHandler(generate(Result.success(object)))
             })
     }
 }

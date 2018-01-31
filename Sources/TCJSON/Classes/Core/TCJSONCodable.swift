@@ -36,6 +36,8 @@ public protocol TCJSONCodable: Codable {
     /// - Throws: Rethrows from the JSONSerialization and from the `JSONDecoder` `decode` method.
     init(fromDictionary dict: [String: Any?]) throws
     
+    /// Returns a dictionary where the keys are the names of this object properties (selecting only the ones that are objects themselves) and the values are other dictionaries of the corresponding codingKeys (key: property's name, value: property's new name after codingKey apply).
+    /// - Returns: A dictionary which contains all the dictionaries for the nested objects sub codingKeys.
     func codingKeysForNestedObject() throws -> [String : [String : String]]
 }
 
@@ -87,11 +89,14 @@ public extension TCJSONCodable {
         try self.init(fromJSON: dict)
     }
     
+    /// Implementation of this method should be provided by objects that contains objects with sub codingKeys.
     func codingKeysForNestedObject()
         throws -> [String : [String : String]] {
             return [:]
     }
     
+    /// Utility function to be called in the implementation of codingKeysForNestedObject.
+    /// - Returns: The coding keys dictionary for the selected sub object.
     func codingKeys<T: TCJSONCodable>(
         forObject obj: T) throws -> [String: String] {
         return try TCJSONReflection.codingKeysLabels(inObject: obj)

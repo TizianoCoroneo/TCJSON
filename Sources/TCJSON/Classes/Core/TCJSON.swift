@@ -14,11 +14,6 @@ extension Double: TCJSONCodable {}
 extension Dictionary: TCJSONCodable {}
 extension Array: TCJSONCodable {}
 
-public struct TCJSONOptions {
-    static var defaultEncoder = JSONEncoder()
-    static var defaultDecoder = JSONDecoder()
-}
-
 /// Utility wrapper for common `Codable` operations.
 public struct TCJSON<Content: TCJSONCodable>: TCJSONCodable {
     

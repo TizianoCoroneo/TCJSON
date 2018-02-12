@@ -98,7 +98,7 @@ extension DataRequest {
                 completionHandler: { json in
                     func generate(error: Error) -> DataResponse<T> {
                         if TCJSONOptions.isVerbose {
-                            debugPrint("TCJSON Error: \(error.localizedDescription)\n\nDetails: \(error)")
+                            print("TCJSON Error: \(error.localizedDescription)\n\nDetails: \(error)")
                         }
                         
                         return generate(Result.failure(error))
@@ -107,7 +107,7 @@ extension DataRequest {
                     func generate(
                         _ result: Result<T>) -> DataResponse<T> {
                         if TCJSONOptions.isVerbose {
-                            debugPrint("TCJSON Result:\n\(result)\n\nFrom:\n\(json)")
+                            print("TCJSON Result:\n\(result)\n\nFrom:\n\(json)")
                         }
                         
                         return DataResponse(

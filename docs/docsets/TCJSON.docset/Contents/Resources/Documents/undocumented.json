@@ -29,6 +29,34 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONOptions.swift",
+      "line": 14,
+      "symbol": "TCJSONOptions.defaultDecoder",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONOptions.swift",
+      "line": 14,
+      "symbol": "TCJSONOptions.defaultDecoder",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONOptions.swift",
+      "line": 14,
+      "symbol": "TCJSONOptions.defaultDecoder",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONOptions.swift",
+      "line": 14,
+      "symbol": "TCJSONOptions.defaultDecoder",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
       "line": null,
       "symbol": "TCJSONReflection",

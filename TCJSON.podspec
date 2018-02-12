@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TCJSON"
-s.version      = "0.3.11"
+s.version      = "0.3.12"
 s.summary      = "TCJSON is a utility that wraps Codable coding/decoding."
 
 s.description  = <<-DESC

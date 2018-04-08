@@ -86,9 +86,30 @@
     },
     {
       "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
-      "line": 289,
-      "symbol": "TCJSONReflectionError.WrongCategory",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "line": 287,
+      "symbol": "TCJSONReflectionError.ExpectedStyle",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 287,
+      "symbol": "TCJSONReflectionError.ExpectedStyle",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 287,
+      "symbol": "TCJSONReflectionError.ExpectedStyle",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 287,
+      "symbol": "TCJSONReflectionError.ExpectedStyle",
+      "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
@@ -110,6 +131,125 @@
       "line": 289,
       "symbol": "TCJSONReflectionError.WrongCategory",
       "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflection.swift",
+      "line": 289,
+      "symbol": "TCJSONReflectionError.WrongCategory",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 12,
+      "symbol": "TCJSONReflection.Receiver",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 12,
+      "symbol": "TCJSONReflection.Receiver",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 12,
+      "symbol": "TCJSONReflection.Receiver",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 12,
+      "symbol": "TCJSONReflection.Receiver",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 13,
+      "symbol": "TCJSONReflection.Candidate",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 13,
+      "symbol": "TCJSONReflection.Candidate",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 13,
+      "symbol": "TCJSONReflection.Candidate",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 13,
+      "symbol": "TCJSONReflection.Candidate",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 14,
+      "symbol": "TCJSONReflection.CandidatesDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 14,
+      "symbol": "TCJSONReflection.CandidatesDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 14,
+      "symbol": "TCJSONReflection.CandidatesDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 14,
+      "symbol": "TCJSONReflection.CandidatesDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 15,
+      "symbol": "TCJSONReflection.BindingsDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 15,
+      "symbol": "TCJSONReflection.BindingsDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 15,
+      "symbol": "TCJSONReflection.BindingsDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/tizianocoroneo/Downloads/TCJSON/Sources/TCJSON/Classes/Core/TCJSONReflectionCodingKeys.swift",
+      "line": 15,
+      "symbol": "TCJSONReflection.BindingsDictionary",
+      "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {

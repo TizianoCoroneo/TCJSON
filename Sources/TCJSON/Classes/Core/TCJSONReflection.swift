@@ -47,7 +47,7 @@ class TCJSONReflection {
             else { throw TCJSONReflectionError
                 .WrongCategory(.class, object) }
         
-        let result = try mirror.children.flatMap {
+        let result = try mirror.children.compactMap {
             return ($0.label!, try interpret($0.value))
         }
         

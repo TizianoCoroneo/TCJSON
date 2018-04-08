@@ -239,7 +239,7 @@ extension TCJSONReflection {
     static func receivers(
         fromList list: CandidatesDictionary,
         forCandidate candidate: Candidate) -> [Receiver] {
-        return list.flatMap({
+        return list.compactMap({
             (receiver: Receiver, receiverCandidatesList: [Candidate]) -> Receiver? in
             return receiverCandidatesList.contains(candidate) ? receiver : nil
         })

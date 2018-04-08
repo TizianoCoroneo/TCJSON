@@ -11,8 +11,8 @@ extension String: TCJSONCodable {}
 extension Int: TCJSONCodable {}
 extension Bool: TCJSONCodable {}
 extension Double: TCJSONCodable {}
-extension Dictionary: TCJSONCodable {}
-extension Array: TCJSONCodable {}
+extension Dictionary: TCJSONCodable where Key: Codable, Value: Codable {}
+extension Array: TCJSONCodable where Element: Codable {}
 
 /// Utility wrapper for common `Codable` operations.
 public struct TCJSON<Content: TCJSONCodable>: TCJSONCodable {
